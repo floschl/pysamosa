@@ -1,3 +1,5 @@
+from scipy.interpolate import Akima1DInterpolator
+from pysamosa.retracker import oversample_wf
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -15,8 +17,12 @@ def test_setting_model_parameter_obj():
 
 
 def test_waveform_single_look():
-    models_sets = ModelSettings.get_default_sets(st=SensorType.S3, retracker_basetype=RetrackerBaseType.SAM)
-    sm = SamosaModel(sensor_sets=SensorSettings(), wf_sets=WaveformSettings(), model_sets=models_sets)
+    models_sets = ModelSettings.get_default_sets(
+        st=SensorType.S3, retracker_basetype=RetrackerBaseType.SAM)
+    sm = SamosaModel(
+        sensor_sets=SensorSettings(),
+        wf_sets=WaveformSettings(),
+        model_sets=models_sets)
 
     # swh = np.arange(11) + 0.5
     swh = [0.25, 0.75, 1.0, 2.0, 5, 7, 9, 11]
@@ -24,7 +30,12 @@ def test_waveform_single_look():
     t_0 = -16
 
     for s in swh:
-        wf = sm.get_waveform_singlelook(Pu=P_u, Hs=s, t0_ns=t_0, fa_Hz=0.0, model_params=ModelParameter())
+        wf = sm.get_waveform_singlelook(
+            Pu=P_u,
+            Hs=s,
+            t0_ns=t_0,
+            fa_Hz=0.0,
+            model_params=ModelParameter())
         # wf = wf + np.random.randn(len(wf)) * 0.01 * np.nanmax(wf)  # NOISE ADDITION (not in the SAMOSA documentation )
         # plt.plot(wf / np.nanmax(wf), label=f'swh={s}', linewidth=0.7)
         plt.plot(wf, label=f'swh={s}', linewidth=0.7)
@@ -36,13 +47,18 @@ def test_waveform_single_look():
     plt.xlabel('# range bin')
     plt.show()
 
+
 def test_multilooked_oversample():
     plt.figure(dpi=600)
 
-    for oversampling_factor, m in zip([1, 4],['x', None]):
-        wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3, internal_oversampling_factor=oversampling_factor)
+    for oversampling_factor, m in zip([1, 4], ['x', None]):
+        wf_sets = WaveformSettings.get_default_src_type(
+            L1bSourceType.EUM_S3, internal_oversampling_factor=oversampling_factor)
         model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
-        sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings())
+        sm = SamosaModel(
+            model_sets=model_sets,
+            wf_sets=wf_sets,
+            sensor_sets=SensorSettings())
 
         swh = 3.0
         Pu = 1.0
@@ -51,12 +67,33 @@ def test_multilooked_oversample():
 
         epoch_ref_gate = 64
         model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate)
-        wf = sm.get_waveform_multilook(Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params)
+        wf = sm.get_waveform_multilook(
+            Pu=Pu,
+            Hs=swh,
+            t0_ns=t_0_ns,
+            nu=nu,
+            model_params=model_params)
 
-        # calculate interpolated x_vector to map all models on the same x-axis scale
-        x_interp = np.append(np.arange(0, 127 + 1/oversampling_factor, 1/oversampling_factor), np.arange(127 + 1/oversampling_factor, 128, 1 / oversampling_factor))
+        # calculate interpolated x_vector to map all models on the same x-axis
+        # scale
+        x_interp = np.append(
+            np.arange(
+                0,
+                127 +
+                1 /
+                oversampling_factor,
+                1 /
+                oversampling_factor),
+            np.arange(
+                127 +
+                1 /
+                oversampling_factor,
+                128,
+                1 /
+                oversampling_factor))
 
-        plt.plot(x_interp, wf, linewidth=0.5, marker=m, markersize=0.8, label=f'wf_model Np={128*oversampling_factor}')
+        plt.plot(x_interp, wf, linewidth=0.5, marker=m, markersize=0.8,
+                 label=f'wf_model Np={128*oversampling_factor}')
         # plt.axvline(epoch_ref_gate, label=f'epoch_ref_gate (of={oversampling_factor})')
 
         assert not any(np.isnan(wf))
@@ -73,12 +110,16 @@ def test_different_model_len():
 
     oversampling_factor = 4
 
-    for model_len, m in zip([509, 512, 500],['x', None, 'o']):
-    # for model_len, m in zip([512, 509],['x', None]):
-        wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor)
+    for model_len, m in zip([509, 512, 500], ['x', None, 'o']):
+        # for model_len, m in zip([512, 509],['x', None]):
+        wf_sets = WaveformSettings.get_default_src_type(
+            L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor)
         wf_sets.np = model_len
         model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
-        sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings())
+        sm = SamosaModel(
+            model_sets=model_sets,
+            wf_sets=wf_sets,
+            sensor_sets=SensorSettings())
 
         swh = 3.0
         Pu = 1.0
@@ -86,13 +127,26 @@ def test_different_model_len():
         nu = 0
 
         epoch_ref_gate = 64
-        model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate * oversampling_factor)
-        wf = sm.get_waveform_multilook(Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params)
+        model_params = ModelParameter(
+            epoch_ref_gate=epoch_ref_gate *
+            oversampling_factor)
+        wf = sm.get_waveform_multilook(
+            Pu=Pu,
+            Hs=swh,
+            t0_ns=t_0_ns,
+            nu=nu,
+            model_params=model_params)
         # wf = sm.get_waveform_singlelook(Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params, fa_Hz=0)
 
         x_gates = np.arange(0, model_len)
 
-        plt.plot(x_gates, wf, linewidth=0.5, marker=m, markersize=1, label=f'wf_model_len={model_len}')
+        plt.plot(
+            x_gates,
+            wf,
+            linewidth=0.5,
+            marker=m,
+            markersize=1,
+            label=f'wf_model_len={model_len}')
         # plt.axvline(epoch_ref_gate, label=f'epoch_ref_gate (of={oversampling_factor})')
 
     plt.legend(fontsize=8)
@@ -101,8 +155,6 @@ def test_different_model_len():
     plt.grid()
     plt.show()
 
-from scipy.interpolate import Akima1DInterpolator
-from pysamosa.retracker import oversample_wf
 
 def test_oversampled_model():
     plt.figure(dpi=600)
@@ -116,21 +168,28 @@ def test_oversampled_model():
     internal_oversampling_factor = 4
 
     # oversampling=1 and oversample by internal_oversampling_Factor
-    sm_of1 = SamosaModel(model_sets=ModelSettings(retracker_basetype=RetrackerBaseType.SAM), wf_sets=WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3, internal_oversampling_factor=1), sensor_sets=SensorSettings())
+    sm_of1 = SamosaModel(
+        model_sets=ModelSettings(
+            retracker_basetype=RetrackerBaseType.SAM),
+        wf_sets=WaveformSettings.get_default_src_type(
+            L1bSourceType.EUM_S3,
+            internal_oversampling_factor=1),
+        sensor_sets=SensorSettings())
     model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate)
-    wf_of1 = sm_of1.get_waveform_multilook(Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params)
+    wf_of1 = sm_of1.get_waveform_multilook(
+        Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params)
 
     wf_of1 = oversample_wf(wf_of1, internal_oversampling_factor)
 
     # oversampling=1 and oversample by internal_oversampling_Factor
-    sm_of4 = SamosaModel(model_sets=ModelSettings(retracker_basetype=RetrackerBaseType.SAM), wf_sets=
-    WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3,
-                     internal_oversampling_factor=internal_oversampling_factor,
-                     # np=509,
-                     ), sensor_sets=SensorSettings())
+    sm_of4 = SamosaModel(model_sets=ModelSettings(retracker_basetype=RetrackerBaseType.SAM), wf_sets=WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3,
+                                                                                                                                           internal_oversampling_factor=internal_oversampling_factor,
+                                                                                                                                           # np=509,
+                                                                                                                                           ), sensor_sets=SensorSettings())
     # model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate * internal_oversampling_factor)
     model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate)
-    wf_of4 = sm_of4.get_waveform_multilook(Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params)
+    wf_of4 = sm_of4.get_waveform_multilook(
+        Pu=Pu, Hs=swh, t0_ns=t_0_ns, nu=nu, model_params=model_params)
 
     # wf_len = 128 * internal_oversampling_factor
     # int_oversampling_fac = sm_of4.wf_sets.internal_oversampling_factor
@@ -149,8 +208,10 @@ def test_oversampled_model():
     # # wf_oversampled = interpolator(x_interp)
     # wf_of4 = wf_oversampled
 
-    plt.plot(wf_of1, linewidth=0.3, marker='x', markersize=0.1, label=f'model.internal_of={1} + oversample')
-    plt.plot(wf_of4, linewidth=0.3, marker='o', markersize=0.3, label=f'model.internal_of={internal_oversampling_factor}')
+    plt.plot(wf_of1, linewidth=0.3, marker='x', markersize=0.1,
+             label=f'model.internal_of={1} + oversample')
+    plt.plot(wf_of4, linewidth=0.3, marker='o', markersize=0.3,
+             label=f'model.internal_of={internal_oversampling_factor}')
     # plt.axvline(epoch_ref_gate, label=f'epoch_ref_gate (of={oversampling_factor})')
 
     plt.legend(fontsize=8)
@@ -159,11 +220,16 @@ def test_oversampled_model():
     plt.grid()
     plt.show()
 
+
 def test_multilooked_vary_swh():
     oversampling_factor = 1
-    wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor)
+    wf_sets = WaveformSettings.get_default_src_type(
+        L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor)
     model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
-    sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings())
+    sm = SamosaModel(
+        model_sets=model_sets,
+        wf_sets=wf_sets,
+        sensor_sets=SensorSettings())
 
     swh = [0.25, 0.75, 1.0, 2.0, 5, 7, 9, 11]
     Pu = 1.0
@@ -172,8 +238,10 @@ def test_multilooked_vary_swh():
 
     model_params = ModelParameter(epoch_ref_gate=64)
     for s in swh:
-        wf = sm.get_waveform_multilook(Pu=Pu, Hs=s, t0_ns=t_0, nu=nu, model_params=model_params)
-        # wf = wf + np.random.randn(len(wf)) * 0.01 * np.nanmax(wf)  # NOISE ADDITION (not in the SAMOSA documentation )
+        wf = sm.get_waveform_multilook(
+            Pu=Pu, Hs=s, t0_ns=t_0, nu=nu, model_params=model_params)
+        # wf = wf + np.random.randn(len(wf)) * 0.01 * np.nanmax(wf)  # NOISE
+        # ADDITION (not in the SAMOSA documentation )
         plt.plot(wf, label=f'swh={s}m', linewidth=1)
 
     plt.legend()
@@ -185,9 +253,13 @@ def test_multilooked_vary_swh():
 
 def test_multilooked_vary_Pu():
     oversampling_factor = 1
-    wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor)
+    wf_sets = WaveformSettings.get_default_src_type(
+        L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor)
     model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
-    sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings())
+    sm = SamosaModel(
+        model_sets=model_sets,
+        wf_sets=wf_sets,
+        sensor_sets=SensorSettings())
 
     swh = 2.0
     Pu = np.arange(0, 5, 1.0)
@@ -196,8 +268,10 @@ def test_multilooked_vary_Pu():
 
     model_params = ModelParameter(epoch_ref_gate=64)
     for p in Pu:
-        wf = sm.get_waveform_multilook(Pu=p, Hs=swh, t0_ns=t_0, nu=nu, model_params=model_params)
-        # wf = wf + np.random.randn(len(wf)) * 0.01 * np.nanmax(wf)  # NOISE ADDITION (not in the SAMOSA documentation )
+        wf = sm.get_waveform_multilook(
+            Pu=p, Hs=swh, t0_ns=t_0, nu=nu, model_params=model_params)
+        # wf = wf + np.random.randn(len(wf)) * 0.01 * np.nanmax(wf)  # NOISE
+        # ADDITION (not in the SAMOSA documentation )
         plt.plot(wf, label=f'Pu={p}m', linewidth=1)
 
     plt.legend()

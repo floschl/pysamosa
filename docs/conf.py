@@ -17,11 +17,11 @@
 # relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #
+import pysamosa
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-import pysamosa
 
 # -- General configuration ---------------------------------------------
 
@@ -157,6 +157,3 @@ texinfo_documents = [
      'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

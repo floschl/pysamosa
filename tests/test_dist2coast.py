@@ -37,7 +37,8 @@ def test_dist2coast_interp_off():
     #     'exp_dist': np.array([506.0, 506.0] * n_repl),
     # }
 
-    dist_pacioos = get_dist_pacioos(coords['lat'], coords['lon'], do_interp=False)
+    dist_pacioos = get_dist_pacioos(
+        coords['lat'], coords['lon'], do_interp=False)
     print(dist_pacioos)
     # dist_distcoast00 = get_dist_distcoast00(coords['lat'], coords['lon'])
     # print(dist_distcoast00)

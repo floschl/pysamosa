@@ -18,7 +18,8 @@ if __name__ == "__main__":
     ]
 
     l1b_src_type, rbt, pres = L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.CORALv2
-    rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
+    rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(
+        retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
 
     for run_name, nc_src_base_path in run_name_basepath:
 
@@ -29,9 +30,16 @@ if __name__ == "__main__":
         rp_sets.skip_if_exists = False
 
         # select files
-        l1b_files = [f for f in sorted(nc_src_base_path.rglob('*.nc')) if bool(re.search('02(5|6|7)_(018|044|120|196|213)_\d{3}_EUM', str(f.parent.name)))]
+        l1b_files = [
+            f for f in sorted(
+                nc_src_base_path.rglob('*.nc')) if bool(
+                re.search(
+                    '02(5|6|7)_(018|044|120|196|213)_\\d{3}_EUM', str(
+                        f.parent.name)))]
         # l1b_files = [f for f in sorted(nc_src_base_path.rglob('*.nc')) if bool(re.search('02(5|6|7)_(018|044)_\d{3}_EUM', str(f.parent.name)))]
-        df_l1b_files = pd.DataFrame({'file': l1b_files, 'cycle': [int(f.parent.name.split('_')[13]) for f in l1b_files], 'ppass': [int(f.parent.name.split('_')[14]) for f in l1b_files]})
+        df_l1b_files = pd.DataFrame({'file': l1b_files,
+                                     'cycle': [int(f.parent.name.split('_')[13]) for f in l1b_files],
+                                     'ppass': [int(f.parent.name.split('_')[14]) for f in l1b_files]})
         bboxes_per_ppass = {
             18: (53.65, 53.88, 0, 360),
             44: (50.99, 51.406, 0, 360),
@@ -51,14 +59,16 @@ if __name__ == "__main__":
             sel_files = df_l1b_files[df_l1b_files.ppass == p]
 
             rp = RetrackerProcessor(l1b_source=sel_files.file.to_list(), l1b_data_vars=data_vars_s6['l1b'],
-                                    bbox=[bboxes_per_ppass[p] for i in range(len(sel_files))],
+                                    bbox=[bboxes_per_ppass[p]
+                                          for i in range(len(sel_files))],
                                     rp_sets=rp_sets,
                                     retrack_sets=retrack_sets,
                                     fitting_sets=fitting_sets,
                                     wf_sets=wf_sets,
                                     sensor_sets=sensor_sets,
                                     nc_attrs_kw=additional_nc_attrs,
-                                    # log_level=logging.DEBUG,  #comment in to show debug messages
+                                    # log_level=logging.DEBUG,  #comment in to
+                                    # show debug messages
                                     )
             rp.process()
 

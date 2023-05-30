@@ -5,7 +5,10 @@ import imageio.v2 as iio
 
 from scipy.io import savemat
 
-dict_remove_None = lambda d: dict(filter(lambda item: item[1] is not None, dict(d).items()))
+
+def dict_remove_None(d): return dict(
+    filter(lambda item: item[1] is not None, dict(d).items()))
+
 
 def replace_none(test_dict):
 
@@ -23,9 +26,17 @@ def replace_none(test_dict):
         for val in test_dict:
             replace_none(val)
 
+
 class SettingsDumper():
 
-    def __init__(self, *, wf_sets, model_sets, sensor_sets, dest_mat_file, dest_gif_file):
+    def __init__(
+            self,
+            *,
+            wf_sets,
+            model_sets,
+            sensor_sets,
+            dest_mat_file,
+            dest_gif_file):
         self.dest_mat_file = dest_mat_file
         self.dest_gif_file = dest_gif_file
         self.l1b_nc_filename = None
@@ -39,7 +50,14 @@ class SettingsDumper():
             'meas': self.meas,
         }
 
-    def add_retrack_entry(self, *, l1b_data_single, model_params, record_ind, res_fit, l2_data_single):
+    def add_retrack_entry(
+            self,
+            *,
+            l1b_data_single,
+            model_params,
+            record_ind,
+            res_fit,
+            l2_data_single):
         self.meas.append({
             'record_ind': record_ind,
             'model_params': dict_remove_None(model_params),

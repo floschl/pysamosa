@@ -7,7 +7,8 @@ from pysamosa.conf_params import CONST_C
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.model import SamosaModel
 
-# fixed values taken from ind 42660, file RES_S3A_SR_1_SRA_A__20200108T101712_20200108T110742_20200202T201001_3029_053_279_GPOD_SAR_O_NT_003
+# fixed values taken from ind 42660, file
+# RES_S3A_SR_1_SRA_A__20200108T101712_20200108T110742_20200202T201001_3029_053_279_GPOD_SAR_O_NT_003
 l1b_data_single_template = {
     'wf': None,
     'lat_rad': -0.5918622555846702,
@@ -22,31 +23,46 @@ l1b_data_single_template = {
     'dist2coast': 668,
 }
 
+
 class L1bSimulator():
 
-
-    def __init__(self, *, model_sets : ModelSettings, swh, Pu=1.0, sensor_sets=None, wf_sets, add_thermal_speckle_noise=True, add_interference=False):
+    def __init__(
+            self,
+            *,
+            model_sets: ModelSettings,
+            swh,
+            Pu=1.0,
+            sensor_sets=None,
+            wf_sets,
+            add_thermal_speckle_noise=True,
+            add_interference=False):
         self.retracker_basetype = model_sets.retracker_basetype
         self.l1b_data_single = l1b_data_single_template
 
         self.model_sets = model_sets
-        self.model_params = get_model_param_obj_from_l1b_data(l1b_data_single_template, 0)
+        self.model_params = get_model_param_obj_from_l1b_data(
+            l1b_data_single_template, 0)
         self.sensor_sets = sensor_sets if sensor_sets is not None else SensorSettings()
         self.wf_sets = wf_sets
         self.wf_len = self.wf_sets.np
         self.oversampling_factor = self.wf_sets.zp_oversampling_factor
 
         self.swh = swh
-        self.dtau = 1 / (self.sensor_sets.B_r_Hz * self.wf_sets.zp_oversampling_factor)
+        self.dtau = 1 / (self.sensor_sets.B_r_Hz *
+                         self.wf_sets.zp_oversampling_factor)
         epoch_refgate = self.l1b_data_single['epoch_ref_gate']
         retrack_point_gates = 38 if self.retracker_basetype == RetrackerBaseType.SAM else 310
-        self.epoch_ns = ((retrack_point_gates - epoch_refgate) * self.dtau) * 1e9
+        self.epoch_ns = (
+            (retrack_point_gates - epoch_refgate) * self.dtau) * 1e9
         self.Pu = Pu
 
-        self.sam_model = SamosaModel(model_sets=self.model_sets, sensor_sets=self.sensor_sets, wf_sets=wf_sets)
+        self.sam_model = SamosaModel(
+            model_sets=self.model_sets,
+            sensor_sets=self.sensor_sets,
+            wf_sets=wf_sets)
 
         # noise
-        self.rng = default_rng(42) # generate noise generator object
+        self.rng = default_rng(42)  # generate noise generator object
 
         self.add_interference = add_interference
         self.add_thermal_speckle_noise = add_thermal_speckle_noise
@@ -86,13 +102,16 @@ class L1bSimulator():
         wf_maxgate = np.argmax(wf)
         diff_start_gate_from_max = 15 * self.oversampling_factor
 
-        rand_start_gate = int(self.rng.uniform(-5, 5)) * self.oversampling_factor  # randomised start_gate
+        rand_start_gate = int(self.rng.uniform(-5, 5)) * \
+            self.oversampling_factor  # randomised start_gate
         start_gate = wf_maxgate + diff_start_gate_from_max + rand_start_gate
-        rand_dist_width = int(self.rng.uniform(10, 20)) * self.oversampling_factor  # randomised width of interference
+        # randomised width of interference
+        rand_dist_width = int(self.rng.uniform(10, 20)) * \
+            self.oversampling_factor
 
         # interference[start_gate:start_gate+rand_dist_width] = 1.0
         interference_mask = np.zeros(self.wf_len, dtype=bool)
-        interference_mask[start_gate:start_gate+rand_dist_width] = True
+        interference_mask[start_gate:start_gate + rand_dist_width] = True
 
         return interference_mask
 
@@ -100,7 +119,12 @@ class L1bSimulator():
         return self
 
     def __next__(self):
-        wf = self.sam_model.get_waveform_multilook(Pu=self.Pu, Hs=self.swh, t0_ns=self.epoch_ns, nu=0, model_params=self.model_params)
+        wf = self.sam_model.get_waveform_multilook(
+            Pu=self.Pu,
+            Hs=self.swh,
+            t0_ns=self.epoch_ns,
+            nu=0,
+            model_params=self.model_params)
         wf = wf / np.max(wf)  # normalise waveform
 
         # add additive (thermal noise) and multiplicative (speckle) noise
@@ -114,7 +138,8 @@ class L1bSimulator():
 
         if self.add_interference:
             distorted_mask = self.get_interference_inds(wf=wf)
-            # set distorted gates to a maximum waveform value of 1.0 (omit the noise in these gates)
+            # set distorted gates to a maximum waveform value of 1.0 (omit the
+            # noise in these gates)
             wf[distorted_mask] = 1.0
             wf_argmax = int(np.argmax(wf[~distorted_mask]))
 

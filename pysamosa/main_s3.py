@@ -21,7 +21,8 @@ if __name__ == "__main__":
     rbt = RetrackerBaseType.SAM
     # pres = SettingsPreset.CORALv1
     pres = SettingsPreset.NONE
-    rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
+    rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(
+        retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
 
     rp_sets.nc_dest_dir = nc_dest_path / run_name
     rp_sets.n_offset = 25800
@@ -42,6 +43,6 @@ if __name__ == "__main__":
                             wf_sets=wf_sets,
                             sensor_sets=sensor_sets,
                             nc_attrs_kw=additional_nc_attrs,
-                            log_level=logging.DEBUG,  #comment in to show debug messages
+                            log_level=logging.DEBUG,  # comment in to show debug messages
                             )
     rp.process()

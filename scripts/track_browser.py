@@ -75,9 +75,11 @@ data_vars_eumetsat_s3 = {
     },
 }
 
-nc_filename = Path('/nfs/DGFI145/C/work_flo/pysamosa_lfsdata/s3/l1b/S3A_SR_1_SRA____20180414T041038_20180414T050107_20190706T235251_3029_030_090______MR1_R_NT_004.nc')
+nc_filename = Path(
+    '/nfs/DGFI145/C/work_flo/pysamosa_lfsdata/s3/l1b/S3A_SR_1_SRA____20180414T041038_20180414T050107_20190706T235251_3029_030_090______MR1_R_NT_004.nc')
 
-level_str = (str(nc_filename.name).split('_')[2] if 'meas' not in str(nc_filename) else str(nc_filename.parent.name).split('_')[2]).lower()
+level_str = (str(nc_filename.name).split('_')[2] if 'meas' not in str(
+    nc_filename) else str(nc_filename.parent.name).split('_')[2]).lower()
 level_str = level_str.replace('_1_', '_1b_')
 
 if level_str == '':
@@ -95,17 +97,21 @@ elif 'CS' in str(nc_filename):
 else:
     data_vars = data_vars_eumetsat_s3['l2'] if is_l2 else data_vars_eumetsat_s3['l1b']
 
-ds = _read_dataset_vars_from_ds(nc_filename=nc_filename, data_var_names=data_vars, group=grp)
+ds = _read_dataset_vars_from_ds(
+    nc_filename=nc_filename,
+    data_var_names=data_vars,
+    group=grp)
 # nc_filename = LFSDATA_DIR / 'eumetsat/l1bs/S3A_SR_1_SRA_BS_20171210T145735_20171210T154803_20190705T205005_3028_025_239______MR1_R_NT_004.nc'
 # ds = _read_dataset_vars_from_ds(nc_filename=nc_filename, data_var_names=data_vars_eumetsat['l1b'])
 
-df = pd.DataFrame({k:v for k,v in ds.items() if k in ['time', 'lat_rad', 'lon_rad', 'alt_m', 'dist2coast', 'record_inds']})
+df = pd.DataFrame({k: v for k, v in ds.items() if k in [
+                  'time', 'lat_rad', 'lon_rad', 'alt_m', 'dist2coast', 'record_inds']})
 df['lat'] = np.degrees(df['lat_rad'])
 df['lon'] = np.degrees(df['lon_rad'])
 
 # reduce data
 if is_l1a:
-    df = df[::140//2]
+    df = df[::140 // 2]
 elif is_l2:
     # df = df[::20]
     df = df[::]
@@ -113,18 +119,22 @@ else:
     pass
 
 # Define function to switch from lat/lon to mercator coordinates
+
+
 def x_coord(lat, lon):
     r_major = 6378137.000
     x = r_major * np.radians(lon)
-    scale = x/lon
-    y = 180.0/np.pi * np.log(np.tan(np.pi/4.0 + lat * (np.pi/180.0)/2.0)) * scale
+    scale = x / lon
+    y = 180.0 / np.pi * \
+        np.log(np.tan(np.pi / 4.0 + lat * (np.pi / 180.0) / 2.0)) * scale
     return (x, y)
+
 
 # Define coord as tuple (lat,long)
 df['coordinates'] = list(zip(df['lat'], df['lon']))
 
 # Create mercator column in our df
-df['mercator'] = [x_coord(lat, lon) for lat, lon in df['coordinates'] ]
+df['mercator'] = [x_coord(lat, lon) for lat, lon in df['coordinates']]
 
 # Split that column out into two separate columns - mercator_x and mercator_y
 df[['mercator_x', 'mercator_y']] = df['mercator'].apply(pd.Series)
@@ -135,12 +145,13 @@ df[['mercator_x', 'mercator_y']] = df['mercator'].apply(pd.Series)
 # Define color mapper - which column will define the colour of the data points
 # color_mapper = linear_cmap(field_name = 'AveragePrice', palette = palette, low = df['AveragePrice'].min(), high = df['AveragePrice'].max())
 
-# Set tooltips - these appear when we hover over a data point in our map, very nifty and very useful
+# Set tooltips - these appear when we hover over a data point in our map,
+# very nifty and very useful
 tooltips = [
-    ("latitude","@lat"),
-    ("longitude","@lon"),
-    ("dist2coast","@dist2coast"),
-    ("record_ind","@record_inds"),
+    ("latitude", "@lat"),
+    ("longitude", "@lon"),
+    ("dist2coast", "@dist2coast"),
+    ("record_ind", "@record_inds"),
 ]
 
 # Create the figure
@@ -150,7 +161,7 @@ p = figure(title=f'{nc_filename.parent.name}/{nc_filename.stem}',
            aspect_ratio=2.0,
            x_axis_type='mercator', y_axis_type='mercator', x_axis_label='longitude', y_axis_label='latitude',
            # tooltips=tooltips,
-           tools = 'pan,wheel_zoom,box_zoom,save',
+           tools='pan,wheel_zoom,box_zoom,save',
            toolbar_location='above',
            output_backend='webgl',
            )

@@ -26,6 +26,7 @@ download_files = {
     },
 }
 
+
 def download_dist2coast_nc():
     id = 'd2c'
     url = download_files[id]['url']
@@ -52,7 +53,8 @@ def download_pysamosa_data():
 
     download_untar_file(url=url, dest_file=fpath, total_file_size=fsize)
 
-def download_untar_file(url : str, dest_file : str, total_file_size : int = None ):
+
+def download_untar_file(url: str, dest_file: str, total_file_size: int = None):
     os.umask(000)
     dest_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -60,7 +62,9 @@ def download_untar_file(url : str, dest_file : str, total_file_size : int = None
         with tqdm(total=total_file_size, unit='B', unit_scale=True, unit_divisor=1024,
                   desc=f'Downloading {dest_file}... (Total {total_file_size / (1024**3):.2f}GB)',
                   ascii=True) as pbar:
-            for chunk in requests.get(url, stream=True).iter_content(32 * 1024):
+            for chunk in requests.get(
+                    url, stream=True).iter_content(
+                    32 * 1024):
                 f.write(chunk)
                 pbar.update(len(chunk))
 
@@ -68,7 +72,12 @@ def download_untar_file(url : str, dest_file : str, total_file_size : int = None
     with tarfile.open(dest_file) as tar:
         tar.extractall(path=dest_file.parent)
 
-def get_dist_pacioos(latarr, lonarr, do_interp=True, pre_loaded_chunk_size=None):
+
+def get_dist_pacioos(
+        latarr,
+        lonarr,
+        do_interp=True,
+        pre_loaded_chunk_size=None):
     """
     Calculates distance to coast based on PacIOOS source.
     By now for ocean only.
@@ -95,7 +104,7 @@ def get_dist_pacioos(latarr, lonarr, do_interp=True, pre_loaded_chunk_size=None)
     try:
         _latarr = np.asarray(latarr)
         _lonarr = np.asarray(lonarr)
-    except:
+    except BaseException:
         raise ValueError("latarr, lonarr are not convertible to ndarrays. ")
 
     if _latarr.size != _lonarr.size:
@@ -114,14 +123,27 @@ def get_dist_pacioos(latarr, lonarr, do_interp=True, pre_loaded_chunk_size=None)
             def func_lat_ind_float(_lat): return (-(_lat - _first_lat) / _step)
             def func_lon_ind_float(_lon): return ((_lon - _first_lon) / _step)
 
-            res = ndimage.map_coordinates(ds.dist, [func_lat_ind_float(latarr), func_lon_ind_float(lonarr)], order=1)
+            res = ndimage.map_coordinates(
+                ds.dist, [func_lat_ind_float(latarr), func_lon_ind_float(lonarr)], order=1)
         else:
             # trunc = lambda arr, n_dec: np.trunc(arr * 10 ** n_dec) / 10 ** n_dec
             avoid_round_error = 0.001
-            lat_ind = (np.round(-(_latarr - _first_lat) / _step  + avoid_round_error)).astype(int)
-            lon_ind = (np.round((_lonarr - _first_lon) / _step + avoid_round_error)).astype(int)
+            lat_ind = (np.round(-(_latarr - _first_lat) /
+                       _step + avoid_round_error)).astype(int)
+            lon_ind = (
+                np.round(
+                    (_lonarr -
+                     _first_lon) /
+                    _step +
+                    avoid_round_error)).astype(int)
 
-            res = ds.dist.isel(lat=xr.DataArray(lat_ind % ds.dist.shape[0]), lon=xr.DataArray(lon_ind % ds.dist.shape[1])).values
+            res = ds.dist.isel(
+                lat=xr.DataArray(
+                    lat_ind %
+                    ds.dist.shape[0]),
+                lon=xr.DataArray(
+                    lon_ind %
+                    ds.dist.shape[1])).values
 
     # insert nans where there are in the original latarr, lonarr
     lat_nan_inds = np.isnan(_latarr)

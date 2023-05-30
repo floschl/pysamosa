@@ -19,7 +19,8 @@ from pysamosa.tests.settings_dumper import SettingsDumper
 
 
 rel_inds, file_id = (
-    # list(range(46403, 46403+60)), 's3_0',  # nice coastal retracking scenario from CORAL paper
+    # list(range(46403, 46403+60)), 's3_0',  # nice coastal retracking
+    # scenario from CORAL paper
     [25480], 's3_0',  # nice coastal retracking scenario from CORAL paper
     # [1000], 'cs_0',
     # [3503], 'cs_1',
@@ -36,12 +37,12 @@ conf = [
     (L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.NONE),
     # (L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.CORALv1),
     ##
-    ## CS
+    # CS
     # (L1bSourceType.EUM_CS, RetrackerBaseType.SAM, SettingsPreset.NONE),
     # (L1bSourceType.EUM_CS, RetrackerBaseType.SAMPLUS, SettingsPreset.NONE),
-    ## S6
+    # S6
     # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    ## S6 FFSAR
+    # S6 FFSAR
     # (L1bSourceType.EUM_S6_FFSAR, RetrackerBaseType.SAM, SettingsPreset.NONE),
     # (L1bSourceType.EUM_S6_FFSAR, RetrackerBaseType.SAM, SettingsPreset.CORALv2),
     # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
@@ -51,8 +52,13 @@ conf = [
 ]
 l1b_src_type, retracker_basetype, settings_preset = conf[0]
 
-rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=retracker_basetype, settings_preset=settings_preset, l1b_src_type=l1b_src_type)
-model_sets = ModelSettings.get_default_sets(st=sensor_sets.sensor_type, retracker_basetype=rp_sets.retracker_basetype, n_effective_looks=retrack_sets.n_effective_looks, wf_sets=wf_sets)
+rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(
+    retracker_basetype=retracker_basetype, settings_preset=settings_preset, l1b_src_type=l1b_src_type)
+model_sets = ModelSettings.get_default_sets(
+    st=sensor_sets.sensor_type,
+    retracker_basetype=rp_sets.retracker_basetype,
+    n_effective_looks=retrack_sets.n_effective_looks,
+    wf_sets=wf_sets)
 
 
 custom_proc_mode = None
@@ -61,9 +67,10 @@ custom_proc_mode = None
 
 custom_file_l1b, custom_file_l2 = None, None
 if custom_proc_mode is not None:
-    custom_file_l1b =  Path('/nfs/DGFI145/C/work_flo/coastal_ffsar/orig_data/f06/P4_1B_HR_____/S6A_P4_1B_HR______20210502T223038_20210502T232547_20220505T002438_3309_017_196_098_EUM__REP_NT_F06.SEN6/measurement.nc')
+    custom_file_l1b = Path(
+        '/nfs/DGFI145/C/work_flo/coastal_ffsar/orig_data/f06/P4_1B_HR_____/S6A_P4_1B_HR______20210502T223038_20210502T232547_20220505T002438_3309_017_196_098_EUM__REP_NT_F06.SEN6/measurement.nc')
     custom_file_l2 = Path('/nfs/DGFI145/C/work_flo/coastal_ffsar/orig_data/f06/P4_2__HR_____/S6A_P4_2__HR______20210413T182810_20210413T192223_20220514T174711_3253_015_213_106_EUM__REP_NT_F06.SEN6/S6A_P4_2__HR_STD__NT_015_213_20210413T182810_20210413T192223_F06.nc')
-    rel_inds, file_id = list(range(8580,8595)), None
+    rel_inds, file_id = list(range(8580, 8595)), None
 
     if '_DAR_' in str(custom_file_l1b):
         custom_datavars_l1b = data_vars_dart['l1b'] if custom_proc_mode is ProcMode.UFSAR else data_vars_dart['l1b_ffsar']
@@ -78,30 +85,51 @@ if custom_proc_mode is not None:
 
     retrack_sets.fit_zero_doppler = custom_proc_mode and custom_proc_mode is ProcMode.FFSAR
 
+
 @pytest.fixture(scope='class')
 def set_dumper():
     tempdir = Path(tempfile.gettempdir())
-    dest_mat_file = tempdir / f'retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{retracker_basetype.value}_{settings_preset.value}.mat'
-    dest_gif_file = tempdir / f'retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{retracker_basetype.value}_{settings_preset.value}.gif'
-    settings_dump = SettingsDumper(wf_sets=wf_sets, model_sets=model_sets, sensor_sets=sensor_sets, dest_mat_file=dest_mat_file, dest_gif_file=dest_gif_file)
+    dest_mat_file = tempdir / \
+        f'retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{retracker_basetype.value}_{settings_preset.value}.mat'
+    dest_gif_file = tempdir / \
+        f'retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{retracker_basetype.value}_{settings_preset.value}.gif'
+    settings_dump = SettingsDumper(
+        wf_sets=wf_sets,
+        model_sets=model_sets,
+        sensor_sets=sensor_sets,
+        dest_mat_file=dest_mat_file,
+        dest_gif_file=dest_gif_file)
     yield settings_dump
     settings_dump.write_out_mat()
     settings_dump.export_gif()
 
+
 fig_list = []
+
 
 class TestRetrackingSingle:
     @pytest.mark.parametrize('rel_ind', rel_inds)
-    def test_retracking_single(self,
-                               set_dumper,
-                               rel_ind, s3_eum_l1b, s3_eum_l2, cs_eum_l1b, cs_eum_l2, s6_eum_l1b, s6_eum_l2,
-                               s6_dart_l1b, s6_dart_l2,
-                               dataset_generic_l1b, dataset_generic_l2,
-                               ):
+    def test_retracking_single(
+        self,
+        set_dumper,
+        rel_ind,
+        s3_eum_l1b,
+        s3_eum_l2,
+        cs_eum_l1b,
+        cs_eum_l2,
+        s6_eum_l1b,
+        s6_eum_l2,
+        s6_dart_l1b,
+        s6_dart_l2,
+        dataset_generic_l1b,
+        dataset_generic_l2,
+    ):
         n_offset_l2 = None
 
         if custom_proc_mode:
-            l1b, l2 = dataset_generic_l1b(custom_file_l1b, custom_datavars_l1b), dataset_generic_l2(custom_file_l2, custom_datavars_l2)
+            l1b, l2 = dataset_generic_l1b(
+                custom_file_l1b, custom_datavars_l1b), dataset_generic_l2(
+                custom_file_l2, custom_datavars_l2)
         elif l1b_src_type == L1bSourceType.EUM_S3:
             l1b, l2 = s3_eum_l1b, s3_eum_l2
         elif l1b_src_type == L1bSourceType.EUM_CS:
@@ -126,30 +154,41 @@ class TestRetrackingSingle:
             n_inds_total = rp_sets.dynamic_fg_epoch_n_adjacent_meas
             n_before = n_inds_total // 2
 
-            n_offset_fg = 0 if (n_offset - n_before) < 0 else n_offset - n_before
+            n_offset_fg = 0 if (
+                n_offset - n_before) < 0 else n_offset - n_before
             n_target_ind_l1b = n_offset if n_offset_fg == 0 else n_before
-            l1b_data = l1b(n_offset=n_offset_fg, n_inds=n_inds_total, file_id=file_id)
-            l1b_data['dynamic_fg_epoch'] = get_dynamic_first_guess_epochs(wfs=l1b_data['wf'],
-                                                                          tracker_range=l1b_data['tracker_range_m'],
-                                                                          alt_m=l1b_data['alt_m'],
-                                                                          bu_bw_Hz=sensor_sets.B_r_Hz,
-                                                                          fg_epoch_adjacent_meas=rp_sets.dynamic_fg_epoch_n_adjacent_meas,
-                                                                          )
-            l1b_data_single = get_subset_dataset(l1b_data, ind_offset=n_target_ind_l1b)
+            l1b_data = l1b(
+                n_offset=n_offset_fg,
+                n_inds=n_inds_total,
+                file_id=file_id)
+            l1b_data['dynamic_fg_epoch'] = get_dynamic_first_guess_epochs(
+                wfs=l1b_data['wf'],
+                tracker_range=l1b_data['tracker_range_m'],
+                alt_m=l1b_data['alt_m'],
+                bu_bw_Hz=sensor_sets.B_r_Hz,
+                fg_epoch_adjacent_meas=rp_sets.dynamic_fg_epoch_n_adjacent_meas,
+            )
+            l1b_data_single = get_subset_dataset(
+                l1b_data, ind_offset=n_target_ind_l1b)
         else:
             n_target_ind_l1b = 0
-            l1b_data = l1b(n_offset=n_offset, n_inds=2, file_id=file_id)  #choose two to get right direction of track
-            l1b_data_single = get_subset_dataset(l1b_data, ind_offset=n_target_ind_l1b)
+            # choose two to get right direction of track
+            l1b_data = l1b(n_offset=n_offset, n_inds=2, file_id=file_id)
+            l1b_data_single = get_subset_dataset(
+                l1b_data, ind_offset=n_target_ind_l1b)
 
         try:
-            l2_record_inds_all = l2(n_offset=0, n_inds=0, file_id=file_id)['record_inds']
-            n_ind_l2 = np.argwhere(l1b_data_single['record_inds']==l2_record_inds_all)[0][0]
-        except:
+            l2_record_inds_all = l2(
+                n_offset=0, n_inds=0, file_id=file_id)['record_inds']
+            n_ind_l2 = np.argwhere(
+                l1b_data_single['record_inds'] == l2_record_inds_all)[0][0]
+        except BaseException:
             n_ind_l2 = n_offset_l2 if ('n_offset_l2' is None) else n_offset
 
         l2_data = l2(n_offset=n_ind_l2, n_inds=1, file_id=file_id)
         l2_data_single = get_subset_dataset(l2_data, ind_offset=0)
-        model_params = get_model_param_obj_from_l1b_data(l1b_data, ind=n_target_ind_l1b)
+        model_params = get_model_param_obj_from_l1b_data(
+            l1b_data, ind=n_target_ind_l1b)
 
         # simple_logger.set_root_logger()
         simple_logger.set_root_logger(log_level=logging.DEBUG)
@@ -162,18 +201,40 @@ class TestRetrackingSingle:
                                        )
 
         # start fitting
-        res_fit = sr.fit_wf(l1b_data_single=l1b_data_single, model_params=model_params)
+        res_fit = sr.fit_wf(
+            l1b_data_single=l1b_data_single,
+            model_params=model_params)
 
         # plot fitted curve
-        plot_retrack_result(l1b_data_single, l2_data_single, res_fit, model_params=model_params, wf_sets=wf_sets, model_sets=sr.model_sets, sensor_sets=sensor_sets,
-                            retrack_sets=retrack_sets, ax=ax, show_l2_model=False, show_second_halve=l1b_src_type == L1bSourceType.GPOD)
+        plot_retrack_result(
+            l1b_data_single,
+            l2_data_single,
+            res_fit,
+            model_params=model_params,
+            wf_sets=wf_sets,
+            model_sets=sr.model_sets,
+            sensor_sets=sensor_sets,
+            retrack_sets=retrack_sets,
+            ax=ax,
+            show_l2_model=False,
+            show_second_halve=l1b_src_type == L1bSourceType.GPOD)
 
         fn = ncfile_l1bs.name if ncfile_l1bs is not None else ''
-        fig.suptitle('\n'.join(wrap(f"{fn}, {retracker_basetype.value}-{settings_preset.value} ({l1b_src_type.value}), record#: {n_ind_l2}", width=70)), fontsize=8)
+        fig.suptitle(
+            '\n'.join(
+                wrap(
+                    f"{fn}, {retracker_basetype.value}-{settings_preset.value} ({l1b_src_type.value}), record#: {n_ind_l2}",
+                    width=70)),
+            fontsize=8)
         # fig.subplots_adjust(top=0.65)
         fig.subplots_adjust(top=0.77)
         fig.show()
 
         if set_dumper:
-            set_dumper.add_retrack_entry(l1b_data_single=l1b_data_single, model_params=model_params, record_ind=n_ind_l2, res_fit=res_fit, l2_data_single=l2_data_single)
+            set_dumper.add_retrack_entry(
+                l1b_data_single=l1b_data_single,
+                model_params=model_params,
+                record_ind=n_ind_l2,
+                res_fit=res_fit,
+                l2_data_single=l2_data_single)
             set_dumper.add_fig(fig)

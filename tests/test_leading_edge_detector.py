@@ -26,7 +26,8 @@ test_inds_gpod = [
 
 
 # rp_sets, retrack_sets, fitting_sets = get_default_base_settings(RetrackerBaseType.SAMPLUS, SettingsPreset.NONE)
-rp_sets, retrack_sets, _, _, _ = get_default_base_settings(retracker_basetype=RetrackerBaseType.SAMPLUS, settings_preset=SettingsPreset.SAM_FLO, l1b_src_type=L1bSourceType.EUM_S3)
+rp_sets, retrack_sets, _, _, _ = get_default_base_settings(
+    retracker_basetype=RetrackerBaseType.SAMPLUS, settings_preset=SettingsPreset.SAM_FLO, l1b_src_type=L1bSourceType.EUM_S3)
 
 # rp_sets.do_dynamic_fg_epoch = True
 rp_sets.dynamic_fg_epoch_n_adjacent_meas = 30  # default: 20
@@ -41,18 +42,25 @@ rp_sets.dynamic_fg_epoch_n_adjacent_meas = 30  # default: 20
 # fitting_sets.Levmar_Control_2 = 1e-1
 # fitting_sets.lock_epoch_around_fg_n = True
 
+
 def plot_leading_edge_analysis(le_inds, l1b_data_single, ind_gpod, fg_epoch):
     # plotting
     fig, axs = plt.subplots(1, 1)
     axs.plot(l1b_data_single['wf'].T)
 
     # plot initial first-guess epoch
-    fg_epoch_style = {'linestyle': '--', 'linewidth': 1, 'color': 'grey', 'label': 'fg_epoch'}
+    fg_epoch_style = {
+        'linestyle': '--',
+        'linewidth': 1,
+        'color': 'grey',
+        'label': 'fg_epoch'}
     axs.axvline(l1b_data_single['dynamic_fg_epoch'], **fg_epoch_style)
 
     # plot leading edge area
     axs.axvspan(le_inds[0], le_inds[-1], alpha=0.5, color='orange')
     axs.grid()
-    axs.set_title(f'ind_gpod={ind_gpod}, len(le_inds)={len(le_inds)}, fg_epoch={fg_epoch}', fontsize=6)
+    axs.set_title(
+        f'ind_gpod={ind_gpod}, len(le_inds)={len(le_inds)}, fg_epoch={fg_epoch}',
+        fontsize=6)
 
     fig.show()
