@@ -1,4 +1,11 @@
-from pysamosa.common_types import RetrackerBaseType, FittingSettings, WaveformSettings, SensorType, L1bSourceType, ModelSettings
+from pysamosa.common_types import (
+    RetrackerBaseType,
+    FittingSettings,
+    WaveformSettings,
+    SensorType,
+    L1bSourceType,
+    ModelSettings,
+)
 
 
 def test_fitting_sets():
@@ -22,9 +29,7 @@ def test_waveform_sets():
     wf_sets = WaveformSettings(internal_oversampling_factor=4)
     assert wf_sets.np == 512
 
-    wf_sets = WaveformSettings(
-        internal_oversampling_factor=4,
-        zp_oversampling_factor=2)
+    wf_sets = WaveformSettings(internal_oversampling_factor=4, zp_oversampling_factor=2)
     assert wf_sets.np == 1024
 
     # defaults
@@ -44,34 +49,34 @@ def test_waveform_sets():
     assert wf_sets.np == 512
     assert wf_sets.zp_oversampling_factor == 2
 
-    wf_sets = WaveformSettings.get_default_src_type(
-        L1bSourceType.EUM_S6_F04_FFSAR)
+    wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S6_F04_FFSAR)
+    assert wf_sets.np == 512
+    assert wf_sets.zp_oversampling_factor == 2
+
+    wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S6_F06_FFSAR)
     assert wf_sets.np == 512
     assert wf_sets.zp_oversampling_factor == 2
 
     wf_sets = WaveformSettings.get_default_src_type(
-        L1bSourceType.EUM_S6_F06_FFSAR)
-    assert wf_sets.np == 512
-    assert wf_sets.zp_oversampling_factor == 2
-
-    wf_sets = WaveformSettings.get_default_src_type(
-        L1bSourceType.EUM_S6_F04, internal_oversampling_factor=2)
+        L1bSourceType.EUM_S6_F04, internal_oversampling_factor=2
+    )
     assert wf_sets.np == 1024
     assert wf_sets.zp_oversampling_factor == 2
 
     wf_sets = WaveformSettings.get_default_src_type(
-        L1bSourceType.EUM_S3, zp_oversampling_factor=2)
+        L1bSourceType.EUM_S3, zp_oversampling_factor=2
+    )
     assert wf_sets.zp_oversampling_factor == 2
     assert wf_sets.np == 256
 
 
 def test_model_sets():
     ms = ModelSettings.get_default_sets(
-        retracker_basetype=RetrackerBaseType.SAM,
-        st=SensorType.S3)
+        retracker_basetype=RetrackerBaseType.SAM, st=SensorType.S3
+    )
     assert ms.alpha_p_mean == 0.5
 
     ms = ModelSettings.get_default_sets(
-        retracker_basetype=RetrackerBaseType.SAM,
-        st=SensorType.S6_F04)
+        retracker_basetype=RetrackerBaseType.SAM, st=SensorType.S6_F04
+    )
     assert ms.alpha_p_mean == 0.55

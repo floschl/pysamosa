@@ -5,34 +5,32 @@ from pathlib import Path
 import numpy as np
 from pydantic import BaseModel, root_validator, validator
 
-from typing import (
-    Deque, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
-)
+from typing import Optional
 
 
 class SensorType(Enum):
-    S3 = 's3'
-    CS = 'cs'
-    S6_F04 = 's6_f04'
-    S6_F06 = 's6_f06'
-    S6_F04_FF = 's6_f04_ff'
-    S6_F06_FF = 's6_f06_ff'
+    S3 = "s3"
+    CS = "cs"
+    S6_F04 = "s6_f04"
+    S6_F06 = "s6_f06"
+    S6_F04_FF = "s6_f04_ff"
+    S6_F06_FF = "s6_f06_ff"
 
 
 class L1bSourceType(Enum):
-    GPOD = 'gpod'
-    EUM_S3 = 'eum_s3'
-    EUM_CS = 'eum_cs'
-    EUM_S6_F04 = 'eum_s6_f04'
-    EUM_S6_F06 = 'eum_s6_f06'
-    EUM_S6_F04_FFSAR = 'eum_s6_ffsar_f04'
-    EUM_S6_F06_FFSAR = 'eum_s6_ffsar_f06'
+    GPOD = "gpod"
+    EUM_S3 = "eum_s3"
+    EUM_CS = "eum_cs"
+    EUM_S6_F04 = "eum_s6_f04"
+    EUM_S6_F06 = "eum_s6_f06"
+    EUM_S6_F04_FFSAR = "eum_s6_ffsar_f04"
+    EUM_S6_F06_FFSAR = "eum_s6_ffsar_f06"
 
 
 class RetrackerBaseType(Enum):
-    SAM = 'sam'
-    SAMPLUS = 'samplus'
-    SAMPLUSPLUS = 'samplusplus'
+    SAM = "sam"
+    SAMPLUS = "samplus"
+    SAMPLUSPLUS = "samplusplus"
 
 
 class SensorSettings(BaseModel):
@@ -68,9 +66,9 @@ class SensorSettings(BaseModel):
             sensor_sets.B_r_Hz = 320e6
             sensor_sets.theta_x_rad = np.radians(1.06)
             sensor_sets.theta_y_rad = np.radians(1.1992)
-            sensor_sets.prf_Hz = 1 / (4400 * (1 / 80E6))
+            sensor_sets.prf_Hz = 1 / (4400 * (1 / 80e6))
             sensor_sets.bri = None
-        elif 's6' in st.value:
+        elif "s6" in st.value:
             sensor_sets.sensor_type = st
             sensor_sets.B_r_Hz = 395e6
             theta_x_y = 1.33
@@ -93,26 +91,33 @@ class WaveformSettings(BaseModel):
     def get_default_src_type(st: L1bSourceType, **kwargs):
         if st is L1bSourceType.GPOD:
             return WaveformSettings(
-                **{**{'zp_oversampling_factor': 2, 'np': 256, **kwargs}})
+                **{**{"zp_oversampling_factor": 2, "np": 256, **kwargs}}
+            )
         elif st is L1bSourceType.EUM_S3:
             return WaveformSettings(
-                **{**{'zp_oversampling_factor': 1, 'np': 128, **kwargs}})
+                **{**{"zp_oversampling_factor": 1, "np": 128, **kwargs}}
+            )
         elif st is L1bSourceType.EUM_CS:
             return WaveformSettings(
-                **{**{'zp_oversampling_factor': 2, 'np': 128, **kwargs}})
-        elif 's6' in str(st).lower():
+                **{**{"zp_oversampling_factor": 2, "np": 128, **kwargs}}
+            )
+        elif "s6" in str(st).lower():
             return WaveformSettings(
-                **{**{'zp_oversampling_factor': 2, 'np': 256, **kwargs}})
+                **{**{"zp_oversampling_factor": 2, "np": 256, **kwargs}}
+            )
 
-    @validator('zp_oversampling_factor', pre=True, always=True)
+    @validator("zp_oversampling_factor", pre=True, always=True)
     def set_default_zp_oversampling_factor(cls, v, *, values, **kwargs):
         return v or 1
 
-    @validator('np', pre=True, always=True)
+    @validator("np", pre=True, always=True)
     def set_default_np(cls, v, *, values, **kwargs):
         np = 128 if v is None else v
-        return np * values['zp_oversampling_factor'] * \
-            values['internal_oversampling_factor']
+        return (
+            np
+            * values["zp_oversampling_factor"]
+            * values["internal_oversampling_factor"]
+        )
 
 
 class RetrackerProcessorSettings(BaseModel):
@@ -120,7 +125,7 @@ class RetrackerProcessorSettings(BaseModel):
     n_offset: int = 0
     n_inds: int = 5  # 0 = all
     n_procs: int = None  # None = all available
-    nc_dest_dir: Path = Path().cwd() / 'tmp'
+    nc_dest_dir: Path = Path().cwd() / "tmp"
 
     do_interp_dist2coast: bool = False
     do_write_out_nc: bool = True
@@ -157,7 +162,9 @@ class RetrackerSettings(BaseModel):
     Wf_Fit_Last_Bin: int = -1
     # Wf_Fit_Activate_Flag = 1 #Flag to control the activation of the waveform
     # fitting (1 = true ; 0 = false);
-    Thr: float = 3.0  # Threshold parameter greater than 1 used to test Wf_max against TN
+    Thr: float = (
+        3.0  # Threshold parameter greater than 1 used to test Wf_max against TN
+    )
     # TN_Flag = 0 #flag to determine how to deal with Thermal Noise (TN_Flag=1
     # -> retracked ; TN_Flag=0 constant/estimated)
 
@@ -192,13 +199,13 @@ class RetrackerSettings(BaseModel):
         elif st is SensorType.CS:
             retrack_sets.Wf_TN_First = 3  # 0-based
             retrack_sets.Wf_TN_Last = 8  # 0-based
-        elif 's6' in st.value:
+        elif "s6" in st.value:
             retrack_sets.Wf_TN_First = 13  # 0-based
             retrack_sets.Wf_TN_Last = 17  # 0-based
             retrack_sets.Wf_Fit_First_Bin = 11  # 0-based
             retrack_sets.Wf_Fit_Last_Bin = 132  # 0-based
 
-            if 'ff' in st.value:
+            if "ff" in st.value:
                 retrack_sets.fit_zero_doppler = True
 
         return retrack_sets
@@ -224,8 +231,10 @@ class ModelParameter(BaseModel):
         fields_not_set = [f for f in cls.__fields__ if f not in values]
         if fields_not_set:
             logging.debug(
-                'WARNING: the following params were not set, now taking defaults: {}'.format(
-                    ','.join(fields_not_set)))
+                "WARNING: the following params were not set, now taking defaults: {}".format(
+                    ",".join(fields_not_set)
+                )
+            )
         return values
 
     class Config:
@@ -264,7 +273,7 @@ class ModelSettings(BaseModel):
             pass
         elif st is SensorType.CS:
             model_sets.alpha_p_mean = 1 / (0.886 * np.sqrt(2 * np.pi))
-        elif 's6' in st.value:
+        elif "s6" in st.value:
             model_sets.alpha_p_mean = 0.55
             model_sets.Enable_Slope_Effect_Flag = False
 
@@ -327,7 +336,7 @@ class FittingSettings(BaseModel):
             pass
         elif st is SensorType.CS:
             fitting_sets.trf_stepsize = 1e-2
-        elif 's6' in st.value:
+        elif "s6" in st.value:
             pass
 
         return fitting_sets
@@ -341,5 +350,5 @@ class ExportSettings(BaseModel):
 
 
 class ProcMode(Enum):
-    FFSAR = 'ffsar'
-    UFSAR = 'ufsar'
+    FFSAR = "ffsar"
+    UFSAR = "ufsar"

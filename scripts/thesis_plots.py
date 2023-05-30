@@ -59,7 +59,7 @@ default_legend_kw = {'fontsize': 8, 'labelspacing': 0.20, 'borderaxespad': 0.2}
 
 def gen_multilooked_vary_swh():
     fig, ax = plt.subplots(figsize=[5, 3], dpi=default_dpi)
-    fig_list[f'samosa_model_vary_swh'] = fig
+    fig_list['samosa_model_vary_swh'] = fig
 
     cols_it = iter(list(okabeito_colorblind_colors.values()))
 
@@ -143,7 +143,7 @@ def plot_single_retrackings():
 
     first_it = gen_first_true()
 
-    fig_list[f'samosa_retracked_estimates'] = fig
+    fig_list['samosa_retracked_estimates'] = fig
 
     list_scenarios = [
         # open ocean
@@ -201,7 +201,7 @@ def plot_single_retrackings():
             np.max(
                 l1b['wf']),
             color=okabeito_colorblind_colors['blue'],
-            label=f'measured waveform')
+            label='measured waveform')
         ax.plot(
             res_fit['wf_opt'],
             color=okabeito_colorblind_colors['orange'],

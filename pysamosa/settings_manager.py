@@ -8,40 +8,50 @@ from pysamosa.common_types import (
     WaveformSettings,
     SensorType,
     SensorSettings,
-    L1bSourceType)
+    L1bSourceType,
+)
 
 
 class SettingsPreset(Enum):
-    NONE = 'none'  # take default preset for RetrackerBaseType
-    SAM_FLO = 'samflo'
-    CORALv1 = 'coralv1'
-    CORALv2 = 'coralv2'
-    SAMPLUS_FLO = 'samplusflo'
+    NONE = "none"  # take default preset for RetrackerBaseType
+    SAM_FLO = "samflo"
+    CORALv1 = "coralv1"
+    CORALv2 = "coralv2"
+    SAMPLUS_FLO = "samplusflo"
 
 
 def get_default_base_settings(
     *,
     retracker_basetype: RetrackerBaseType,
     settings_preset: SettingsPreset = SettingsPreset.NONE,
-        l1b_src_type: L1bSourceType):
-    if 's3' in l1b_src_type.value:
+    l1b_src_type: L1bSourceType
+):
+    if "s3" in l1b_src_type.value:
         sensor_type = SensorType.S3
-    elif 'cs' in l1b_src_type.value:
+    elif "cs" in l1b_src_type.value:
         sensor_type = SensorType.CS
-    elif 's6' in l1b_src_type.value and 'ff' in l1b_src_type.value:
-        sensor_type = SensorType.S6_F06_FF if 'f06' in l1b_src_type.value else SensorType.S6_F04_FF
-    elif 's6' in l1b_src_type.value and 'ff' not in l1b_src_type.value:
-        sensor_type = SensorType.S6_F06 if 'f06' in l1b_src_type.value else SensorType.S6_F04
+    elif "s6" in l1b_src_type.value and "ff" in l1b_src_type.value:
+        sensor_type = (
+            SensorType.S6_F06_FF
+            if "f06" in l1b_src_type.value
+            else SensorType.S6_F04_FF
+        )
+    elif "s6" in l1b_src_type.value and "ff" not in l1b_src_type.value:
+        sensor_type = (
+            SensorType.S6_F06 if "f06" in l1b_src_type.value else SensorType.S6_F04
+        )
     else:
-        raise RuntimeError('error setting SensorType. ')
+        raise RuntimeError("error setting SensorType. ")
 
     sensor_sets = SensorSettings.get_default_sets(sensor_type)
 
     rp_sets = RetrackerProcessorSettings(retracker_basetype=retracker_basetype)
     retrack_sets = RetrackerSettings.get_default_sets(
-        st=sensor_type, retracker_basetype=retracker_basetype)
+        st=sensor_type, retracker_basetype=retracker_basetype
+    )
     fitting_sets = FittingSettings.get_default_sets(
-        st=sensor_type, retracker_basetype=retracker_basetype)
+        st=sensor_type, retracker_basetype=retracker_basetype
+    )
 
     wf_sets = WaveformSettings.get_default_src_type(l1b_src_type)
 
@@ -99,7 +109,10 @@ def get_default_base_settings(
         # fitting_sets.lock_epoch_around_fg_n = True
 
     # PRESETS
-    if settings_preset == SettingsPreset.CORALv1 or settings_preset == SettingsPreset.CORALv2:
+    if (
+        settings_preset == SettingsPreset.CORALv1
+        or settings_preset == SettingsPreset.CORALv2
+    ):
         rp_sets.do_dynamic_fg_epoch = True
         rp_sets.dynamic_fg_epoch_n_adjacent_meas = 40
 
@@ -125,7 +138,11 @@ def get_default_base_settings(
 
     # adapt parameters according to internal_oversampling_factor
     if wf_sets.internal_oversampling_factor > 1 or wf_sets.zp_oversampling_factor > 1:
-        mult_factor = wf_sets.internal_oversampling_factor if wf_sets.zp_oversampling_factor == 1 else wf_sets.zp_oversampling_factor
+        mult_factor = (
+            wf_sets.internal_oversampling_factor
+            if wf_sets.zp_oversampling_factor == 1
+            else wf_sets.zp_oversampling_factor
+        )
 
         retrack_sets.normalise_wf_by_fg_region *= mult_factor
         retrack_sets.interference_masking_grow *= mult_factor

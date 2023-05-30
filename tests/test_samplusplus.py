@@ -1,15 +1,3 @@
-import os
-
-import matplotlib.pyplot as plt
-import pytest
-
-from pysamosa import simple_logger
-from pysamosa.common_types import RetrackerBaseType, WaveformSettings, L1bSourceType, SENSOR_SETS_DEFAULT_S3, SensorSettings
-from pysamosa.data_access import get_model_param_obj_from_l1b_data, get_subset_dataset
-from pysamosa.retracker import SamosaRetracker, RetrackerSettings, FittingSettings
-from pysamosa.rip import RipAnalyser
-from pysamosa.tests.helpers import plot_retrack_result, plot_rip_result
-
 samplusplus_test_inds = [
     510,
     2454,

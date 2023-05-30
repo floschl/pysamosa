@@ -1,8 +1,3 @@
-import numpy as np
-from pydantic import BaseModel
-
-from pysamosa.common_types import SensorType
-
 # taken from SAMOSA DPM Doc 2.5.2
 
 # S-3 Ku Band SAR Re-tracker Configuration File

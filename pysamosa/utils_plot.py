@@ -40,51 +40,62 @@ def plot_single_retrack_result(
     subplot_name_kw=None,
     xlabel=None,
     ylabel=None,
-        do_plot_second_halve_only=False):
+    do_plot_second_halve_only=False,
+):
     _ax = ax
 
     fontsize_labels = 8 if fontsize_labels is not None else fontsize_labels
     legend_kwargs = {} if legend_kwargs is None else legend_kwargs
-    subplot_name = '' if subplot_name is None else subplot_name
+    subplot_name = "" if subplot_name is None else subplot_name
     subplot_name_kw = {} if subplot_name_kw is None else subplot_name_kw
 
     plot_data = [
-        {'name': r'$\mathbf{w}_\mathrm{r}$', 'wf': wf_meas},
-        {'name': '$\\mathbf{w}_\\mathrm{SAM2}$', 'wf': res_fit['wf_opt']},
+        {"name": r"$\mathbf{w}_\mathrm{r}$", "wf": wf_meas},
+        {"name": "$\\mathbf{w}_\\mathrm{SAM2}$", "wf": res_fit["wf_opt"]},
         # {'name': '$\mathbf{w}_{\mathrm{SAM2},i}$\n$(\mathrm{SWH}_\mathrm{aim\_mask}=$' + f'{res_fit["swh"]:.2f}m)', 'wf': res_fit['wf_opt']},
     ]
 
-    start_ind = len(
-        plot_data[0]['wf']) // 2 if do_plot_second_halve_only else 0
+    start_ind = len(plot_data[0]["wf"]) // 2 if do_plot_second_halve_only else 0
 
     for d in plot_data:
-        _ax.plot(d['wf'][start_ind:], linewidth=0.7, label=d['name'])
+        _ax.plot(d["wf"][start_ind:], linewidth=0.7, label=d["name"])
 
     # plot initial first-guess epoch
     fg_epoch_style = {
-        'linestyle': '--',
-        'linewidth': 1,
-        'color': 'grey',
-        'label': '$k_\\mathrm{DFGE}$'}
+        "linestyle": "--",
+        "linewidth": 1,
+        "color": "grey",
+        "label": "$k_\\mathrm{DFGE}$",
+    }
     fg_epoch -= start_ind
     _ax.axvline(fg_epoch, **fg_epoch_style)
 
-    if 'interference_inds' in res_fit:
+    if "interference_inds" in res_fit:
         distorted_regions = [
-            (dr -
-             start_ind) for dr in consecutive_regions_from_ind_list(
-                res_fit['interference_inds'])]
+            (dr - start_ind)
+            for dr in consecutive_regions_from_ind_list(res_fit["interference_inds"])
+        ]
         show_legend_entry_it = gen_first_true()
         for br in distorted_regions:
-            _ax.axvspan(br[0], br[-1], alpha=0.5, color='red',
-                        label='$\\mathbf{k}_\\mathrm{inf}$' if next(show_legend_entry_it) else '')
+            _ax.axvspan(
+                br[0],
+                br[-1],
+                alpha=0.5,
+                color="red",
+                label="$\\mathbf{k}_\\mathrm{inf}$"
+                if next(show_legend_entry_it)
+                else "",
+            )
 
-    if 'interference_mask' in res_fit and not np.allclose(
-            res_fit['interference_mask'], 1.0):
-        _ax.plot(res_fit['interference_mask'][start_ind:],
-                 linewidth=0.7,
-                 label='$\\mathbf{w}_\\mathrm{IR}$',
-                 color='lime')
+    if "interference_mask" in res_fit and not np.allclose(
+        res_fit["interference_mask"], 1.0
+    ):
+        _ax.plot(
+            res_fit["interference_mask"][start_ind:],
+            linewidth=0.7,
+            label="$\\mathbf{w}_\\mathrm{IR}$",
+            color="lime",
+        )
 
     # if res_fit['le_inds'] is not None:
     #     le_inds = res_fit['le_inds']
@@ -92,12 +103,11 @@ def plot_single_retrack_result(
 
     if retrack_sets.subwaveform_mode:
         _ax.axvspan(
-            res_fit['max_le_gate'] +
-            retrack_sets.subwaveform_n_gates_after_le,
-            len(
-                res_fit['wf']),
+            res_fit["max_le_gate"] + retrack_sets.subwaveform_n_gates_after_le,
+            len(res_fit["wf"]),
             alpha=0.5,
-            color='gray')
+            color="gray",
+        )
 
     _ax.legend(**legend_kwargs)
 
@@ -109,15 +119,13 @@ def plot_single_retrack_result(
     _ax.text(
         x=0.95,
         y=0.05,
-        s='\n'.join(text_str_elems),
-        ha='right',
-        va='center',
+        s="\n".join(text_str_elems),
+        ha="right",
+        va="center",
         transform=_ax.transAxes,
         fontsize=fontsize_textboxes,
-        bbox=dict(
-            pad=0.5,
-            fc="white",
-            alpha=0.8))
+        bbox=dict(pad=0.5, fc="white", alpha=0.8),
+    )
 
     _ax.set_ylim(bottom=-0.1, top=1.1)
     if xlabel:
@@ -130,9 +138,7 @@ def plot_single_retrack_result(
 
 
 def save_figs_to_pdf(figs, pdf_filepath):
-    """Saves objects to disk using pickle.
-
-    """
+    """Saves objects to disk using pickle."""
     os.umask(000)
     os.makedirs(os.path.dirname(pdf_filepath), exist_ok=True)
 
@@ -141,56 +147,55 @@ def save_figs_to_pdf(figs, pdf_filepath):
     figs = figs if isinstance(figs, list) else [figs]
 
     for f in figs:
-        pp.savefig(f, box_inches='tight', pad_inches=0)
+        pp.savefig(f, box_inches="tight", pad_inches=0)
 
     pp.close()
 
-    logging.info('Figure saved to pdf file {}'.format(pdf_filepath))
+    logging.info("Figure saved to pdf file {}".format(pdf_filepath))
 
 
 def set_pgf_mode():
     # register pdf extension with FigureCanvasPgf backend
     # https://stackoverflow.com/questions/9169052/partial-coloring-of-text-in-matplotlib/42768093#42768093
-    mpl.backend_bases.register_backend('pgf', FigureCanvasPgf)
-    mpl.backend_bases.register_backend('pdf', FigureCanvasPgf)
+    mpl.backend_bases.register_backend("pgf", FigureCanvasPgf)
+    mpl.backend_bases.register_backend("pdf", FigureCanvasPgf)
 
-    mpl.rcParams.update({
-        'pgf.rcfonts': False,
-        'text.usetex': True,
-        'pgf.texsystem': 'pdflatex',
-        'font.family': 'serif',
-        'font.serif': [],  # use latex default serif font
-        'font.sans-serif': [],
-        'font.monospace': [],
-        'figure.figsize': default_figsize_in,
-        'figure.constrained_layout.use': True,
-        'pgf.preamble': r'\usepackage[utf8x]{inputenc}\usepackage[T1]{fontenc}',
-    })
+    mpl.rcParams.update(
+        {
+            "pgf.rcfonts": False,
+            "text.usetex": True,
+            "pgf.texsystem": "pdflatex",
+            "font.family": "serif",
+            "font.serif": [],  # use latex default serif font
+            "font.sans-serif": [],
+            "font.monospace": [],
+            "figure.figsize": default_figsize_in,
+            "figure.constrained_layout.use": True,
+            "pgf.preamble": r"\usepackage[utf8x]{inputenc}\usepackage[T1]{fontenc}",
+        }
+    )
 
 
 def scatter_map(
-        lat: np.ndarray,
-        lon: np.ndarray,
-        data: np.ndarray,
-        title='',
-        subplots_kw=None):
-    """Scatter plot of a geophysical on a geophysical map.
-
-    """
+    lat: np.ndarray, lon: np.ndarray, data: np.ndarray, title="", subplots_kw=None
+):
+    """Scatter plot of a geophysical on a geophysical map."""
     if not subplots_kw:
         subplots_kw = {}
 
     proj = ccrs.PlateCarree()
 
-    df = pd.DataFrame.from_dict({
-        'data': data,
-        'lat': lat,
-        'lon': lon,
-    })
+    df = pd.DataFrame.from_dict(
+        {
+            "data": data,
+            "lat": lat,
+            "lon": lon,
+        }
+    )
 
     fig, ax = plt.subplots(subplot_kw=dict(projection=proj), **subplots_kw)
 
-    non_nan_mask = (~np.isnan(df.data)).values.nonzero()[0]
+    (~np.isnan(df.data)).values.nonzero()[0]
     # lat_arr = df.iloc[non_nan_mask].lat
     lat_arr = df.lat.values
     lat_start, lat_end = np.around(lat_arr[0], 6), np.around(lat_arr[-1], 6)
@@ -210,17 +215,10 @@ def scatter_map(
     dataminmax = (-0.25, 15)
     n_ticks = 6
     gl = ax.gridlines(
-        xlocs=np.round(
-            np.linspace(
-                *lonminmax,
-                n_ticks),
-            6),
-        ylocs=np.round(
-            np.linspace(
-                *latminmax,
-                n_ticks),
-            6),
-        draw_labels=True)
+        xlocs=np.round(np.linspace(*lonminmax, n_ticks), 6),
+        ylocs=np.round(np.linspace(*latminmax, n_ticks), 6),
+        draw_labels=True,
+    )
     gl.xlabels_top = gl.ylabels_right = False
     gl.xformatter = LONGITUDE_FORMATTER
     gl.yformatter = LATITUDE_FORMATTER
@@ -234,22 +232,16 @@ def scatter_map(
     # ax.add_feature(cfeature.RIVERS)
 
     # create colormap
-    cmap = plt.get_cmap('jet')
+    cmap = plt.get_cmap("jet")
     # use white color to mark 'bad' values
     # cmap.set_bad(color='k') # currently not working, seems to be bug in
     # pyplot:
 
-    df_vals = df.dropna(subset=['data'])
-    df_nans = df[df['data'].isnull()]
+    df_vals = df.dropna(subset=["data"])
+    df_nans = df[df["data"].isnull()]
 
     # plot nans
-    plt.scatter(
-        df_nans.lon,
-        df_nans.lat,
-        c='black',
-        s=2,
-        transform=proj,
-        zorder=2)
+    plt.scatter(df_nans.lon, df_nans.lat, c="black", s=2, transform=proj, zorder=2)
 
     # plot non-nans
     cb = plt.scatter(
@@ -261,15 +253,12 @@ def scatter_map(
         vmax=dataminmax[1],
         cmap=cmap,
         transform=proj,
-        zorder=4)
+        zorder=4,
+    )
 
     # colorbar
     divider = make_axes_locatable(ax)
-    cax = divider.append_axes(
-        "right",
-        size="3%",
-        pad=0.05,
-        axes_class=plt.Axes)
+    cax = divider.append_axes("right", size="3%", pad=0.05, axes_class=plt.Axes)
     fig.colorbar(cb, cax=cax)
 
     return fig, ax
@@ -280,25 +269,27 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
 
     fig, axs_data = plt.subplots(2, 1)
     # axs_data[0].set_title(f'Retracker: {retracker_basetype.value}, Preset: {preset.value} ({l1b_src_type.value}), d2c=({l2.dist2coast[0].values:.0f}, {l2.dist2coast[-1].values:.0f})km, ind={n_offset}', fontsize=fontsize_labels)
-    axs_data[0].set_ylabel('SWH [m]', fontsize=fontsize_labels)
+    axs_data[0].set_ylabel("SWH [m]", fontsize=fontsize_labels)
 
     lat = np.degrees(l2.latitude)
     # SWH
-    swh_diff = l2.swh - l2_ref['swh']
-    rmse_swh = float(np.sqrt(np.mean((swh_diff)**2)).values)
+    swh_diff = l2.swh - l2_ref["swh"]
+    rmse_swh = float(np.sqrt(np.mean((swh_diff) ** 2)).values)
     median_bias_swh = np.median(swh_diff)
     lh_retrack = axs_data[0].plot(
         lat,
         l2.swh,
         linewidth=1.0,
-        label=f'swh_retrack (std={np.nanstd(l2.swh.values):.2f},'
-        f'median={np.nanmedian(l2.swh.values):.2f}, bias_eum={median_bias_swh:.4f}m, rmse_eum={rmse_swh:.4f}m)',
-        zorder=2)
+        label=f"swh_retrack (std={np.nanstd(l2.swh.values):.2f},"
+        f"median={np.nanmedian(l2.swh.values):.2f}, bias_eum={median_bias_swh:.4f}m, rmse_eum={rmse_swh:.4f}m)",
+        zorder=2,
+    )
     axs_data[0].plot(
         lat,
-        l2_ref['swh'],
+        l2_ref["swh"],
         linewidth=0.8,
-        label=f'swh_ref (std={np.nanstd(l2_ref["swh"]):.2f}, median={np.nanmedian(l2_ref["swh"]):.2f})')
+        label=f'swh_ref (std={np.nanstd(l2_ref["swh"]):.2f}, median={np.nanmedian(l2_ref["swh"]):.2f})',
+    )
 
     # SWH quality flag
     axs_data[0].plot(
@@ -306,34 +297,39 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
         l2.swh_qual,
         color=lh_retrack[0].get_color(),
         linewidth=1.0,
-        linestyle='--',
-        label='swh_qual')
+        linestyle="--",
+        label="swh_qual",
+    )
 
     # uncorrected SSH
     ssh_uncorr_rt = l2.altitude - l2.range
-    ssh_uncorr_ref = l2_ref['alt_m'] - l2_ref['range'] + cog_corr
+    ssh_uncorr_ref = l2_ref["alt_m"] - l2_ref["range"] + cog_corr
     ssh_diff = ssh_uncorr_rt - ssh_uncorr_ref
 
-    rmse_ssh = float(np.sqrt(np.mean((ssh_diff)**2)).values)
+    rmse_ssh = float(np.sqrt(np.mean((ssh_diff) ** 2)).values)
     median_bias_ssh = np.median(ssh_diff)
-    axs_data[1].set_ylabel('uncorrected SSH [m]', fontsize=fontsize_labels)
+    axs_data[1].set_ylabel("uncorrected SSH [m]", fontsize=fontsize_labels)
 
     def nanstd_detrend(alt, range):
         non_nan_mask = ~(np.isnan(alt) | np.isnan(range))
-        return np.nanstd(
-            signal.detrend(
-                alt[non_nan_mask] -
-                range[non_nan_mask])) if any(non_nan_mask) else np.nan
+        return (
+            np.nanstd(signal.detrend(alt[non_nan_mask] - range[non_nan_mask]))
+            if any(non_nan_mask)
+            else np.nan
+        )
+
     axs_data[1].plot(
         lat,
         ssh_uncorr_rt,
         linewidth=1.0,
-        label=f'l2 (std_detrend={nanstd_detrend(l2.altitude, l2.range):.2f}m, median_bias={median_bias_ssh:.4f}m, RMSE={rmse_ssh:.4f}m)')
+        label=f"l2 (std_detrend={nanstd_detrend(l2.altitude, l2.range):.2f}m, median_bias={median_bias_ssh:.4f}m, RMSE={rmse_ssh:.4f}m)",
+    )
     axs_data[1].plot(
         lat,
         ssh_uncorr_ref,
         linewidth=1.0,
-        label=f'l2_ref (std_detrend={nanstd_detrend(l2_ref["alt_m"], l2_ref["range"]):.2f}m)')
+        label=f'l2_ref (std_detrend={nanstd_detrend(l2_ref["alt_m"], l2_ref["range"]):.2f}m)',
+    )
 
     # plot settings
     axs_data[0].legend(fontsize=fontsize_legend)
@@ -341,13 +337,7 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
     # axs_data[1].set_ylim([np.nanmin(l2.altitude - l2.range), np.nanmax(l2.altitude - l2.range)])
     axs_data[1].legend(fontsize=fontsize_legend)
     axs_data[1].grid()
-    axs_data[1].set_ylim(
-        np.min(
-            l2.altitude -
-            l2.range),
-        np.max(
-            l2.altitude -
-            l2.range))
+    axs_data[1].set_ylim(np.min(l2.altitude - l2.range), np.max(l2.altitude - l2.range))
 
     if fig_title:
         fig.suptitle(fig_title, fontsize=fontsize_labels)

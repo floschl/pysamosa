@@ -85,8 +85,8 @@ level_str = level_str.replace('_1_', '_1b_')
 if level_str == '':
     level_str = '1a'
 
-is_l1a = f'_1a_' in str(nc_filename).lower()
-is_l2 = f'_2_' in str(nc_filename).lower()
+is_l1a = '_1a_' in str(nc_filename).lower()
+is_l2 = '_2_' in str(nc_filename).lower()
 grps = [g for g in list(netCDF4.Dataset(nc_filename).groups) if 'data_20' in g]
 grp = f'{grps[0]}/ku' if len(grps) > 0 else ''
 
