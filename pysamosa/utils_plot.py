@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.backends.backend_pgf import FigureCanvasPgf
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from pysamosa.tests.helpers import consecutive_regions_from_ind_list
+from tests.helpers import consecutive_regions_from_ind_list
 
 from scipy import signal
 

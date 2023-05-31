@@ -13,7 +13,7 @@ from bokeh.tile_providers import get_provider, Vendors
 
 from pysamosa.data_access import data_vars_s3, _read_dataset_vars_from_ds
 from pysamosa.settings import LFSDATA_DIR
-from pysamosa.tests.conftest import file_id_mappings
+from tests.conftest import file_id_mappings
 
 data_vars_eumetsat_s6 = {
     'time': 'time',

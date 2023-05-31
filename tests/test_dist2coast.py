@@ -26,7 +26,6 @@ from pysamosa.dist2coast import (
 def test_dist2coast_interp_off():
     """Test for cross-checking the results and performance of different dist2coast sources."""
 
-    n_repl = 1
     coords = {
         "lat": np.array(
             [
@@ -54,8 +53,7 @@ def test_dist2coast_interp_off():
                 19.7175,
                 -13.046305,
                 -13.046305,
-            ],
-            *n_repl
+            ]
         ),
         "lon": np.array(
             [
@@ -83,8 +81,7 @@ def test_dist2coast_interp_off():
                 121.519373,
                 109.340001,
                 109.340000,
-            ],
-            *n_repl
+            ]
         ),
         "exp_dist": np.array(
             [
@@ -112,19 +109,11 @@ def test_dist2coast_interp_off():
                 29.0,
                 486.0,
                 486.0,
-            ],
-            *n_repl
+            ]
         ),
     }
 
-    # coords = {
-    #     'lat': np.array([-57.335, -57.33499999] * n_repl),
-    #     'lon': np.array([75.772768, 75.772768] * n_repl),
-    #     'exp_dist': np.array([506.0, 506.0] * n_repl),
-    # }
-
     dist_pacioos = get_dist_pacioos(coords["lat"], coords["lon"], do_interp=False)
     print(dist_pacioos)
-    # dist_distcoast00 = get_dist_distcoast00(coords['lat'], coords['lon'])
-    # print(dist_distcoast00)
-    # assert np.array_equal(dist_pacioos, (np.round(coords['exp_dist'])).astype(int))
+
+    assert np.array_equal(dist_pacioos, (np.round(coords['exp_dist'])).astype(int))

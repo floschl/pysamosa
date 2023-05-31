@@ -78,4 +78,4 @@ class SettingsDumper:
         if tmp_imgs:
             frames = np.stack([iio.imread(f) for f in tmp_imgs], axis=0)
             # iio.imwrite(self.dest_gif_file, frames, duration=0.2, loop=0)
-            iio.mimsave(self.dest_gif_file, frames, fps=2, loop=0)
+            iio.mimsave(self.dest_gif_file, frames, duration=500, loop=0)

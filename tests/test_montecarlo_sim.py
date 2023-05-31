@@ -111,10 +111,11 @@ def test_sim_swh_rmse_different_le_weight_factor(monte_sim):
     n_realisations = 1
 
     # run Monte-Carlo sim with different varying parameters
-    df = pd.DataFrame()
+    # df = pd.DataFrame()
+    df_list = []
     for v in params_vals:
         monte_sim.retrack_sets.leading_edge_weight_factor = v
-        df = df.append(
+        df_list.append(
             monte_sim.multi_proc(
                 swh=np.arange(1, 15, 2),
                 n_realisations=n_realisations,
@@ -123,6 +124,8 @@ def test_sim_swh_rmse_different_le_weight_factor(monte_sim):
                 # add_interference=add_interference
             )
         )
+
+    df = pd.concat(df_list)
 
     # prepare plots
     var_types_list = ["swh", "epoch_ns", "Pu"]
@@ -166,7 +169,7 @@ def test_sim_swh_rmse_oversampling():
     swh_vals = np.arange(-0.125, 20, swh_step)
 
     # run Monte-Carlo sim with different varying parameters
-    df = pd.DataFrame()
+    df_list = []
     for v in params_vals:
         wf_sets_retracker = WaveformSettings.get_default_src_type(
             L1bSourceType.EUM_S3, internal_oversampling_factor=v
@@ -183,7 +186,7 @@ def test_sim_swh_rmse_oversampling():
             wf_sets_model=wf_sets_model,
         )
 
-        df = df.append(
+        df_list.append(
             monte_sim.multi_proc(
                 swh=swh_vals,
                 n_realisations=n_realisations,
@@ -193,6 +196,8 @@ def test_sim_swh_rmse_oversampling():
                 add_interference=add_interference,
             )
         )
+
+    df = pd.concat(df_list)
 
     # prepare plots
     # var_types_list = ['swh', 'epoch_ns', 'Pu']

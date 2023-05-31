@@ -25,8 +25,8 @@ from pysamosa.data_access import (
 )
 from pysamosa.retracker_helpers import get_dynamic_first_guess_epochs
 from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
-from pysamosa.tests.helpers import plot_retrack_result
-from pysamosa.tests.settings_dumper import SettingsDumper
+from tests.helpers import plot_retrack_result
+from tests.settings_dumper import SettingsDumper
 
 
 rel_inds, file_id = (

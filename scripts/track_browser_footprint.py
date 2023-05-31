@@ -1,8 +1,5 @@
-import re
-from datetime import datetime
 import xarray as xr
 import cftime
-from lib2to3.pgen2.tokenize import group
 from pathlib import Path
 import tempfile
 import netCDF4
@@ -13,17 +10,16 @@ from bokeh.io import show, output_file
 from bokeh.models import HoverTool
 from bokeh.models.glyphs import Patches, Circle
 from bokeh.plotting import figure, ColumnDataSource
-from bokeh.tile_providers import get_provider, Vendors
+from bokeh.tile_providers import Vendors
 
 from pysamosa.data_access import _read_dataset_vars_from_ds
 from pysamosa.settings import LFSDATA_DIR
-from pysamosa.tests.conftest import file_id_mappings
 
 # data preparation
 ncfile_list = sorted((LFSDATA_DIR / 'l1bs').rglob('*.nc'))
 
 nc_filenames = [
-    Path('/lfs/DGFI24/fastdata/schlembach/repos/pysamosa/data/s6/l1b/S6A_P4_1B_HR______20211120T051224_20211120T060836_20220430T212619_3372_038_018_009_EUM__REP_NT_F06.nc'),
+    Path.cwd().parent / 'data' / 's6' / 'l2' / 'S6A_P4_2__HR_STD__NT_038_018_20211120T051224_20211120T060836_F06.nc',
 ]
 
 for nc_filename in nc_filenames:
@@ -202,7 +198,7 @@ for nc_filename in nc_filenames:
                )
 
     # Add map tile
-    p.add_tile(get_provider(Vendors.ESRI_IMAGERY))
+    p.add_tile(Vendors.ESRI_IMAGERY)
 
     # Tell Bokeh to use df as the source of the data
     source = ColumnDataSource(data=df)

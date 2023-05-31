@@ -13,7 +13,7 @@ from pysamosa.common_types import (
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.l1b_simulator import L1bSimulator
 from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
-from pysamosa.tests.helpers import plot_retrack_result
+from tests.helpers import plot_retrack_result
 
 l1b_src_type, retracker_basetype, settings_preset = (
     # L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.NONE,

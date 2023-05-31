@@ -10,7 +10,7 @@ from pysamosa.data_access import _read_dataset_vars_from_ds, get_subset_dataset,
 from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
 from pysamosa.utils_plot import gen_first_true
 from pysamosa import retracker
-from pysamosa.tests.helpers import plot_retrack_result
+from tests.helpers import plot_retrack_result
 
 from pysamosa.utils_plot import set_pgf_mode
 # set_pgf_mode()

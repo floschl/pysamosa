@@ -125,7 +125,7 @@ class RetrackerProcessorSettings(BaseModel):
     n_offset: int = 0
     n_inds: int = 5  # 0 = all
     n_procs: int = None  # None = all available
-    nc_dest_dir: Path = Path().cwd() / "tmp"
+    nc_dest_dir: Path = Path().cwd().parent / "testrun"
 
     do_interp_dist2coast: bool = False
     do_write_out_nc: bool = True
