@@ -144,7 +144,7 @@ Feel free to contribute to this project.
 
 ## Future work
 
-These points could be addressed:
+Possible developments of this project are:
 
 Retracking-related
 - Numerical retracking as scheduled for Q3/2023 in the EUMETSAT's baseline processing chain [6]
