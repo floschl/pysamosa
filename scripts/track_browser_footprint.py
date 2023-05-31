@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from bokeh.io import show, output_file
 from bokeh.models import HoverTool
-from bokeh.models.glyphs import Patches, Circle
+from bokeh.models.glyphs import Patches
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.tile_providers import Vendors
 
@@ -258,9 +258,8 @@ for nc_filename in nc_filenames:
 
     # Display in notebook
     output_file(
-        Path(
-            tempfile.gettempdir()) /
-        'track_browser.html',
+        Path(tempfile.gettempdir())
+        / 'track_browser.html',
         title=f'{cycle}/{ppass}')
 
     show(p)

@@ -12,8 +12,8 @@ l2 = xr.open_dataset(ncfile_l2gop)
 
 mask_latminmax = (
     (l2.lat_20_ku >= (
-        l1b.lat_20_ku.min() -
-        0.0001)) & (
+        l1b.lat_20_ku.min()
+        - 0.0001)) & (
             l2.lat_20_ku <= l1b.lat_20_ku.max()))
 l2_realigned = {k: v[mask_latminmax].values for k,
                 v in dict(l2).items() if 'time_20_ku' in v.dims}

@@ -1,19 +1,15 @@
-import re
-from datetime import datetime
 from pathlib import Path
 import netCDF4
 
 import numpy as np
 import pandas as pd
-from bokeh.io import show, output_file
+from bokeh.io import show
 from bokeh.models import HoverTool
-from bokeh.models.glyphs import Patches, Circle
+from bokeh.models.glyphs import Circle
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.tile_providers import get_provider, Vendors
 
-from pysamosa.data_access import data_vars_s3, _read_dataset_vars_from_ds
-from pysamosa.settings import LFSDATA_DIR
-from tests.conftest import file_id_mappings
+from pysamosa.data_access import _read_dataset_vars_from_ds
 
 data_vars_eumetsat_s6 = {
     'time': 'time',

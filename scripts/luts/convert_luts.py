@@ -31,10 +31,10 @@ def read_lut_alpha_p(filename_lut_alpha_p):
     # filename_lut_alpha_p = 'alphap_table_SEN3_09_Nov_2017.txt'  # S3A
 
     with open(filename_lut_alpha_p) as fid:
-        for l in fid:
-            if l[0] == '#':
+        for li in fid:
+            if li[0] == '#':
                 continue
-            line = l.split()
+            line = li.split()
             SWH_lut.append(float(line[0]))
             alpha_p_lut.append(float(line[1]))
 
