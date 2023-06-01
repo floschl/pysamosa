@@ -6,7 +6,7 @@
 
 # PySAMOSA
 
-This framework provides a Python implementation for retracking open ocean and coastal waveforms of SAR satellite
+This framework provides a Python implementation for retracking open ocean and coastal waveforms from SAR satellite
 altimetry, which are based on the open ocean power return echo waveform model SAMOSA2 [1].
 
 The following satellite altimetry missions are supported and validated:
@@ -24,7 +24,7 @@ For retracking coastal waveforms the following retrackers can be used:
 - SAMOSA+ [3]
 - CORAL [4,5]
 
-In addition, FF-SAR-processed S6-MF can be retracked using the zero-Doppler of SAMOSA2 and a specifically adapted
+In addition, FF-SAR-processed S6-MF can be retracked using the zero-Doppler of SAMOSA2 and a specially adapted
 $\alpha_p$ LUT table, as been used in [5] and created by the ESA L2 GPP project [7].
 
 Not validated (experimental) features:
@@ -37,7 +37,7 @@ Not validated (experimental) features:
 
 ### Linux
 
-Install miniconda
+Optional: Install miniconda
 
     $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     $ bash Miniconda3-latest-Linux-x86_64.sh
@@ -46,14 +46,15 @@ Install miniconda
 
 Linux is the recommended operation system (OS), however, Windows should work as well.
 
-- Download and install git-lfs (large file storage (LFS)) from [here](https://git-lfs.github.com/).
-- Download and install Miniconda from [here](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe).
-- A Windows C/C++ compiler might be required to install, e.g. MSCV shipped with the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
+- A Windows C/C++ compiler may be required for installation, e.g. MSCV, which comes with the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
+- Optional: Download and install Miniconda from [here](https://repo.anaconda.
+  com/miniconda/Miniconda3-latest-Windows-x86_64.exe).
+
 
 ### IDE
 
-It is highly recommended to use a proper Python IDE, e.g. PyCharm, which is [free](https://www.jetbrains.com/pycharm/download/) for non-commercial projects.
-Using the IDE allows to familiarise with the code and debug.
+It is highly recommended to use a proper Python IDE, such as PyCharm, which is [free](https://www.jetbrains.com/pycharm/download/) for non-commercial projects.
+Using the IDE will allow you to familiarise yourself with the code and debug it.
 
 ## Getting-started
 
@@ -80,35 +81,32 @@ Download distance-to-coast grid file (required), approx. download size 310 MB
 
     $ python -c "from pysamosa import dist2coast; dist2coast.download_dist2coast_nc()"
 
-Download sample files (optional), approx. download size 200 MB
+Download sample files (optional), download size approx. 200 MB
 
     $ python -c "from pysamosa import dist2coast; dist2coast.download_pysamosa_data()"
 
-Compile the .pyx files (e.g. model_helpers.pyx) via cython run
+Compile the .pyx files (e.g. model_helpers.pyx) by running cython
 
     $ python setup.py build_ext --inplace
 
-optional: compilation on an HPC cluster (normally not required)
+Optional: Compile on an HPC cluster (not normally required)
 
     $ LDSHARED="icc -shared" CC=icc python setup.py build_ext --inplace
 
 ## Some tips
 
-The following list gives a brief description on how the software is recommended to be used.
-1. **Getting-started Jupyter notebook**
+The following list provides a brief description of the recommended use of the software.
+1. **Getting-started with Jupyter Notebook**
 The `getting_started_retrack_s6.ipynb` contains a sample script how to retrack a sample EUMETSAT baseline L1b file.
-The retracked SWH and SWH data is compared with the EUMETSAT baseline L2 data.
+The retracked SWH and SWH data are compared with the EUMETSAT baseline L2 data.
 
 2. **More entry points**
-The files `main_s3.py`, `main_s6.py`, `main_cs.py`, (`main_*.py`) etc. serve as entry points to run a batch
-   processing of multiple nc files.
+The files `main_s3.py`, `main_s6.py`, `main_cs.py`, (`main_*.py`) etc. serve as entry points for batch processing of multiple nc files.
 3. **Settings**
-The `RetrackerProcessor` inputs requires the `RetrackerProcessorSettings`, `RetrackerSettings`, `FittingSettings`,
-   `WaveformSettings`, and `SensorSettings` object to be inserted during initialisation. The default settings of
-   these "settings objects" can be requested with the `get_default_base_settings` function based on the three
+The `RetrackerProcessor` inputs require the `RetrackerProcessorSettings`, `RetrackerSettings`, `FittingSettings`,
+   `WaveformSettings`, and `SensorSettings` objects to be inserted during initialisation. The default settings of these settings objects can be retrieved with the `get_default_base_settings` function based on the three
    settings `L1bSourceType`, `RetrackerBaseType`, and `SettingsPreset`.
-   For instance, the following code snippet is taken from the `main_s3.py` file and retracks Sentinel-3 data with
-   the default SAMOSA-based open ocean retracker with no SettingsPreset (100 waveforms from measurement index 25800,
+   For instance, the following code snippet is taken from the `main_s3.py` file and retracks Sentinel-3 data with the default SAMOSA-based open ocean retracker with no SettingsPreset (100 waveforms from measurement index 25800,
    and using 6 cores).
 ```python
     l1b_src_type = L1bSourceType.EUM_S3
@@ -127,12 +125,11 @@ Another configuration to run SAM+ could be set by `rbt = RetrackerBaseType.SAMPL
 There are several unit tests located in `./pysamosa/tests/` that aim to analyse the retracked output in more detail.
 The most important test scripts are `test_retracker_processor.py`, which includes retracking runs of small along-track
 segments of the S3A, S6, CS2 missions (and a generic input nc file).
-`test_single_retrack` allows to inspect the retracking result of a single waveform and compare it against a
-reference retracking result.
+`test_single_retrack` allows you to check the retracking result of a single waveform and compare it to reference retracking result.
 
 ## Run tests
 
-In order to run all unit tests (using the pytest framework), run
+To run all the unit tests (using the pytest framework), run
 
     $ pytest
 
@@ -140,15 +137,15 @@ In order to run all unit tests (using the pytest framework), run
 
 Feel free to contribute to this project.
 - Fork this repository
-- Send pull request to be merged back into this repository.
+- Submit a pull request to be merged back into this repository.
 
 ## Future work
 
 Possible developments of this project are:
 
 Retracking-related
-- Numerical retracking as scheduled for Q3/2023 in the EUMETSAT's baseline processing chain [6]
-- Align CS-2 retracking with CS-2 baseline processing chain
+- Numerical retracking planned for Q3/2023 in the EUMETSAT's baseline processing chain [6]
+- Aligning CS-2 retracking with the CS-2 baseline processing chain
 
 Software-related
 - Setting up a proper CI/CD
