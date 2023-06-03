@@ -49,7 +49,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .testrun/
 
 lint/flake8: ## check style with flake8
-	flake8 pysamosa tests
+	flake8 pysamosa tests scripts
 
 lint: lint/flake8 ## check style
 
