@@ -1,6 +1,7 @@
 #custom
-/data/
-/testrun/
+/.data/
+/.testrun/
+model_helpers.c
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

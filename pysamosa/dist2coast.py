@@ -13,7 +13,7 @@ from scipy import ndimage
 DEFAULT_DUMMY_LAT = 48.1411
 DEFAULT_DUMMY_LON = 11.5777
 
-DATA_DIR = Path(__file__).parent.parent / "data"
+DATA_DIR = Path(__file__).parent.parent / ".data"
 
 download_files = {
     "d2c": {

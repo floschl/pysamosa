@@ -2,8 +2,8 @@
 
 """The setup script."""
 
+import sys
 from setuptools import setup, find_packages, Extension
-from Cython.Build import cythonize
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -11,15 +11,13 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', ]
+requirements = ['Click>=7.0']
 
-test_requirements = ['pytest>=3', ]
+test_requirements = ['pytest>=3']
 
 extensions = [
     Extension('pysamosa.model_helpers', ['pysamosa/model_helpers.pyx']),
 ]
-# ext_options = {'compiler_directives': {'profile': True}, 'annotate': True}
-ext_options = {'language_level':'3'}
 
 setup(
     author="Florian Schlembach",
@@ -50,8 +48,9 @@ setup(
     packages=find_packages(include=['pysamosa', 'pysamosa.*']),
     test_suite='tests',
     tests_require=test_requirements,
-    ext_modules = cythonize(extensions, **ext_options),
+    ext_modules = extensions,
     url='https://github.com/floschl/pysamosa',
     version='0.1.0',
     zip_safe=False,
+    setup_requires=[],
 )

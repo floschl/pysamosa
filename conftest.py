@@ -3,6 +3,9 @@ from pathlib import Path
 import re
 import netCDF4
 from enum import Enum
+import matplotlib as mpl
+# mpl.use('TkAgg')
+mpl.use('Agg')
 
 from pysamosa.data_access import (
     _read_dataset_vars_from_ds,
