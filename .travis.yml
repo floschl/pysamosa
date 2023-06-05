@@ -5,6 +5,10 @@ python:
   - 3.11
   - 3.8
 
+before_install:
+    - sudo apt-get update
+    - sudo apt -y install libgeos-dev
+
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox-travis
 
