@@ -77,13 +77,10 @@ Activate pysamosa conda environment
 
     $ conda activate pysamosa
 
-Download distance-to-coast grid file (required), approx. download size 310 MB
+Download auxiliary data: distance-to-coast grid file (required), approx. download size 310 MB, test sample files
+(optional), download size approx. 200 MB
 
-    $ python -c "from pysamosa import dist2coast; dist2coast.download_dist2coast_nc()"
-
-Download sample files (optional), download size approx. 200 MB
-
-    $ python -c "from pysamosa import dist2coast; dist2coast.download_pysamosa_data()"
+    $ python -m pysamosa.download_aux_data
 
 Compile the .pyx files (e.g. model_helpers.pyx) by running cython
 
