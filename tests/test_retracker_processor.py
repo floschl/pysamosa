@@ -216,9 +216,10 @@ def test_retrack_cs(cs_eum_l1b, cs_eum_l2):
     # assert rmse_ssh < max_rmse_ssh_m
 
 
-def test_retrack_generic(dataset_generic_l1b, dataset_generic_l2):
-    # proc_mode = ProcMode.FFSAR
-    proc_mode = ProcMode.UFSAR
+def test_retrack_ffsar(dataset_generic_l1b, dataset_generic_l2):
+    proc_mode = ProcMode.FFSAR
+    # proc_mode = ProcMode.UFSAR
+
     is_ffsar = proc_mode == ProcMode.FFSAR
     n_offset = 0
     n_inds = 20

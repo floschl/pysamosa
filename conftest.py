@@ -7,6 +7,10 @@ import matplotlib as mpl
 # mpl.use('TkAgg')
 mpl.use('Agg')
 
+
+collect_ignore = ["setup.py"]
+collect_ignore_glob = ["*_montecarlo_sim.py"]
+
 from pysamosa.data_access import (
     _read_dataset_vars_from_ds,
     data_vars_s3,
