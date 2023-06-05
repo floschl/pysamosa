@@ -79,7 +79,7 @@ Ready to contribute? Here's how to set up `pysamosa` for local development.
 5. When you're done making changes, check that your changes pass flake8 and the
    tests, including testing other Python versions with tox::
 
-    $ flake8 pysamosa tests
+    $ flake8 pysamosa tests scripts
     $ python setup.py test or pytest
     $ tox
 
