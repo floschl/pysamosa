@@ -71,7 +71,7 @@ Enter clones directory
 Create your Python environment
 either via conda
 
-    $ conda create -n pysamosa --file requirements.txt -c default -c conda-forge python=3.8
+    $ conda create -n pysamosa --file requirements.txt -c default -c conda-forge python=3.11
 
 or via pipenv/venv.
 
@@ -155,11 +155,13 @@ This software is licenced under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.
 this software in your projects, if you change parts of the code you are required to also publish it. For more
 frequently asked questions about GPL, please see [here](https://www.gnu.org/licenses/gpl-faq.html).
 
-If you make use of this code, please cite this publication [4]
+If you make use of this code, please cite this publication [4]:
 
 Schlembach, F.; Passaro, M.; Dettmering, D.; Bidlot, J.; Seitz, F. Interference-Sensitive Coastal SAR Altimetry
 Retracking Strategy for Measuring Significant Wave Height. Remote Sensing of Environment 2022, 274, 112968. https://doi.org/10.1016/j.rse.2022.112968.
 
+This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
+[audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage) project template.
 
 ## References
 
