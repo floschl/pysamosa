@@ -14,8 +14,6 @@ install: pip install -U tox-travis
 
 # Command to run tests, e.g. python setup.py test
 script:
-    - python -c "from pysamosa import dist2coast; dist2coast.download_dist2coast_nc()"
-    - python -c "from pysamosa import dist2coast; dist2coast.download_pysamosa_data()"
     - tox
 
 # Assuming you have installed the travis-ci CLI tool, after you
