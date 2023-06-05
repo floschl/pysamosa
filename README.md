@@ -3,6 +3,8 @@
 ![]() <div align="center"><img src="./resources/logo.jpg"  width="500"></div>
 
 
+[![Build Status](https://app.travis-ci.com/floschl/pysamosa.svg?branch=main)](https://app.travis-ci.com/floschl/pysamosa)
+
 
 # PySAMOSA
 
@@ -145,7 +147,7 @@ Retracking-related
 - Aligning CS-2 retracking with the CS-2 baseline processing chain
 
 Software-related
-- Setting up a proper CI/CD
+- Create richer documentation (readthedocs)
 
 ## Credits and code reuse
 
