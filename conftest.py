@@ -4,9 +4,8 @@ import re
 import netCDF4
 from enum import Enum
 import matplotlib as mpl
-# mpl.use('TkAgg')
 mpl.use('Agg')
-
+# mpl.use('TkAgg')
 
 collect_ignore = ["setup.py"]
 collect_ignore_glob = ["*_montecarlo_sim.py"]

@@ -120,11 +120,16 @@ The `RetrackerProcessor` inputs require the `RetrackerProcessorSettings`, `Retra
     rp_sets.skip_if_exists = False
 ```
 Another configuration to run SAM+ could be set by `rbt = RetrackerBaseType.SAMPLUS`.
-4**Evaluation environment**
+
+4. **Evaluation environment**
 There are several unit tests located in `./pysamosa/tests/` that aim to analyse the retracked output in more detail.
 The most important test scripts are `test_retracker_processor.py`, which includes retracking runs of small along-track
 segments of the S3A, S6, CS2 missions (and a generic input nc file).
 `test_single_retrack` allows you to check the retracking result of a single waveform and compare it to reference retracking result.
+
+<span style="color:red; font-weight:bold">Please uncomment the line `mpl.use('TkAgg')` in file `conftest.py` to
+plot the test output, which is particularly useful for the retracking tests in files `tests/test_single_retrack.
+py` and `tests/test_retracker_processor.py`.</span>
 
 ## Run tests
 
