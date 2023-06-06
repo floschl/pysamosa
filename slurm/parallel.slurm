@@ -15,9 +15,9 @@
 module load slurm_setup
 export OMP_NUM_THREADS=56
 
-source activate samosa_retracker
+source activate pysamosa
 
-cd ~/repos/samosa_retracker
-srun python -m samosa_retracker.main
+cd ~/repos/pysamosa
+srun python -m pysamosa.main_s6
 #srun python -c "import os; print(os.environ)"
 #srun python -c "import pprint; import os; pprint.pprint({k: v for k,v in dict(os.environ).items() if 'SLURM' in k}); print(f'CPUS: {os.cpu_count()}')"
