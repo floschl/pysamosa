@@ -265,13 +265,13 @@ def scatter_map(
 
 
 def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
-    fontsize_labels, fontsize_legend = 7, 5
+    fontsize_labels, fontsize_legend = 7, 7
 
     fig, axs_data = plt.subplots(2, 1)
-    # axs_data[0].set_title(f'Retracker: {retracker_basetype.value}, Preset: {preset.value} ({l1b_src_type.value}), d2c=({l2.dist2coast[0].values:.0f}, {l2.dist2coast[-1].values:.0f})km, ind={n_offset}', fontsize=fontsize_labels)
-    axs_data[0].set_ylabel("SWH [m]", fontsize=fontsize_labels)
 
-    lat = np.degrees(l2.latitude)
+    # lat = np.degrees(l2.latitude)
+    lat = l2.latitude
+
     # SWH
     swh_diff = l2.swh - l2_ref["swh"]
     rmse_swh = float(np.sqrt(np.mean((swh_diff) ** 2)).values)
@@ -308,7 +308,7 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
 
     rmse_ssh = float(np.sqrt(np.mean((ssh_diff) ** 2)).values)
     median_bias_ssh = np.median(ssh_diff)
-    axs_data[1].set_ylabel("uncorrected SSH [m]", fontsize=fontsize_labels)
+
 
     def nanstd_detrend(alt, range):
         non_nan_mask = ~(np.isnan(alt) | np.isnan(range))
@@ -332,12 +332,18 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
     )
 
     # plot settings
-    axs_data[0].legend(fontsize=fontsize_legend)
+    axs_data[0].legend(fontsize=fontsize_legend, loc='lower left')
+    axs_data[0].set_ylabel("SWH [m]", fontsize=fontsize_labels)
     axs_data[0].grid()
+    axs_data[0].tick_params(axis='both', which='major', labelsize=fontsize_labels)
+
     # axs_data[1].set_ylim([np.nanmin(l2.altitude - l2.range), np.nanmax(l2.altitude - l2.range)])
-    axs_data[1].legend(fontsize=fontsize_legend)
+    axs_data[1].legend(fontsize=fontsize_legend, loc='lower left')
+    axs_data[1].set_ylabel("uncorrected SSH [m]", fontsize=fontsize_labels)
     axs_data[1].grid()
+    axs_data[1].tick_params(axis='both', which='major', labelsize=fontsize_labels)
     axs_data[1].set_ylim(np.min(l2.altitude - l2.range), np.max(l2.altitude - l2.range))
+
 
     if fig_title:
         fig.suptitle(fig_title, fontsize=fontsize_labels)
