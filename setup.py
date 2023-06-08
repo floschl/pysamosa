@@ -11,7 +11,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0']
+# requirements = ['Click>=7.0']
+requirements = []
 
 test_requirements = ['pytest>=3']
 
@@ -29,16 +30,15 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.11',
     ],
     description="This framework provides a Python implementation for retracking open ocean and coastal waveforms of SAR satellite altimetry, which are based on the open ocean power return echo waveform model SAMOSA2.",
-    entry_points={
-        'console_scripts': [
-            'pysamosa=pysamosa.cli:main',
-        ],
-    },
+    # entry_points={
+    #     'console_scripts': [
+    #         'pysamosa=pysamosa.cli:main',
+    #     ],
+    # },
     install_requires=requirements,
     license="GNU General Public License v3",
     long_description=readme + '\n\n' + history,
