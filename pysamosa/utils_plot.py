@@ -309,7 +309,6 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
     rmse_ssh = float(np.sqrt(np.mean((ssh_diff) ** 2)).values)
     median_bias_ssh = np.median(ssh_diff)
 
-
     def nanstd_detrend(alt, range):
         non_nan_mask = ~(np.isnan(alt) | np.isnan(range))
         return (
@@ -332,18 +331,17 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
     )
 
     # plot settings
-    axs_data[0].legend(fontsize=fontsize_legend, loc='lower left')
+    axs_data[0].legend(fontsize=fontsize_legend, loc="lower left")
     axs_data[0].set_ylabel("SWH [m]", fontsize=fontsize_labels)
     axs_data[0].grid()
-    axs_data[0].tick_params(axis='both', which='major', labelsize=fontsize_labels)
+    axs_data[0].tick_params(axis="both", which="major", labelsize=fontsize_labels)
 
     # axs_data[1].set_ylim([np.nanmin(l2.altitude - l2.range), np.nanmax(l2.altitude - l2.range)])
-    axs_data[1].legend(fontsize=fontsize_legend, loc='lower left')
+    axs_data[1].legend(fontsize=fontsize_legend, loc="lower left")
     axs_data[1].set_ylabel("uncorrected SSH [m]", fontsize=fontsize_labels)
     axs_data[1].grid()
-    axs_data[1].tick_params(axis='both', which='major', labelsize=fontsize_labels)
+    axs_data[1].tick_params(axis="both", which="major", labelsize=fontsize_labels)
     axs_data[1].set_ylim(np.min(l2.altitude - l2.range), np.max(l2.altitude - l2.range))
-
 
     if fig_title:
         fig.suptitle(fig_title, fontsize=fontsize_labels)
