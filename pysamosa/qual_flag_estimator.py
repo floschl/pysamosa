@@ -43,7 +43,5 @@ class SwhQualFlagEstimator:
                     self.swh_qual[i] = 0.0
                 else:
                     self.swh_qual[i] = 1.0
-                    # import matplotlib.pyplot as plt
-                    # plt.plot(ssh_detrended); plt.plot(swh_seg[non_nans]); plt.show()
 
         return self.swh_qual

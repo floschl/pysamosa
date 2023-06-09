@@ -116,4 +116,4 @@ def test_dist2coast_interp_off():
     dist_pacioos = get_dist_pacioos(coords["lat"], coords["lon"], do_interp=False)
     print(dist_pacioos)
 
-    assert np.array_equal(dist_pacioos, (np.round(coords['exp_dist'])).astype(int))
+    assert np.array_equal(dist_pacioos, (np.round(coords["exp_dist"])).astype(int))

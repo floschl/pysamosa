@@ -167,9 +167,4 @@ if __name__ == "__main__":
         )
         rp.process()
 
-        # import matplotlib.pyplot as plt
-        # plt.plot(rp.output_l2.swh)
-        # plt.ylim([0, 6.0])
-        # plt.show()
-
     logging.shutdown()
