@@ -4,6 +4,7 @@
 
 import sys
 from setuptools import setup, find_packages, Extension
+import re
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -11,8 +12,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-# requirements = ['Click>=7.0']
 requirements = []
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+    [r for r in requirements if
+     re.split("[^a-zA-Z0-9]", r)[0] not in ["python", "cython", "pip", "bump2version", "tox", "flake9", "imageio",
+                                            "pytest", "wheel", "coverage", "Sphinx", "twine", "jupyter"]]
 
 test_requirements = ['pytest>=3']
 
@@ -23,7 +28,7 @@ extensions = [
 setup(
     author="Florian Schlembach",
     author_email='florian.schlembach@tum.de',
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
