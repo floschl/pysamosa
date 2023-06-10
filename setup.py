@@ -54,11 +54,6 @@ setup(
         "Programming Language :: Python :: 3.11",
     ],
     description="This framework provides a Python implementation for retracking open ocean and coastal waveforms of SAR satellite altimetry, which are based on the open ocean power return echo waveform model SAMOSA2.",
-    # entry_points={
-    #     'console_scripts': [
-    #         'pysamosa=pysamosa.cli:main',
-    #     ],
-    # },
     install_requires=requirements,
     license="GNU General Public License v3",
     long_description=readme + "\n\n" + history,
