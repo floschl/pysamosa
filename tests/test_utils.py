@@ -1,5 +1,5 @@
 import numpy as np
-from tests.helpers import consecutive_regions_from_ind_list
+from pysamosa.utils import consecutive_regions_from_ind_list
 
 
 def test_consecutive_regions_from_ind_list():

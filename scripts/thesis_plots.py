@@ -18,7 +18,7 @@ from pysamosa.data_access import (
     data_vars_s6,
 )
 from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
-from pysamosa.utils_plot import gen_first_true
+from pysamosa.utils import gen_first_true
 from pysamosa import retracker
 
 default_width_in = 5.79  # in inches

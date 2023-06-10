@@ -4,6 +4,8 @@ from textwrap import wrap
 import matplotlib.pyplot as plt
 import numpy as np
 
+from pysamosa.utils import consecutive_regions_from_ind_list
+
 from pysamosa.common_types import (
     RetrackerProcessorSettings,
     WaveformSettings,
@@ -19,11 +21,6 @@ from pysamosa.model import SamosaModel
 from pysamosa.retracker import calc_misfit, SamosaRetracker
 from pysamosa.retracker_helpers import get_dynamic_first_guess_epochs
 from pysamosa.rip import RipAnalyser, RIPParameters
-
-
-def consecutive_regions_from_ind_list(data, stepsize=1):
-    regions = np.split(data, np.where(np.diff(data) != stepsize)[0] + 1)
-    return regions if len(data) else []
 
 
 def plot_retrack_result(

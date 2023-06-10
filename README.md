@@ -67,16 +67,20 @@ Enter clones directory
 
     $ cd pysamosa
 
-Create your Python environment
+Create your isolated Python environment, e.g. anything from Python 3.6
 either via conda
 
-    $ conda create -n pysamosa --file requirements.txt -c default -c conda-forge python=3.8
+    $ conda create -n pysamosa36 python=3.6 pip
 
 or via pipenv/venv.
 
 Activate pysamosa conda environment
 
     $ conda activate pysamosa
+
+Install dependencies
+
+    $ pip install -r requirements.txt
 
 Download auxiliary data: distance-to-coast grid file (required), approx. download size 310 MB, test sample files
 (optional), download size approx. 200 MB

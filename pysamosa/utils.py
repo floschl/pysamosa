@@ -6,8 +6,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.backends.backend_pgf import FigureCanvasPgf
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from tests.helpers import consecutive_regions_from_ind_list
 
 from scipy import signal
 
@@ -20,6 +18,11 @@ def gen_first_true():
     yield True
     while True:
         yield False
+
+
+def consecutive_regions_from_ind_list(data, stepsize=1):
+    regions = np.split(data, np.where(np.diff(data) != stepsize)[0] + 1)
+    return regions if len(data) else []
 
 
 def plot_single_retrack_result(

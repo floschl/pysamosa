@@ -14,7 +14,7 @@ from pysamosa.data_access import (
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
 from pysamosa.settings import S6_DATA_DIR
-from pysamosa.utils_plot import plot_l2_results_vs_ref
+from pysamosa.utils import plot_l2_results_vs_ref
 
 
 def raise_wrong_sensor_type(st, st_correct):
