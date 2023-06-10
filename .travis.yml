@@ -21,7 +21,8 @@ script:
 # following command to finish PyPI deployment setup:
 # $ travis encrypt --add deploy.password
 deploy:
-  provider: testpypi
+  provider: pypi
+  server: https://test.pypi.org/legacy/ # Remove for deployment to official PyPi repo
   distributions: sdist bdist_wheel
   username: "__token__"
   password:
