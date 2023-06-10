@@ -13,7 +13,7 @@ with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
 requirements = []
-with open("requirements_py38.txt") as f:
+with open("requirements.txt") as f:
     requirements = f.read().splitlines()
     requirements = [
         r
