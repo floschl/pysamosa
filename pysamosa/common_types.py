@@ -131,7 +131,6 @@ class RetrackerProcessorSettings(BaseModel):
     do_write_out_nc: bool = True
     do_write_out_log: bool = False
     do_create_settings_log_file: bool = True
-    do_generate_results_pdf: bool = False
     skip_if_exists: bool = True
 
     do_dynamic_fg_epoch: bool = False

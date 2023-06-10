@@ -1,11 +1,7 @@
 import os
 import logging
 import numpy as np
-import pandas as pd
 
-import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
-import cartopy.feature as cfeature
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -174,94 +170,6 @@ def set_pgf_mode():
             "pgf.preamble": r"\usepackage[utf8x]{inputenc}\usepackage[T1]{fontenc}",
         }
     )
-
-
-def scatter_map(
-    lat: np.ndarray, lon: np.ndarray, data: np.ndarray, title="", subplots_kw=None
-):
-    """Scatter plot of a geophysical on a geophysical map."""
-    if not subplots_kw:
-        subplots_kw = {}
-
-    proj = ccrs.PlateCarree()
-
-    df = pd.DataFrame.from_dict(
-        {
-            "data": data,
-            "lat": lat,
-            "lon": lon,
-        }
-    )
-
-    fig, ax = plt.subplots(subplot_kw=dict(projection=proj), **subplots_kw)
-
-    (~np.isnan(df.data)).values.nonzero()[0]
-    # lat_arr = df.iloc[non_nan_mask].lat
-    lat_arr = df.lat.values
-    lat_start, lat_end = np.around(lat_arr[0], 6), np.around(lat_arr[-1], 6)
-    # lon_arr = df.iloc[non_nan_mask].lon
-    lon_arr = df.lon.values
-    lon_start, lon_end = np.around(lon_arr[0], 6), np.around(lon_arr[-1], 6)
-    # lonminmax = [np.floor(np.min(df.iloc[non_nan_mask].lon)), np.ceil(np.max(df.iloc[non_nan_mask].lon))]
-    # lonminmax = [-180.0, 180] if lon_start > 180.0 else [np.floor(np.min(lon_arr)), np.ceil(np.max(lon_arr))]
-    # lonminmax = [-180.0, 180] if lon_start > 180.0 else [lon_start, lon_end]
-    lonminmax = [lon_start, lon_end]
-    latminmax = [lat_start, lat_end]
-
-    ax.set_extent([*lonminmax, *latminmax])
-    ax.coastlines()
-    ax.set_title(title)
-
-    dataminmax = (-0.25, 15)
-    n_ticks = 6
-    gl = ax.gridlines(
-        xlocs=np.round(np.linspace(*lonminmax, n_ticks), 6),
-        ylocs=np.round(np.linspace(*latminmax, n_ticks), 6),
-        draw_labels=True,
-    )
-    gl.xlabels_top = gl.ylabels_right = False
-    gl.xformatter = LONGITUDE_FORMATTER
-    gl.yformatter = LATITUDE_FORMATTER
-
-    # ax.stock_img()
-    ax.add_feature(cfeature.OCEAN)
-    ax.add_feature(cfeature.LAND)
-    # ax.add_feature(cfeature.LAKES)
-    # ax.add_feature(cfeature.BORDERS)
-    # ax.add_feature(cfeature.COASTLINE)
-    # ax.add_feature(cfeature.RIVERS)
-
-    # create colormap
-    cmap = plt.get_cmap("jet")
-    # use white color to mark 'bad' values
-    # cmap.set_bad(color='k') # currently not working, seems to be bug in
-    # pyplot:
-
-    df_vals = df.dropna(subset=["data"])
-    df_nans = df[df["data"].isnull()]
-
-    # plot nans
-    plt.scatter(df_nans.lon, df_nans.lat, c="black", s=2, transform=proj, zorder=2)
-
-    # plot non-nans
-    cb = plt.scatter(
-        df_vals.lon,
-        df_vals.lat,
-        c=df_vals.data,
-        s=2,
-        vmin=dataminmax[0],
-        vmax=dataminmax[1],
-        cmap=cmap,
-        transform=proj,
-        zorder=4,
-    )
-
-    # colorbar
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="3%", pad=0.05, axes_class=plt.Axes)
-    fig.colorbar(cb, cax=cax)
-
-    return fig, ax
 
 
 def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):

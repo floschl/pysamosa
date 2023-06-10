@@ -3,11 +3,9 @@ import os
 from concurrent import futures
 from itertools import repeat
 
-import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 import netCDF4
-from pysamosa.utils_plot import scatter_map, save_figs_to_pdf
 
 from pysamosa import simple_logger
 from pysamosa.common_types import (
@@ -440,49 +438,6 @@ class RetrackerProcessor:
                     self.output_l2.to_netcdf(nc_dest_filepath)
 
                     logging.info(f"netCDF file written. {nc_dest_filepath}")
-
-                if self.rp_sets.do_generate_results_pdf:
-                    fig_data, axs_data = plt.subplots(2, 1)
-                    record_inds = self.output_l2.record_ind.values
-                    axs_data[0].set_title(self.rt.value)
-                    axs_data[0].set_ylabel("SWH [m]")
-                    axs_data[0].plot(
-                        record_inds, self.output_l2.swh, label="swh", linewidth=0.5
-                    )
-                    axs_data[0].plot(
-                        record_inds,
-                        self.output_l2.swh_qual,
-                        label="swh_qual",
-                        linewidth=0.5,
-                    )
-                    axs_data[0].legend()
-                    axs_data[0].grid()
-
-                    axs_data[1].set_ylabel("Range [m]")
-                    axs_data[1].plot(record_inds, self.output_l2.range, linewidth=0.5)
-                    axs_data[1].set_xlim(record_inds.min(), record_inds.max())
-                    axs_data[1].grid()
-
-                    fig_scatter, ax_scatter = scatter_map(
-                        self.output_l2.latitude,
-                        self.output_l2.longitude,
-                        self.output_l2.swh,
-                        title=self.rt.value,
-                    )
-
-                    # printout
-                    figs_list = [fig_data, fig_scatter]
-                    pdf_filepath = (
-                        nc_dest_dir
-                        / f"results_{nc_base_id}_{self.rp_sets.retracker_basetype.value}.pdf"
-                    )
-                    save_figs_to_pdf(figs_list, pdf_filepath=pdf_filepath)
-                    # for f in figs_list:
-                    #     f.show()
-
-                    if self.rp_sets.do_write_out_log:
-                        logging.root.removeHandler(file_logger_handle)
-                    logging.shutdown()
             except RuntimeError as e:
                 logging.error(
                     f"Error has occurred during processing of file {nc_src_file}: {e}"
