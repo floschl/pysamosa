@@ -70,7 +70,7 @@ Enter clones directory
 Create your Python environment
 either via conda
 
-    $ conda create -n pysamosa --file requirements.txt -c default -c conda-forge python=3.11
+    $ conda create -n pysamosa --file requirements.txt -c default -c conda-forge python=3.8
 
 or via pipenv/venv.
 

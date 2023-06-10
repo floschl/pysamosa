@@ -6,7 +6,7 @@ import sys
 from setuptools import setup, find_packages, Extension
 import re
 
-with open("README.rst") as readme_file:
+with open("README.md") as readme_file:
     readme = readme_file.read()
 
 with open("HISTORY.rst") as history_file:
@@ -21,7 +21,6 @@ with open("requirements.txt") as f:
         if re.split("[^a-zA-Z0-9]", r)[0]
         not in [
             "python",
-            "cython",
             "watchdog",
             "pip",
             "bump2version",
