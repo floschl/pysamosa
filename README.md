@@ -46,18 +46,26 @@ Optional: Install miniconda
 
 ### Windows
 
-Linux is the recommended operation system (OS), however, Windows should work as well.
+Linux is the recommended operating system (OS), however, Windows should work as well.
 
 - A Windows C/C++ compiler may be required for installation, e.g. MSCV, which comes with the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
 - Optional: Download and install Miniconda from [here](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe).
 
 
-### IDE
+## Getting-started
+
+### Usage
+
+Install pysamosa into your environment
+
+    $ pip install pysamosa
+
+Example code for retracking as shown in `notebooks/retracking_example.ipynb`.
+
+### Development
 
 It is highly recommended to use a proper Python IDE, such as PyCharm, which is [free](https://www.jetbrains.com/pycharm/download/) for non-commercial projects.
 Using the IDE will allow you to familiarise yourself better with the code and debug it.
-
-## Getting-started
 
 Clone this repo
 

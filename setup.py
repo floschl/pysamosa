@@ -30,9 +30,7 @@ with open("requirements.txt") as f:
             "pytest",
             "wheel",
             "coverage",
-            "Sphinx",
             "twine",
-            "jupyter",
         ]
     ]
 
