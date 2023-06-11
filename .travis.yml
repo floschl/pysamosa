@@ -28,7 +28,8 @@ deploy:
   password:
     secure: "iO/CKR29i4diz0pkrVzJwtDxc/hvSJQu7IWu/mDfnPhWBB8YfPQejl5FH0+MPzYx+3pv3X/yWS8cV3JcXkB1vPRsuievNJpopVWyP9tosm4QtKCU5RX82fk0w8hnbccO+RNo1pz2yL1g+CRuLzrtGzt04USS+ngWiDe8MzC4IDhq1Wawg5U3TroSlQJ5YXwBWsf5DnsHepNDsMQSDMNBV7tQKFoYCwO1L1Bcd/GJobQPeZKsvWBVzdSFSgHH/G4zZDIu679twCLiTDkgvjY4IWGVhJ/RoBU4PTVokynCvlzqz7D3oLH+udhJXjELDq8c9fWuD84HFjpVOOGz50KkgIdp1nJRywIZZ+GByzN6Uo5Sgsdt7+bkaP/OO33je85HJBU3U+JhTVKNQ0wehj4X9KXfK6TYNDk5ddTf5P+VfQBVZmUpt1mIoEqO2RHXTZ4GG/Eu1EDD6WwrkL69Q2HLqfUwjOgFIKGKe6l0zVHOyx5YjKC93UCR3bD5eZdEXBDiJAMDWFPgnqZwxEQ9RAclhR+hKzwfJF/WCmQ5rthnK0yR1CAupJyjndZLjv2Bf4zbQ4ml+PsST+q3tz2mdKtv2B0WwR7puoxZURDQrOKv1+JmEGxysHKKKrw+hSfdhQ8jqvV/6p0yHYQXQNMT3DEm/4t8dSUsNjT6m9YWaHQ2LOw="
   on:
-    tags: true
+#    tags: true
+    branch: main
     repo: floschl/pysamosa
     python:
       - 3.8
