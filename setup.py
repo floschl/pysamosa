@@ -66,7 +66,7 @@ setup(
     tests_require=test_requirements,
     ext_modules=extensions,
     url="https://github.com/floschl/pysamosa",
-    version="0.2.7",
+    version="0.2.8",
     zip_safe=False,
     setup_requires=[],
 )
