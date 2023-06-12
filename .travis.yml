@@ -25,17 +25,17 @@ deploy:
     distributions: sdist bdist_wheel
     username: "__token__"
     password:
-      secure: "iO/CKR29i4diz0pkrVzJwtDxc/hvSJQu7IWu/mDfnPhWBB8YfPQejl5FH0+MPzYx+3pv3X/yWS8cV3JcXkB1vPRsuievNJpopVWyP9tosm4QtKCU5RX82fk0w8hnbccO+RNo1pz2yL1g+CRuLzrtGzt04USS+ngWiDe8MzC4IDhq1Wawg5U3TroSlQJ5YXwBWsf5DnsHepNDsMQSDMNBV7tQKFoYCwO1L1Bcd/GJobQPeZKsvWBVzdSFSgHH/G4zZDIu679twCLiTDkgvjY4IWGVhJ/RoBU4PTVokynCvlzqz7D3oLH+udhJXjELDq8c9fWuD84HFjpVOOGz50KkgIdp1nJRywIZZ+GByzN6Uo5Sgsdt7+bkaP/OO33je85HJBU3U+JhTVKNQ0wehj4X9KXfK6TYNDk5ddTf5P+VfQBVZmUpt1mIoEqO2RHXTZ4GG/Eu1EDD6WwrkL69Q2HLqfUwjOgFIKGKe6l0zVHOyx5YjKC93UCR3bD5eZdEXBDiJAMDWFPgnqZwxEQ9RAclhR+hKzwfJF/WCmQ5rthnK0yR1CAupJyjndZLjv2Bf4zbQ4ml+PsST+q3tz2mdKtv2B0WwR7puoxZURDQrOKv1+JmEGxysHKKKrw+hSfdhQ8jqvV/6p0yHYQXQNMT3DEm/4t8dSUsNjT6m9YWaHQ2LOw="
+      secure: "ebk3b2hc7ocKtmL93ICXbqMMMEgWBde1xl3rk63KqArS0+1Vv96LhC6+OdBfvw4o4sQ1Da39EM6sRdXgxqRsER7rkKW+OcRLGnkkKD2XsBjDhcTVhBRMh+O1vRwVBlKqGYXIbH9VkvI+iG1p0RHEzmWHNFRH0gS74smewp4axyeGRziSeVfRLi4fKo577uE+mTpKo7Y/NKdccNTt330/LR5ctVW6njpObNojJsCIDSME6KNC1iIErmg79PcX5LAPbkFsYpDtbJodqD6QjetHB54tgauz5zNqauK0ivtZGCWbwFbzcJbF5pxM1J3BXi6vQKP9YIb5gtR/xo8Ii0y8Gl0wHRk8f1oKFwnBUeU5NXF7Y7Vkg4x1yuNnfqXGwBiSeEqSJxa+j4vUdmanHUYebSyNZ/bvN02pA7gZyAoyQGIGenh6xQ06TpNI9QDAtpgX/wWGSxTIb7C3UBnl31Jkd1XsscOybXxUHp/vdh6w2MmxSNa7PDuAsGSDt5yLF8yr3PVNXW+mjkuPV0Kumyk+GXI2+0yxmVirdQm5OsOE/Plg8EDIPmwWcMoA32e7l9Z+7al5xGm60pt2d0lYSIDyBeQyL3zRkme0ZdTWBhDIGApOkKSABHzPR7gwxazt6Jvl8vXcktaABJQ9/MMSsxfrjpH53PyjSJEjhJoTEzRo25w="
     on:
       tags: true
       repo: floschl/pysamosa
-      python:
-        - 3.8
-        - 3.11
+      python: 3.8
   - provider: releases
     api_key:
-      secure: "Wp3MeTB4szXJxY/xeXfQq+7h1a+KOLih74qr56DNWKKRBGEy1nMcAgLITHLuwJ1q3xT8utbldchbm30piMiaSjkqm7pdM1CevrxZpv8eT1YAiNQybBcFSZZQqSQ4cBg/a5ub4pTg0SVFZ7hGAy1VgWt9L3aHiQbQsXrPkOaGaYAil720J3sZjX2CumcUG1gf0P33mAuwc3OjXcDtzhxqUIe3mYiYw0vDXKJC/ojRUmU/HS1MWI6yZw7uUExky2xy7CmgDfPKmlfs1Zkjg9t6JMaP/Fn+Yw8xTMX3t47JHY/shoswr0UtT7xlKLVB18LCmKrIE5aVxcUxY5j2V8UVr5Un2qexE69mqyDhCLdgdb1cIIWp6Z4NXMvDKRYZGAQsPDNe5GrymDYf/nxrLuURNfMxMLhIm2xiU1zn5q1qIY+qpz8I/USA+aEQIsxmtIVx1UBFNSXDTOEzeqIMW+r5661RhucyPg2j+DNF50akXh0AeqJMb2P3suCjoth5HZiY4Ce3aRYRXJshQPd4uy18EOMHmDIdVr2RD7rhdEv66CTgWOgv6uhglkg7vbh4NB+ioIZHuwRmQi5dsxt1yGTO46n0mUP/Wg9tS5q6Nvc9CSWdEFrkv17RNgEK88SCNs820ym3HWM0GX0UMan8bAfPN/bLchMKNhQBhdq6V6LF6ZM="
+      secure: "duRqR2g2/RgEz9OzG8h95wXEpeSPV8JaqNlTocXm82gpLZm12w+h+Es8fVK/Q3M46B7zvlF6Dw6vtWWFTyxgRJhIGqfHeBNOO9jQsmygjX5nA7mQkZPm5X4VGssqfwhuo+Re8gSVZ+VQc2jjAuEEnVMZGKJYIJ6muKcY2qKypSfPQ3xIZpMDvbcO8x9U2e/kqhhg1p3iJK2K2lklCaQ0lasNeVAn+YZNZ/iWiOEaYb9jfoy6R86oKcs9r8ANYP1p1V+XHftw+PoFtjjTOARLmRfC1pyAncE9CbEkBefgzUa9RqsjEtrwFoPpEAh9Cvr6cxJp2nFnpdrZRSmHoE5Z5B2YPkwT1pUn/a7DDoJ8RLkO4FR0gBNZXBkJxUqKom7F+ZWrBAMJYg6rdl6p393QqNzPYW1WuJPvdnG7PSqL3Lu4OKks1ZbOXGcJG+17R1MhCsqAFVoVKv2HBB/ST+GhlKBnZwCT5uH4M+dBj3CRY9GaFTOvtK6cWn9hj/CWSBQcFweFOmmNytJrzftDxdkFrp0fj2jRbD/DxhCB6nREjbFQWnokBBJRgSIxRxbo+UxjShZXx4mUcVojvu0ntcnfS99VvaU5L0a1UafrG7B8hyVtNUcrAit3z3ShlArhoY0ePBFPgfq/5igOC+l7sgENTsHjCDKs4ygR7aEcpyctN5Y="
     distributions: sdist bdist_wheel
     skip_cleanup: true
     on:
       tags: true
+      repo: floschl/pysamosa
+      python: 3.8

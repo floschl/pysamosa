@@ -9,7 +9,8 @@ width="500"></div>
 
 # PySAMOSA
 
-This is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation. More details on satellite altimetry can be found in this [PDF](https://www.altimetry.info/file/Radar_Altimetry_Tutorial.pdf).
+PySAMOSA is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to
+measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation. More details on satellite altimetry can be found in this [PDF](https://www.altimetry.info/file/Radar_Altimetry_Tutorial.pdf).
 
 The process of extracting of the three geophysical parameters from the reflected echoes/waveforms is called retracking. The measured (noisy) waveforms are fitted against the open ocean power return echo waveform model SAMOSA2 [1,2].
 

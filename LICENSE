@@ -1,7 +1,7 @@
 GNU GENERAL PUBLIC LICENSE
                       Version 3, 29 June 2007
 
-    This is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry
+    PySAMOSA is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry
     to measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies.
     Satellite altimetry is a space-borne remote sensing technique used for Earth observation.
     Copyright (C) 2023  Florian Schlembach
