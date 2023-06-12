@@ -1,6 +1,6 @@
 [//]: # (![pysamosa logo]&#40;./resources/logo.jpg&#41;)
 
-![]() <div align="center"><img src="https://github.com/floschl/pysamosa/blob/main/resources/logo_name.jpg?raw=true"
+![]() <div align="center"><img src="https://github.com/floschl/pysamosa/blob/main/resources/logo_name.png?raw=true"
 width="500"></div>
 
 [![Build Status](https://app.travis-ci.com/floschl/pysamosa.svg?branch=main)](https://app.travis-ci.com/floschl/pysamosa)

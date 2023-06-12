@@ -21,16 +21,21 @@ script:
 # following command to finish PyPI deployment setup:
 # $ travis encrypt --add deploy.password
 deploy:
-  provider: pypi
-  server: https://test.pypi.org/legacy/ # Remove for deployment to official PyPi repo
-  distributions: sdist bdist_wheel
-  username: "__token__"
-  password:
-    secure: "iO/CKR29i4diz0pkrVzJwtDxc/hvSJQu7IWu/mDfnPhWBB8YfPQejl5FH0+MPzYx+3pv3X/yWS8cV3JcXkB1vPRsuievNJpopVWyP9tosm4QtKCU5RX82fk0w8hnbccO+RNo1pz2yL1g+CRuLzrtGzt04USS+ngWiDe8MzC4IDhq1Wawg5U3TroSlQJ5YXwBWsf5DnsHepNDsMQSDMNBV7tQKFoYCwO1L1Bcd/GJobQPeZKsvWBVzdSFSgHH/G4zZDIu679twCLiTDkgvjY4IWGVhJ/RoBU4PTVokynCvlzqz7D3oLH+udhJXjELDq8c9fWuD84HFjpVOOGz50KkgIdp1nJRywIZZ+GByzN6Uo5Sgsdt7+bkaP/OO33je85HJBU3U+JhTVKNQ0wehj4X9KXfK6TYNDk5ddTf5P+VfQBVZmUpt1mIoEqO2RHXTZ4GG/Eu1EDD6WwrkL69Q2HLqfUwjOgFIKGKe6l0zVHOyx5YjKC93UCR3bD5eZdEXBDiJAMDWFPgnqZwxEQ9RAclhR+hKzwfJF/WCmQ5rthnK0yR1CAupJyjndZLjv2Bf4zbQ4ml+PsST+q3tz2mdKtv2B0WwR7puoxZURDQrOKv1+JmEGxysHKKKrw+hSfdhQ8jqvV/6p0yHYQXQNMT3DEm/4t8dSUsNjT6m9YWaHQ2LOw="
-  on:
-#    tags: true
-    branch: main
-    repo: floschl/pysamosa
-    python:
-      - 3.8
-      - 3.11
+  - provider: pypi
+    distributions: sdist bdist_wheel
+    username: "__token__"
+    password:
+      secure: "iO/CKR29i4diz0pkrVzJwtDxc/hvSJQu7IWu/mDfnPhWBB8YfPQejl5FH0+MPzYx+3pv3X/yWS8cV3JcXkB1vPRsuievNJpopVWyP9tosm4QtKCU5RX82fk0w8hnbccO+RNo1pz2yL1g+CRuLzrtGzt04USS+ngWiDe8MzC4IDhq1Wawg5U3TroSlQJ5YXwBWsf5DnsHepNDsMQSDMNBV7tQKFoYCwO1L1Bcd/GJobQPeZKsvWBVzdSFSgHH/G4zZDIu679twCLiTDkgvjY4IWGVhJ/RoBU4PTVokynCvlzqz7D3oLH+udhJXjELDq8c9fWuD84HFjpVOOGz50KkgIdp1nJRywIZZ+GByzN6Uo5Sgsdt7+bkaP/OO33je85HJBU3U+JhTVKNQ0wehj4X9KXfK6TYNDk5ddTf5P+VfQBVZmUpt1mIoEqO2RHXTZ4GG/Eu1EDD6WwrkL69Q2HLqfUwjOgFIKGKe6l0zVHOyx5YjKC93UCR3bD5eZdEXBDiJAMDWFPgnqZwxEQ9RAclhR+hKzwfJF/WCmQ5rthnK0yR1CAupJyjndZLjv2Bf4zbQ4ml+PsST+q3tz2mdKtv2B0WwR7puoxZURDQrOKv1+JmEGxysHKKKrw+hSfdhQ8jqvV/6p0yHYQXQNMT3DEm/4t8dSUsNjT6m9YWaHQ2LOw="
+    on:
+      tags: true
+      repo: floschl/pysamosa
+      python:
+        - 3.8
+        - 3.11
+  - provider: releases
+    api_key:
+      secure: "Wp3MeTB4szXJxY/xeXfQq+7h1a+KOLih74qr56DNWKKRBGEy1nMcAgLITHLuwJ1q3xT8utbldchbm30piMiaSjkqm7pdM1CevrxZpv8eT1YAiNQybBcFSZZQqSQ4cBg/a5ub4pTg0SVFZ7hGAy1VgWt9L3aHiQbQsXrPkOaGaYAil720J3sZjX2CumcUG1gf0P33mAuwc3OjXcDtzhxqUIe3mYiYw0vDXKJC/ojRUmU/HS1MWI6yZw7uUExky2xy7CmgDfPKmlfs1Zkjg9t6JMaP/Fn+Yw8xTMX3t47JHY/shoswr0UtT7xlKLVB18LCmKrIE5aVxcUxY5j2V8UVr5Un2qexE69mqyDhCLdgdb1cIIWp6Z4NXMvDKRYZGAQsPDNe5GrymDYf/nxrLuURNfMxMLhIm2xiU1zn5q1qIY+qpz8I/USA+aEQIsxmtIVx1UBFNSXDTOEzeqIMW+r5661RhucyPg2j+DNF50akXh0AeqJMb2P3suCjoth5HZiY4Ce3aRYRXJshQPd4uy18EOMHmDIdVr2RD7rhdEv66CTgWOgv6uhglkg7vbh4NB+ioIZHuwRmQi5dsxt1yGTO46n0mUP/Wg9tS5q6Nvc9CSWdEFrkv17RNgEK88SCNs820ym3HWM0GX0UMan8bAfPN/bLchMKNhQBhdq6V6LF6ZM="
+    distributions: sdist bdist_wheel
+    skip_cleanup: true
+    on:
+      tags: true
