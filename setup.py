@@ -53,7 +53,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.11",
     ],
-    description="This framework provides a Python implementation for retracking open ocean and coastal waveforms of SAR satellite altimetry, which are based on the open ocean power return echo waveform model SAMOSA2.",
+    description="This is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation.",
     install_requires=requirements,
     license="GNU General Public License v3",
     long_description=readme,

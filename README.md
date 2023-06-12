@@ -1,56 +1,41 @@
 [//]: # (![pysamosa logo]&#40;./resources/logo.jpg&#41;)
 
-![]() <div align="center"><img src="./resources/logo.jpg"  width="500"></div>
-
+![]() <div align="center"><img src="https://github.com/floschl/pysamosa/blob/main/resources/logo_name.jpg?raw=true"
+width="500"></div>
 
 [![Build Status](https://app.travis-ci.com/floschl/pysamosa.svg?branch=main)](https://app.travis-ci.com/floschl/pysamosa)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+
 # PySAMOSA
 
-This framework provides a Python implementation for retracking open ocean and coastal waveforms from SAR satellite
-altimetry, which are based on the open ocean power return echo waveform model SAMOSA2 [1].
+This is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation. More details on satellite altimetry can be found in this [PDF](https://www.altimetry.info/file/Radar_Altimetry_Tutorial.pdf).
 
-The following satellite altimetry missions are supported and validated:
+The process of extracting of the three geophysical parameters from the reflected echoes/waveforms is called retracking. The measured (noisy) waveforms are fitted against the open ocean power return echo waveform model SAMOSA2 [1,2].
+
+In the coastal zone, the return echoes are affected by spurious signals from strongly reflective targets such as sand and mud banks, tidal flats, shipping platforms, sheltered bays, or calm waters close to the shoreline.
+
+The following European Space Agency (ESA) satellite altimetry missions are supported:
 - Sentinel-3 (S3)
 - Sentinel-6 Michael Freilich (S6-MF)
 
-The software retracks Level-1b (L1b) data, i.e. the power return echo waveforms and outputs the retracked variables
-SWH, range, and Pu.
+The software retracks the waveforms, i.e. the Level-1b (L1b) data, to extract the
+retracked variables SWH, range, and Pu.
 
-The following SAMOSA2 implementations are used:
-- S3A/S3B: [1]
-- S6-MF: [2]
+The open ocean retracker implementations from the official EUMETSAT baseline are used (S3 [1], S6-MF [2]).
 
-For retracking coastal waveforms the following retrackers can be used:
+For retracking coastal waveforms the following retrackers are implemented:
 - SAMOSA+ [3]
 - CORAL [4,5]
 
-In addition, FF-SAR-processed S6-MF can be retracked using the zero-Doppler of SAMOSA2 and a specially adapted
-$\alpha_p$ LUT table, as been used in [5] and created by the ESA L2 GPP project [7].
+In addition, FF-SAR-processed S6-MF can be retracked using the zero-Doppler beam of the SAMOSA2 model and a specially
+adapted $\alpha_p$ LUT table, created by the ESA L2 GPP project [7]. The application of the FF-SAR-processed data
+has been validated in [5].
 
 Not validated (experimental) features:
-- Windows support
 - CryoSat-2 (CS2) support
 - SAMOSA++ coastal retracker [2]
-- Retracking of sigma_0 ('wind speed')
-
-## Prerequisites
-
-### Linux
-
-Optional: Install miniconda
-
-    $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    $ bash Miniconda3-latest-Linux-x86_64.sh
-
-### Windows
-
-Linux is the recommended operating system (OS), however, Windows should work as well.
-
-- A Windows C/C++ compiler may be required for installation, e.g. MSCV, which comes with the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
-- Optional: Download and install Miniconda from [here](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe).
-
+- Monte-carlo SAMOSA2 simulator
 
 ## Getting-started
 
@@ -60,27 +45,79 @@ Install pysamosa into your environment
 
     $ pip install pysamosa
 
-Example code for retracking as shown in `notebooks/retracking_example.ipynb`.
+This is the sample to retrack a single L1b file from the S6-MF mission
+
+``` python
+from pathlib import Path
+import numpy as np
+
+from pysamosa.common_types import RetrackerBaseType, L1bSourceType
+from pysamosa.data_access import data_vars_s3, data_vars_s6
+from pysamosa.retracker_processor import RetrackerProcessor
+from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
+
+
+l1b_files = []
+# l1b_files.append(Path('S6A_P4_1B_HR______20211120T051224_20211120T060836_20220430T212619_3372_038_018_009_EUM__REP_NT_F06.nc'))
+l1b_files.append(Path.cwd().parent / '.data' / 's6' / 'l1b' / 'S6A_P4_1B_HR______20211120T051224_20211120T060836_20220430T212619_3372_038_018_009_EUM__REP_NT_F06.nc')
+
+l1b_src_type = L1bSourceType.EUM_S6_F06
+data_vars = data_vars_s6
+
+# configure coastal CORAL retracker
+rbt = RetrackerBaseType.SAM
+pres = SettingsPreset.CORALv2
+rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
+
+rp_sets.nc_dest_dir = l1b_files[0].parent / 'processed'
+rp_sets.n_offset = 0
+rp_sets.n_inds = 0  #0 means all
+rp_sets.n_procs = 6  #use 6 cores in parallel
+rp_sets.skip_if_exists = False
+
+additional_nc_attrs = {
+    'L1B source type': l1b_src_type.value.upper(),
+    'Retracker basetype': rbt.value.upper(),
+    'Retracker preset': pres.value.upper(),
+}
+
+rp = RetrackerProcessor(l1b_source=l1b_files, l1b_data_vars=data_vars['l1b'],
+                        rp_sets=rp_sets,
+                        retrack_sets=retrack_sets,
+                        fitting_sets=fitting_sets,
+                        wf_sets=wf_sets,
+                        sensor_sets=sensor_sets,
+                        nc_attrs_kw=additional_nc_attrs,
+                        bbox=[np.array([-29.05, -29.00, 0, 360])],
+                        )
+
+rp.process()  #start processing
+
+print(rp.output_l2)  #retracked L2 output can be found in here
+```
+
+A running minimal working example for retracking is shown in `notebooks/retracking_example.ipynb`.
 
 ### Development
 
-It is highly recommended to use a proper Python IDE, such as PyCharm, which is [free](https://www.jetbrains.com/pycharm/download/) for non-commercial projects.
-Using the IDE will allow you to familiarise yourself better with the code and debug it.
+It is highly recommended to use a proper Python IDE, such as
+[PyCharm Community](https://www.jetbrainscom/pycharm/download/) or Visual Studio Code.
+Using the IDE will allow you to familiarise yourself better with the code, debug and extend it.
 
-Clone this repo
+Clone the repo
 
     $ git clone {repo_url}
 
-Enter clones directory
+Enter cloned directory
 
     $ cd pysamosa
 
-Create your isolated Python environment, e.g. anything from Python 3.6
+Create your isolated Python environment, e.g. anything from Python 3.8
 either via conda
 
-    $ conda create -n pysamosa36 python=3.6 pip
+    $ conda create -n pysamosa python=3.8 pip
 
-or via pipenv/venv.
+or via pyenv/pipenv/venv.
 
 Activate pysamosa conda environment
 
@@ -95,7 +132,9 @@ Download auxiliary data: distance-to-coast grid file (required), approx. downloa
 
     $ python -m pysamosa.download_aux_data
 
-Compile the .pyx files (e.g. model_helpers.pyx) by running cython
+Compile the .pyx files (e.g. model_helpers.pyx) by running cython to build the extensions
+For Windows users: An installed C/C++ compiler may be required for installation, e.g. MSCV, which comes with
+the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
 
     $ python setup.py build_ext --inplace
 
@@ -103,7 +142,7 @@ Optional: Compile on an HPC cluster (not normally required)
 
     $ LDSHARED="icc -shared" CC=icc python setup.py build_ext --inplace
 
-## Some hints
+## Tips
 
 The following list provides a brief description of the recommended use of the software.
 1. **Getting-started with Jupyter Notebook**
@@ -111,7 +150,12 @@ The `notebooks/retracking_example.ipynb` contains a sample script how to retrack
 The retracked SWH and SWH data are compared with the EUMETSAT baseline L2 data.
 
 2. **More entry points**
-The files `main_s3.py`, `main_s6.py`, `main_cs.py`, (`main_*.py`) etc. serve as entry points for batch processing of multiple nc files.
+The files `main_s3.py`, `main_s6.py`, `main_cs.py`, (`main_*.py`) etc. serve as entry points for batch processing of
+   multiple nc files.
+A list of L1b files (or a single file) is read for retracking, which are fully retracked or based on the given
+   bounding box (bbox) paramater. A retracked L2 file is written out per processed
+   L1b file.
+
 3. **Settings**
 The `RetrackerProcessor` inputs require the `RetrackerProcessorSettings`, `RetrackerSettings`, `FittingSettings`,
    `WaveformSettings`, and `SensorSettings` objects to be inserted during initialisation. The default settings of these settings objects can be retrieved with the `get_default_base_settings` function based on the three
@@ -134,56 +178,67 @@ Another configuration to run SAM+ could be set by `rbt = RetrackerBaseType.SAMPL
 
 4. **Evaluation environment**
 There are several unit tests located in `./pysamosa/tests/` that aim to analyse the retracked output in more detail.
-The most important test scripts are `test_multi_retrack.py`, which includes retracking runs of small along-track
+The most important test scripts are `test_retrack_multi.py`, which includes retracking of small along-track
 segments of the S3A, S6, CS2 missions (and a generic input nc file).
-`test_single_retrack` allows you to check the retracking result of a single waveform and compare it to reference retracking result.
+`test_retrack_single` allows you to check the retracking result of a single waveform and compare it to reference
+   retracking result.
 
 <span style="color:red; font-weight:bold">Please uncomment the line `mpl.use('TkAgg')` in file `conftest.py` to
 plot the test output, which is particularly useful for the retracking tests in files `tests/test_single_retrack.
 py` and `tests/test_multi_retrack.py`.</span>
 
-## Run tests
+## Validation
+
+### Run tests
 
 To run all the unit tests (using the pytest framework), run
 
     $ pytest
 
-## Comparison with EUMETSAT L2 baseline data
+### Comparison with EUMETSAT L2 baseline data
 
 Comparison of a retracked open ocean segment from S3 and S6-MF with the EUMETSAT L2 baseline (S3: 004, S6-MF: F06)
 (generated by `notebooks/retracking_example.ipynb` Jupyter notebook)
 
 S3 | S6-MF
 :-:|:-:
-![](resources/S3_comparison_w_baseline.jpg)  |  ![](resources/S3_comparison_w_baseline.jpg)
+![](https://github.com/floschl/pysamosa/blob/main/resources/S3_comparison_w_baseline.jpg?raw=true)  |  ![](https://github.com/floschl/pysamosa/blob/main/resources/S6_comparison_w_baseline.jpg?raw=true)
 
 ## Contributions
 
-Feel free to contribute to this project.
+This software is intended to be a community-based project. Contributions to this project are very welcome.
+In this case:
 - Fork this repository
 - Submit a pull request to be merged back into this repository.
+
+If your pull request is accepted, you will be included in the next official release and will be listed as a
+co-author for the DOI link created by Zenodo.
 
 ## Future work
 
 Possible developments of this project are:
 
 Retracking-related
-- Numerical retracking planned for Q3/2023 in the EUMETSAT's baseline processing chain [6]
-- Aligning CS-2 retracking with the CS-2 baseline processing chain
+- Align CS-2 retracking with the CS-2 baseline processing chain, validate against
+[SAMpy](https://github.com/cls-obsnadir-dev/SAMPy) developed as part of the [ESA Cryo-TEMPO project](https://earth.esa.int/eogateway/documents/20142/37627/Cryo-TEMPO-ATBD-Coastal-Oceans.pdf)
+- Implement numerical retracking planned for Q3/2023 in the EUMETSAT's baseline processing chain [6]
 
 Software-related
+- Create notebook for a coastal retracking demo
 - Create richer documentation (readthedocs)
 
 ## Credits and code reuse
 
+If you use this code, please cite this DOI:
+
+Florian Schlembach; Marcello Passaro. PySAMOSA: An Open-source Software Framework for Retracking SAMOSA-based, Open
+Ocean and Coastal Waveforms of SAR Satellite Altimetry. Zenodo. https://zenodo.org/badge/latestdoi/646028227.
+
+Salvatore Dinardo for his support in implementing the SAMOSA-based and SAMOSA+ [3] retracking algorithm.
+
 This software is licenced under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html). In short, you are allowed to use
 this software in your projects, if you change parts of the code you are required to also publish it. For more
 frequently asked questions about GPL, please see [here](https://www.gnu.org/licenses/gpl-faq.html).
-
-If you use this code, please cite this DOI:
-
-Florian Schlembach; Marcello Passaro. Pysamosa: An Open-source Software Framework for Retracking Samosa-based, Open
-Ocean and Coastal Waveforms of SAR Satellite Altimetry. Zenodo. https://zenodo.org/badge/latestdoi/646028227.
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
 [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage) project template.
