@@ -33,9 +33,10 @@ deploy:
   - provider: releases
     api_key:
       secure: "duRqR2g2/RgEz9OzG8h95wXEpeSPV8JaqNlTocXm82gpLZm12w+h+Es8fVK/Q3M46B7zvlF6Dw6vtWWFTyxgRJhIGqfHeBNOO9jQsmygjX5nA7mQkZPm5X4VGssqfwhuo+Re8gSVZ+VQc2jjAuEEnVMZGKJYIJ6muKcY2qKypSfPQ3xIZpMDvbcO8x9U2e/kqhhg1p3iJK2K2lklCaQ0lasNeVAn+YZNZ/iWiOEaYb9jfoy6R86oKcs9r8ANYP1p1V+XHftw+PoFtjjTOARLmRfC1pyAncE9CbEkBefgzUa9RqsjEtrwFoPpEAh9Cvr6cxJp2nFnpdrZRSmHoE5Z5B2YPkwT1pUn/a7DDoJ8RLkO4FR0gBNZXBkJxUqKom7F+ZWrBAMJYg6rdl6p393QqNzPYW1WuJPvdnG7PSqL3Lu4OKks1ZbOXGcJG+17R1MhCsqAFVoVKv2HBB/ST+GhlKBnZwCT5uH4M+dBj3CRY9GaFTOvtK6cWn9hj/CWSBQcFweFOmmNytJrzftDxdkFrp0fj2jRbD/DxhCB6nREjbFQWnokBBJRgSIxRxbo+UxjShZXx4mUcVojvu0ntcnfS99VvaU5L0a1UafrG7B8hyVtNUcrAit3z3ShlArhoY0ePBFPgfq/5igOC+l7sgENTsHjCDKs4ygR7aEcpyctN5Y="
-    distributions: sdist bdist_wheel
+    pre-release: true
+    draft: true
     skip_cleanup: true
     on:
-      tags: true
+#      tags: true
       repo: floschl/pysamosa
       python: 3.8

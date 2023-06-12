@@ -61,7 +61,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     include_package_data=True,
-    keywords="pysamosa satellite altimetry retracking samosa+ samosa coastal open ocean sentinel esa"
+    keywords="satellite altimetry retracking samosa+ samosa coastal open ocean sentinel esa"
     "sar altimetry ff-sar fully focused",
     name="pysamosa",
     packages=find_packages(include=["pysamosa", "pysamosa.*"]),
