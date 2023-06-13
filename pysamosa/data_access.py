@@ -282,7 +282,7 @@ def _read_dataset_vars_from_ds(
     # hack required because some nc files have issues with decoding of times
     try:
         ds = xr.open_dataset(nc_filename, group=group)
-    except:
+    except Exception:
         ds = xr.open_dataset(nc_filename, group=group, decode_times=False)
 
     last_ind = get_last_ind(
