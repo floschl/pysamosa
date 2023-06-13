@@ -7,19 +7,12 @@ import matplotlib as mpl
 
 from pysamosa.download_aux_data import download_test_data
 
+
 mpl.use("Agg")
 # mpl.use('TkAgg')
 
 collect_ignore = ["setup.py"]
 collect_ignore_glob = ["*_montecarlo_sim.py"]
-
-TEST_DATA_DIR = Path(__file__).parent.parent / ".data"
-
-S3_DATA_DIR = TEST_DATA_DIR / "s3"
-S6_DATA_DIR = TEST_DATA_DIR / "s6"
-FFSAR_DATA_DIR = TEST_DATA_DIR / "s6" / "ffsar"
-CS_DATA_DIR = TEST_DATA_DIR / "cs"
-
 
 from pysamosa.data_access import (
     _read_dataset_vars_from_ds,
@@ -28,6 +21,7 @@ from pysamosa.data_access import (
     data_vars_cs,
     data_vars_dart,
 )
+
 from pysamosa.settings import S3_DATA_DIR, S6_DATA_DIR, CS_DATA_DIR, FFSAR_DATA_DIR
 
 

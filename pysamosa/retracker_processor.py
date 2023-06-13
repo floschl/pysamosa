@@ -324,9 +324,7 @@ class RetrackerProcessor:
 
                 log_filename = nc_dest_dir / f"log_{nc_base_id}.txt"
                 if self.rp_sets.do_write_out_log:
-                    file_logger_handle = simple_logger.generate_and_add_file_logger(
-                        log_filename
-                    )
+                    simple_logger.generate_and_add_file_logger(log_filename)
 
                 logging.info(f"Reading of L1B dataset {nc_base_id}... ")
                 grps = [
