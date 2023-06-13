@@ -1,6 +1,6 @@
-import os
-import logging
 import datetime
+import logging
+import os
 
 
 class DeltaTimeFormatter(logging.Formatter):

@@ -1,4 +1,5 @@
 import numpy as np
+
 from pysamosa.utils import consecutive_regions_from_ind_list
 
 

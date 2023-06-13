@@ -2,7 +2,6 @@ from pathlib import Path
 
 from pysamosa.utils import download_untar_file
 
-
 URL_TEST_DATA_FILE_SIZE = (
     "https://www.dropbox.com/s/ygagj9gebnhsm5b/pysamosa_data.tar?dl=1",
     218451704,

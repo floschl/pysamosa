@@ -3,29 +3,22 @@ import os
 from concurrent import futures
 from itertools import repeat
 
+import netCDF4
 import numpy as np
 import xarray as xr
-import netCDF4
 
 from pysamosa import simple_logger
-from pysamosa.common_types import (
-    RetrackerProcessorSettings,
-    RetrackerSettings,
-    FittingSettings,
-    WaveformSettings,
-    ExportSettings,
-    L1bSourceType,
-    SensorSettings,
-)
+from pysamosa.common_types import (ExportSettings, FittingSettings,
+                                   L1bSourceType, RetrackerProcessorSettings,
+                                   RetrackerSettings, SensorSettings,
+                                   WaveformSettings)
 from pysamosa.conf_params import CONST_C
-from pysamosa.data_access import (
-    _read_dataset_vars_from_ds,
-    get_subset_dataset,
-    get_model_param_obj_from_l1b_data,
-    get_nc_src_dest_file_list,
-    gen_subset_dataset,
-    gen_model_param_obj_from_l1b_data,
-)
+from pysamosa.data_access import (_read_dataset_vars_from_ds,
+                                  gen_model_param_obj_from_l1b_data,
+                                  gen_subset_dataset,
+                                  get_model_param_obj_from_l1b_data,
+                                  get_nc_src_dest_file_list,
+                                  get_subset_dataset)
 from pysamosa.retracker import SamosaRetracker
 from pysamosa.retracker_helpers import get_dynamic_first_guess_epochs
 from pysamosa.version import __version__

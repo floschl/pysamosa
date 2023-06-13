@@ -1,16 +1,16 @@
-import tempfile
-from pathlib import Path
 import os
+import tempfile
+from datetime import datetime
+from pathlib import Path
 
 import numpy as np
-import xarray as xr
 import pandas as pd
-from datetime import datetime
+import xarray as xr
+
 from pysamosa.dist2coast import get_dist_pacioos
 
 from .common_types import ModelParameter
 from .conf_params import CONST_C
-
 
 data_vars_s3 = {
     "l1b": {

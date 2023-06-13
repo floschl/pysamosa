@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-from pysamosa.common_types import RetrackerBaseType, L1bSourceType
-from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType
+from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
 
 test_inds_gpod = [
     # coast

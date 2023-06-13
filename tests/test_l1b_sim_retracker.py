@@ -1,15 +1,9 @@
 import matplotlib.pyplot as plt
 
-from pysamosa import retracker
-from pysamosa import simple_logger
-from pysamosa.common_types import (
-    RetrackerBaseType,
-    ModelSettings,
-    WaveformSettings,
-    L1bSourceType,
-    SensorSettings,
-    SENSOR_SETS_DEFAULT_S3,
-)
+from pysamosa import retracker, simple_logger
+from pysamosa.common_types import (SENSOR_SETS_DEFAULT_S3, L1bSourceType,
+                                   ModelSettings, RetrackerBaseType,
+                                   SensorSettings, WaveformSettings)
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.l1b_simulator import L1bSimulator
 from pysamosa.settings_manager import SettingsPreset, get_default_base_settings

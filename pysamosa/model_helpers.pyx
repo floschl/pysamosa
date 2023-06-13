@@ -1,14 +1,16 @@
 import os
 import pickle
-import numpy as np
+
 import cython
+import numpy as np
 
 
 def load_samosa_luts():
     with open(os.path.dirname(__file__) + f'/luts_samosa.pickle', 'rb') as handle:
         return pickle.load(handle)
 
-from libc.math cimport sqrt, M_PI
+from libc.math cimport M_PI, sqrt
+
 
 @cython.cdivision(True)
 @cython.boundscheck(False)

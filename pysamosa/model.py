@@ -3,15 +3,11 @@ from itertools import chain
 
 import numpy as np
 
-from pysamosa.common_types import (
-    ModelSettings,
-    ModelParameter,
-    RetrackerBaseType,
-    WaveformSettings,
-    SensorSettings,
-)
+from pysamosa.common_types import (ModelParameter, ModelSettings,
+                                   RetrackerBaseType, SensorSettings,
+                                   WaveformSettings)
 from pysamosa.conf_params import CONST_A, CONST_B, CONST_C, CONST_F
-from pysamosa.model_helpers import load_samosa_luts, get_f_from_lut
+from pysamosa.model_helpers import get_f_from_lut, load_samosa_luts
 from pysamosa.rip import RipAnalyser
 
 

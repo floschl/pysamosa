@@ -3,22 +3,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pysamosa.common_types import (
-    RetrackerBaseType,
-    ModelSettings,
-    WaveformSettings,
-    L1bSourceType,
-)
-from pysamosa.montecarlo_simulator import (
-    MonteCarloSimulator,
-    plot_cost_func_vs_swh,
-    plot_swh_epoch_scatter,
-    CostFunctionType,
-    default_cost_functions,
-    cost_functions,
-)
-from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
-
+from pysamosa.common_types import (L1bSourceType, ModelSettings,
+                                   RetrackerBaseType, WaveformSettings)
+from pysamosa.montecarlo_simulator import (CostFunctionType,
+                                           MonteCarloSimulator, cost_functions,
+                                           default_cost_functions,
+                                           plot_cost_func_vs_swh,
+                                           plot_swh_epoch_scatter)
+from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
 
 retracker_basetype, settings_preset = (
     # RetrackerBaseType.SAM, SettingsPreset.NONE,

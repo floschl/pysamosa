@@ -1,13 +1,13 @@
 from pathlib import Path
-import netCDF4
 
+import netCDF4
 import numpy as np
 import pandas as pd
 from bokeh.io import show
 from bokeh.models import HoverTool
 from bokeh.models.glyphs import Circle
-from bokeh.plotting import figure, ColumnDataSource
-from bokeh.tile_providers import get_provider, Vendors
+from bokeh.plotting import ColumnDataSource, figure
+from bokeh.tile_providers import Vendors, get_provider
 
 from pysamosa.data_access import _read_dataset_vars_from_ds
 

@@ -4,10 +4,10 @@ import re
 from pathlib import Path
 from sys import platform
 
-from pysamosa.common_types import RetrackerBaseType, L1bSourceType
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType
 from pysamosa.data_access import data_vars_s3
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
+from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
 
 is_linux = "linux" in platform
 is_slurm = "SLURM_JOB_ID" in os.environ

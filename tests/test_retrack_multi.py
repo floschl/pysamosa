@@ -1,19 +1,15 @@
 import logging
-
 from pathlib import Path
+
 import numpy as np
 
-from pysamosa.common_types import RetrackerBaseType, L1bSourceType, ProcMode
-from pysamosa.data_access import (
-    data_vars_s3,
-    data_vars_s6,
-    data_vars_cs,
-    data_vars_dart,
-    data_vars_retracker,
-)
+from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType
+from pysamosa.data_access import (data_vars_cs, data_vars_dart,
+                                  data_vars_retracker, data_vars_s3,
+                                  data_vars_s6)
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
 from pysamosa.settings import S6_DATA_DIR
+from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
 from pysamosa.utils import plot_l2_results_vs_ref
 
 

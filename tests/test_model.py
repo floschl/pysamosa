@@ -1,15 +1,11 @@
-from pysamosa.retracker import oversample_wf
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pysamosa.common_types import (
-    RetrackerBaseType,
-    WaveformSettings,
-    SensorSettings,
-    L1bSourceType,
-    SensorType,
-)
-from pysamosa.model import SamosaModel, ModelParameter, ModelSettings
+from pysamosa.common_types import (L1bSourceType, RetrackerBaseType,
+                                   SensorSettings, SensorType,
+                                   WaveformSettings)
+from pysamosa.model import ModelParameter, ModelSettings, SamosaModel
+from pysamosa.retracker import oversample_wf
 
 
 def test_setting_model_parameter_obj():

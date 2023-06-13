@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 TEST_DATA_DIR = Path(__file__).parent / ".testdata"
 
 S3_DATA_DIR = TEST_DATA_DIR / "s3"

@@ -4,23 +4,18 @@ from textwrap import wrap
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pysamosa.utils import consecutive_regions_from_ind_list
-
-from pysamosa.common_types import (
-    RetrackerProcessorSettings,
-    WaveformSettings,
-    ModelSettings,
-    RetrackerSettings,
-    SensorSettings,
-    L1bSourceType,
-    SENSOR_SETS_DEFAULT_S3,
-)
+from pysamosa.common_types import (SENSOR_SETS_DEFAULT_S3, L1bSourceType,
+                                   ModelSettings, RetrackerProcessorSettings,
+                                   RetrackerSettings, SensorSettings,
+                                   WaveformSettings)
 from pysamosa.conf_params import CONST_C
-from pysamosa.data_access import get_model_param_obj_from_l1b_data, get_subset_dataset
+from pysamosa.data_access import (get_model_param_obj_from_l1b_data,
+                                  get_subset_dataset)
 from pysamosa.model import SamosaModel
-from pysamosa.retracker import calc_misfit, SamosaRetracker
+from pysamosa.retracker import SamosaRetracker, calc_misfit
 from pysamosa.retracker_helpers import get_dynamic_first_guess_epochs
 from pysamosa.rip import RipAnalyser, RIPParameters
+from pysamosa.utils import consecutive_regions_from_ind_list
 
 
 def plot_retrack_result(

@@ -1,11 +1,10 @@
 import logging
 from enum import Enum
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 from pydantic import BaseModel, root_validator, validator
-
-from typing import Optional
 
 
 class SensorType(Enum):

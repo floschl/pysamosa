@@ -1,25 +1,19 @@
+import string
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
-import string
 
-from pysamosa.common_types import (
-    RetrackerBaseType,
-    WaveformSettings,
-    SensorSettings,
-    L1bSourceType,
-    SensorType,
-)
-from pysamosa.model import SamosaModel, ModelParameter, ModelSettings
-from pysamosa.data_access import (
-    _read_dataset_vars_from_ds,
-    get_subset_dataset,
-    get_model_param_obj_from_l1b_data,
-    data_vars_s6,
-)
-from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
-from pysamosa.utils import gen_first_true
 from pysamosa import retracker
+from pysamosa.common_types import (L1bSourceType, RetrackerBaseType,
+                                   SensorSettings, SensorType,
+                                   WaveformSettings)
+from pysamosa.data_access import (_read_dataset_vars_from_ds, data_vars_s6,
+                                  get_model_param_obj_from_l1b_data,
+                                  get_subset_dataset)
+from pysamosa.model import ModelParameter, ModelSettings, SamosaModel
+from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.utils import gen_first_true
 
 default_width_in = 5.79  # in inches
 default_ratio = 0.5 + np.sqrt(5) / 2  # 1.618, golden ratio

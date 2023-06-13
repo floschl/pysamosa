@@ -4,17 +4,12 @@ import numpy as np
 from scipy.interpolate import Akima1DInterpolator
 from scipy.optimize import least_squares
 
-from pysamosa.common_types import (
-    ModelSettings,
-    ModelParameter,
-    RetrackerSettings,
-    FittingSettings,
-    WaveformSettings,
-    FittingParameters,
-)
-from pysamosa.common_types import RetrackerBaseType, SensorSettings
+from pysamosa.common_types import (FittingParameters, FittingSettings,
+                                   ModelParameter, ModelSettings,
+                                   RetrackerBaseType, RetrackerSettings,
+                                   SensorSettings, WaveformSettings)
 from pysamosa.leading_edge_detector import detect_leading_edge
-from pysamosa.model import SamosaModel, get_region_max, get_region_argmax
+from pysamosa.model import SamosaModel, get_region_argmax, get_region_max
 
 
 def calc_misfit(wf1, wf2, inds_only=None, exclude_inds=None):

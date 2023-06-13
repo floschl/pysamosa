@@ -1,15 +1,14 @@
-import numpy as np
-from scipy.signal import argrelextrema
-from scipy.interpolate import interp1d
-from pydantic import BaseModel
 import copy
 
-from pysamosa.conf_params import CONST_C
-from pysamosa.common_types import ModelParameter, SensorSettings
-
+import numpy as np
 from astropy import modeling
 from astropy.modeling import models
+from pydantic import BaseModel
+from scipy.interpolate import interp1d
+from scipy.signal import argrelextrema
 
+from pysamosa.common_types import ModelParameter, SensorSettings
+from pysamosa.conf_params import CONST_C
 
 # class RipAnalyserSettings(BaseModel):
 #     model_params: ModelParameter

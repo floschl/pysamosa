@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import numpy as np
 import xarray as xr
-from pathlib import Path
 
 ncfile_l1b = Path(
     "/nfs/DGFI145/C/work_flo/cs2_files_samplus_test/CS2_open_ocean/CS_LTA__SIR_SAR_1B_20150503T160800_20150503T161329_D001.nc"

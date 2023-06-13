@@ -1,17 +1,16 @@
-import os
-from pathlib import Path
 import logging
-import numpy as np
-from tqdm import tqdm
-import requests
+import os
 import tarfile
+from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import numpy as np
+import requests
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.backends.backend_pgf import FigureCanvasPgf
-
 from scipy import signal
+from tqdm import tqdm
 
 default_width_in = 5.79  # in inches
 default_ratio = 0.5 + np.sqrt(5) / 2  # 1.618, golden ratio

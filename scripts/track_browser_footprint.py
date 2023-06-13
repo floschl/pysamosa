@@ -1,15 +1,15 @@
-import xarray as xr
-import cftime
-from pathlib import Path
 import tempfile
-import netCDF4
+from pathlib import Path
 
+import cftime
+import netCDF4
 import numpy as np
 import pandas as pd
-from bokeh.io import show, output_file
+import xarray as xr
+from bokeh.io import output_file, show
 from bokeh.models import HoverTool
 from bokeh.models.glyphs import Patches
-from bokeh.plotting import figure, ColumnDataSource
+from bokeh.plotting import ColumnDataSource, figure
 from bokeh.tile_providers import Vendors
 
 from pysamosa.data_access import _read_dataset_vars_from_ds

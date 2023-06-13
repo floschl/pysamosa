@@ -1,8 +1,6 @@
 import numpy as np
-from pysamosa.dist2coast import (
-    get_dist_pacioos,
-)
 
+from pysamosa.dist2coast import get_dist_pacioos
 
 # def test_dist2coast_interp_on():
 #     """Test for cross-checking the results and performance of different dist2coast sources. """
