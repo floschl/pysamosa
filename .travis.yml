@@ -1,9 +1,7 @@
 # Config file for automatic testing at travis-ci.com
 dist: jammy
 language: python
-python:
-  - 3.8
-  - 3.11
+python: 3.8
 
 before_install:
     - sudo apt-get update
@@ -20,18 +18,23 @@ script:
 # create the Github repo and add it to Travis, run the
 # following command to finish PyPI deployment setup:
 # $ travis encrypt --add deploy.password
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name floschl
+  - git config --local user.email florian.schlembach@tum.de
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
 deploy:
   - provider: releases
     api_key:
       secure: "duRqR2g2/RgEz9OzG8h95wXEpeSPV8JaqNlTocXm82gpLZm12w+h+Es8fVK/Q3M46B7zvlF6Dw6vtWWFTyxgRJhIGqfHeBNOO9jQsmygjX5nA7mQkZPm5X4VGssqfwhuo+Re8gSVZ+VQc2jjAuEEnVMZGKJYIJ6muKcY2qKypSfPQ3xIZpMDvbcO8x9U2e/kqhhg1p3iJK2K2lklCaQ0lasNeVAn+YZNZ/iWiOEaYb9jfoy6R86oKcs9r8ANYP1p1V+XHftw+PoFtjjTOARLmRfC1pyAncE9CbEkBefgzUa9RqsjEtrwFoPpEAh9Cvr6cxJp2nFnpdrZRSmHoE5Z5B2YPkwT1pUn/a7DDoJ8RLkO4FR0gBNZXBkJxUqKom7F+ZWrBAMJYg6rdl6p393QqNzPYW1WuJPvdnG7PSqL3Lu4OKks1ZbOXGcJG+17R1MhCsqAFVoVKv2HBB/ST+GhlKBnZwCT5uH4M+dBj3CRY9GaFTOvtK6cWn9hj/CWSBQcFweFOmmNytJrzftDxdkFrp0fj2jRbD/DxhCB6nREjbFQWnokBBJRgSIxRxbo+UxjShZXx4mUcVojvu0ntcnfS99VvaU5L0a1UafrG7B8hyVtNUcrAit3z3ShlArhoY0ePBFPgfq/5igOC+l7sgENTsHjCDKs4ygR7aEcpyctN5Y="
-    pre-release: true
     draft: true
     skip_cleanup: true
-    on:
-      tags: true
-      branch: main
-      repo: floschl/pysamosa
-      python: 3.8
+#    on:
+#      tags: true
+#      branch: main
+#      repo: floschl/pysamosa
+#      python: 3.8
 #  - provider: pypi
 #    distributions: sdist bdist_wheel
 #    username: "__token__"
