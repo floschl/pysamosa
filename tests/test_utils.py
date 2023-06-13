@@ -65,3 +65,10 @@ def test_consecutive_regions_from_ind_list():
     a = []
     regions = consecutive_regions_from_ind_list(a)
     assert len(regions) == 0
+
+
+from pysamosa import dist2coast
+
+
+def test_download_nc_file():
+    dist2coast.download_dist2coast_nc()

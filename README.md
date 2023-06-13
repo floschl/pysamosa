@@ -23,7 +23,8 @@ The following European Space Agency (ESA) satellite altimetry missions are suppo
 The software retracks the waveforms, i.e. the Level-1b (L1b) data, to extract the
 retracked variables SWH, range, and Pu.
 
-The open ocean retracker implementations from the official EUMETSAT baseline are used (S3 [1], S6-MF [2]).
+The open ocean retracker implementation specification documents from the official EUMETSAT baseline are used (S3 [1],
+S6-MF [2]).
 
 For retracking coastal waveforms the following retrackers are implemented:
 - SAMOSA+ [3]
@@ -128,11 +129,6 @@ Install dependencies
 
     $ pip install -r requirements.txt
 
-Download auxiliary data: distance-to-coast grid file (required), approx. download size 310 MB, test sample files
-(optional), download size approx. 200 MB
-
-    $ python -m pysamosa.download_aux_data
-
 Compile the .pyx files (e.g. model_helpers.pyx) by running cython to build the extensions
 For Windows users: An installed C/C++ compiler may be required for installation, e.g. MSCV, which comes with
 the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
@@ -185,8 +181,8 @@ segments of the S3A, S6, CS2 missions (and a generic input nc file).
    retracking result.
 
 <span style="color:red; font-weight:bold">Please uncomment the line `mpl.use('TkAgg')` in file `conftest.py` to
-plot the test output, which is particularly useful for the retracking tests in files `tests/test_single_retrack.
-py` and `tests/test_multi_retrack.py`.</span>
+plot the test output, which is particularly useful for the retracking tests in files `tests/test_retrack_multi.
+py` and `tests/test_retrack_multi.py`.</span>
 
 ## Validation
 

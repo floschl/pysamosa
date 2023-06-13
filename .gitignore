@@ -1,5 +1,6 @@
 #custom
-/.data/
+/**/.data/
+/**/.testdata/
 /.testrun/
 model_helpers.c
 

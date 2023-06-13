@@ -21,15 +21,6 @@ script:
 # following command to finish PyPI deployment setup:
 # $ travis encrypt --add deploy.password
 deploy:
-  - provider: pypi
-    distributions: sdist bdist_wheel
-    username: "__token__"
-    password:
-        secure: "ebk3b2hc7ocKtmL93ICXbqMMMEgWBde1xl3rk63KqArS0+1Vv96LhC6+OdBfvw4o4sQ1Da39EM6sRdXgxqRsER7rkKW+OcRLGnkkKD2XsBjDhcTVhBRMh+O1vRwVBlKqGYXIbH9VkvI+iG1p0RHEzmWHNFRH0gS74smewp4axyeGRziSeVfRLi4fKo577uE+mTpKo7Y/NKdccNTt330/LR5ctVW6njpObNojJsCIDSME6KNC1iIErmg79PcX5LAPbkFsYpDtbJodqD6QjetHB54tgauz5zNqauK0ivtZGCWbwFbzcJbF5pxM1J3BXi6vQKP9YIb5gtR/xo8Ii0y8Gl0wHRk8f1oKFwnBUeU5NXF7Y7Vkg4x1yuNnfqXGwBiSeEqSJxa+j4vUdmanHUYebSyNZ/bvN02pA7gZyAoyQGIGenh6xQ06TpNI9QDAtpgX/wWGSxTIb7C3UBnl31Jkd1XsscOybXxUHp/vdh6w2MmxSNa7PDuAsGSDt5yLF8yr3PVNXW+mjkuPV0Kumyk+GXI2+0yxmVirdQm5OsOE/Plg8EDIPmwWcMoA32e7l9Z+7al5xGm60pt2d0lYSIDyBeQyL3zRkme0ZdTWBhDIGApOkKSABHzPR7gwxazt6Jvl8vXcktaABJQ9/MMSsxfrjpH53PyjSJEjhJoTEzRo25w="
-    on:
-      tags: true
-      repo: floschl/pysamosa
-      python: 3.8
   - provider: releases
     api_key:
       secure: "duRqR2g2/RgEz9OzG8h95wXEpeSPV8JaqNlTocXm82gpLZm12w+h+Es8fVK/Q3M46B7zvlF6Dw6vtWWFTyxgRJhIGqfHeBNOO9jQsmygjX5nA7mQkZPm5X4VGssqfwhuo+Re8gSVZ+VQc2jjAuEEnVMZGKJYIJ6muKcY2qKypSfPQ3xIZpMDvbcO8x9U2e/kqhhg1p3iJK2K2lklCaQ0lasNeVAn+YZNZ/iWiOEaYb9jfoy6R86oKcs9r8ANYP1p1V+XHftw+PoFtjjTOARLmRfC1pyAncE9CbEkBefgzUa9RqsjEtrwFoPpEAh9Cvr6cxJp2nFnpdrZRSmHoE5Z5B2YPkwT1pUn/a7DDoJ8RLkO4FR0gBNZXBkJxUqKom7F+ZWrBAMJYg6rdl6p393QqNzPYW1WuJPvdnG7PSqL3Lu4OKks1ZbOXGcJG+17R1MhCsqAFVoVKv2HBB/ST+GhlKBnZwCT5uH4M+dBj3CRY9GaFTOvtK6cWn9hj/CWSBQcFweFOmmNytJrzftDxdkFrp0fj2jRbD/DxhCB6nREjbFQWnokBBJRgSIxRxbo+UxjShZXx4mUcVojvu0ntcnfS99VvaU5L0a1UafrG7B8hyVtNUcrAit3z3ShlArhoY0ePBFPgfq/5igOC+l7sgENTsHjCDKs4ygR7aEcpyctN5Y="
@@ -37,7 +28,16 @@ deploy:
     draft: true
     skip_cleanup: true
     on:
-#      tags: true
+      tags: true
       branch: main
       repo: floschl/pysamosa
       python: 3.8
+#  - provider: pypi
+#    distributions: sdist bdist_wheel
+#    username: "__token__"
+#    password:
+#        secure: "ebk3b2hc7ocKtmL93ICXbqMMMEgWBde1xl3rk63KqArS0+1Vv96LhC6+OdBfvw4o4sQ1Da39EM6sRdXgxqRsER7rkKW+OcRLGnkkKD2XsBjDhcTVhBRMh+O1vRwVBlKqGYXIbH9VkvI+iG1p0RHEzmWHNFRH0gS74smewp4axyeGRziSeVfRLi4fKo577uE+mTpKo7Y/NKdccNTt330/LR5ctVW6njpObNojJsCIDSME6KNC1iIErmg79PcX5LAPbkFsYpDtbJodqD6QjetHB54tgauz5zNqauK0ivtZGCWbwFbzcJbF5pxM1J3BXi6vQKP9YIb5gtR/xo8Ii0y8Gl0wHRk8f1oKFwnBUeU5NXF7Y7Vkg4x1yuNnfqXGwBiSeEqSJxa+j4vUdmanHUYebSyNZ/bvN02pA7gZyAoyQGIGenh6xQ06TpNI9QDAtpgX/wWGSxTIb7C3UBnl31Jkd1XsscOybXxUHp/vdh6w2MmxSNa7PDuAsGSDt5yLF8yr3PVNXW+mjkuPV0Kumyk+GXI2+0yxmVirdQm5OsOE/Plg8EDIPmwWcMoA32e7l9Z+7al5xGm60pt2d0lYSIDyBeQyL3zRkme0ZdTWBhDIGApOkKSABHzPR7gwxazt6Jvl8vXcktaABJQ9/MMSsxfrjpH53PyjSJEjhJoTEzRo25w="
+#    on:
+#      tags: true
+#      repo: floschl/pysamosa
+#      python: 3.8

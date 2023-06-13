@@ -4,11 +4,11 @@ from pysamosa.common_types import RetrackerBaseType, L1bSourceType
 from pysamosa.data_access import data_vars_s3
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
-from pysamosa.settings import LFSDATA_DIR
+from pysamosa.settings import TEST_DATA_DIR
 
 
 if __name__ == "__main__":
-    nc_src_base_path = LFSDATA_DIR / "s3" / "l1b"
+    nc_src_base_path = TEST_DATA_DIR / "s3" / "l1b"
     run_name = "s3_retrack_open_ocean"
     nc_dest_path = nc_src_base_path.parent
 

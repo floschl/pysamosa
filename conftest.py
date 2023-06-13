@@ -5,11 +5,21 @@ import netCDF4
 from enum import Enum
 import matplotlib as mpl
 
+from pysamosa.download_aux_data import download_test_data
+
 mpl.use("Agg")
 # mpl.use('TkAgg')
 
 collect_ignore = ["setup.py"]
 collect_ignore_glob = ["*_montecarlo_sim.py"]
+
+TEST_DATA_DIR = Path(__file__).parent.parent / ".data"
+
+S3_DATA_DIR = TEST_DATA_DIR / "s3"
+S6_DATA_DIR = TEST_DATA_DIR / "s6"
+FFSAR_DATA_DIR = TEST_DATA_DIR / "s6" / "ffsar"
+CS_DATA_DIR = TEST_DATA_DIR / "cs"
+
 
 from pysamosa.data_access import (
     _read_dataset_vars_from_ds,
@@ -38,6 +48,15 @@ file_id_mappings = {
     "cs_2": "CS_LTA__SIR_GOPR1B_20150531T153351_20150531T153920_C001",
     "dart_s6_0": "S6A_P4_1B_HR______20211101T093654_20211101T103310_20211127T045347_3376_036_044_022_DAR__OPE_NT_F04",
 }
+
+
+def pytest_configure(config):
+    """
+    Allows plugins and conftest files to perform initial configuration.
+    This hook is called for every plugin and initial conftest
+    file after command line options have been parsed.
+    """
+    download_test_data()
 
 
 class DatasetReader:

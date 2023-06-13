@@ -13,10 +13,10 @@ from bokeh.plotting import figure, ColumnDataSource
 from bokeh.tile_providers import Vendors
 
 from pysamosa.data_access import _read_dataset_vars_from_ds
-from pysamosa.settings import LFSDATA_DIR
+from pysamosa.settings import TEST_DATA_DIR
 
 # data preparation
-ncfile_list = sorted((LFSDATA_DIR / "l1bs").rglob("*.nc"))
+ncfile_list = sorted((TEST_DATA_DIR / "l1bs").rglob("*.nc"))
 
 nc_filenames = [
     Path.cwd().parent

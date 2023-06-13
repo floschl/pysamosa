@@ -4,6 +4,7 @@ include HISTORY.rst
 include LICENSE
 include README.md
 include requirements.txt
+include pysamosa/luts_samosa.pickle
 
 recursive-include tests *
 recursive-include notebooks *

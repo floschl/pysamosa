@@ -6,10 +6,11 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 from datetime import datetime
-from pysamosa.dist2coast import get_dist_pacioos
+from pysamosa.dist2coast import download_dist2coast_nc, get_dist_pacioos
 
 from .common_types import ModelParameter
 from .conf_params import CONST_C
+
 
 data_vars_s3 = {
     "l1b": {

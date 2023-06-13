@@ -1,6 +1,10 @@
 import os
+from pathlib import Path
 import logging
 import numpy as np
+from tqdm import tqdm
+import requests
+import tarfile
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -258,3 +262,36 @@ def plot_l2_results_vs_ref(l2, l2_ref, cog_corr=0.0, fig_title=None):
         fig.suptitle(fig_title, fontsize=fontsize_labels)
 
     return fig, rmse_swh, rmse_ssh
+
+
+def download_untar_file(url: str, dest_path: str, expected_file_size: int = None):
+    filepath = Path(dest_path) / Path(url).name.split("?")[0]
+
+    # delete corrupt file (with wrong size!?)
+    if filepath.exists() and filepath.stat().st_size == expected_file_size:
+        logging.info(f"File {filepath} already exists, skipping download...")
+        return dest_path
+    elif filepath.exists() and filepath.stat().st_size != expected_file_size:
+        filepath.unlink()
+
+    os.umask(000)
+    dest_path.mkdir(parents=True, exist_ok=True)
+
+    with open(filepath, "wb") as f:
+        with tqdm(
+            total=expected_file_size,
+            unit="B",
+            unit_scale=True,
+            unit_divisor=1024,
+            desc=f"Downloading {filepath.name}... (Total {expected_file_size / (1024 ** 3):.2f}GB)",
+            ascii=True,
+        ) as pbar:
+            for chunk in requests.get(url, stream=True).iter_content(32 * 1024):
+                f.write(chunk)
+                pbar.update(len(chunk))
+
+    # extract downloaded zip file
+    with tarfile.open(filepath) as tar:
+        tar.extractall(path=dest_path)
+
+    return dest_path
