@@ -4,8 +4,8 @@
 width="500"></div>
 
 [![Build Status](https://app.travis-ci.com/floschl/pysamosa.svg?branch=main)](https://app.travis-ci.com/floschl/pysamosa)
+![PyPI](https://img.shields.io/pypi/v/pysamosa)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
 
 # PySAMOSA
 
