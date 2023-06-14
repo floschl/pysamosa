@@ -1,10 +1,15 @@
 from enum import Enum
 
-from pysamosa.common_types import (FittingSettings, L1bSourceType,
-                                   RetrackerBaseType,
-                                   RetrackerProcessorSettings,
-                                   RetrackerSettings, SensorSettings,
-                                   SensorType, WaveformSettings)
+from pysamosa.common_types import (
+    FittingSettings,
+    L1bSourceType,
+    RetrackerBaseType,
+    RetrackerProcessorSettings,
+    RetrackerSettings,
+    SensorSettings,
+    SensorType,
+    WaveformSettings,
+)
 
 
 class SettingsPreset(Enum):

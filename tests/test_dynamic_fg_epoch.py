@@ -2,12 +2,14 @@ import numpy as np
 import pytest
 
 from pysamosa.common_types import SENSOR_SETS_DEFAULT_S3
-from pysamosa.retracker_helpers import (gen_sliding_window_from_seq,
-                                        get_dynamic_first_guess_epochs,
-                                        get_inds_sliding_window,
-                                        get_pointwise_product,
-                                        get_tracker_shift_n_samps,
-                                        shift_waveform_by_n)
+from pysamosa.retracker_helpers import (
+    gen_sliding_window_from_seq,
+    get_dynamic_first_guess_epochs,
+    get_inds_sliding_window,
+    get_pointwise_product,
+    get_tracker_shift_n_samps,
+    shift_waveform_by_n,
+)
 
 
 @pytest.mark.parametrize(

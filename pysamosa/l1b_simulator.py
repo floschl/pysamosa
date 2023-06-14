@@ -2,8 +2,7 @@ import numpy as np
 from numpy.random import default_rng
 
 from pysamosa import simple_logger
-from pysamosa.common_types import (ModelSettings, RetrackerBaseType,
-                                   SensorSettings)
+from pysamosa.common_types import ModelSettings, RetrackerBaseType, SensorSettings
 from pysamosa.conf_params import CONST_C
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.model import SamosaModel

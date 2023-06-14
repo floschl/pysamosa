@@ -9,12 +9,19 @@ import pytest
 import xarray as xr
 
 from pysamosa import retracker, simple_logger
-from pysamosa.common_types import (L1bSourceType, ModelSettings, ProcMode,
-                                   RetrackerBaseType)
-from pysamosa.data_access import (data_vars_dart, data_vars_retracker,
-                                  data_vars_s6,
-                                  get_model_param_obj_from_l1b_data,
-                                  get_subset_dataset)
+from pysamosa.common_types import (
+    L1bSourceType,
+    ModelSettings,
+    ProcMode,
+    RetrackerBaseType,
+)
+from pysamosa.data_access import (
+    data_vars_dart,
+    data_vars_retracker,
+    data_vars_s6,
+    get_model_param_obj_from_l1b_data,
+    get_subset_dataset,
+)
 from pysamosa.retracker_helpers import get_dynamic_first_guess_epochs
 from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
 from tests.helpers import plot_retrack_result

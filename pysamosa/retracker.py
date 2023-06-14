@@ -4,10 +4,16 @@ import numpy as np
 from scipy.interpolate import Akima1DInterpolator
 from scipy.optimize import least_squares
 
-from pysamosa.common_types import (FittingParameters, FittingSettings,
-                                   ModelParameter, ModelSettings,
-                                   RetrackerBaseType, RetrackerSettings,
-                                   SensorSettings, WaveformSettings)
+from pysamosa.common_types import (
+    FittingParameters,
+    FittingSettings,
+    ModelParameter,
+    ModelSettings,
+    RetrackerBaseType,
+    RetrackerSettings,
+    SensorSettings,
+    WaveformSettings,
+)
 from pysamosa.leading_edge_detector import detect_leading_edge
 from pysamosa.model import SamosaModel, get_region_argmax, get_region_max
 

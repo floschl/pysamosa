@@ -1,6 +1,11 @@
-from pysamosa.common_types import (FittingSettings, L1bSourceType,
-                                   ModelSettings, RetrackerBaseType,
-                                   SensorType, WaveformSettings)
+from pysamosa.common_types import (
+    FittingSettings,
+    L1bSourceType,
+    ModelSettings,
+    RetrackerBaseType,
+    SensorType,
+    WaveformSettings,
+)
 
 
 def test_fitting_sets():

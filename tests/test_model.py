@@ -1,9 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pysamosa.common_types import (L1bSourceType, RetrackerBaseType,
-                                   SensorSettings, SensorType,
-                                   WaveformSettings)
+from pysamosa.common_types import (
+    L1bSourceType,
+    RetrackerBaseType,
+    SensorSettings,
+    SensorType,
+    WaveformSettings,
+)
 from pysamosa.model import ModelParameter, ModelSettings, SamosaModel
 from pysamosa.retracker import oversample_wf
 

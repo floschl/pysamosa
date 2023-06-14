@@ -1,9 +1,14 @@
 import matplotlib.pyplot as plt
 import pytest
 
-from pysamosa.common_types import (L1bSourceType, ModelSettings,
-                                   RetrackerBaseType, SensorSettings,
-                                   SensorType, WaveformSettings)
+from pysamosa.common_types import (
+    L1bSourceType,
+    ModelSettings,
+    RetrackerBaseType,
+    SensorSettings,
+    SensorType,
+    WaveformSettings,
+)
 from pysamosa.l1b_simulator import L1bSimulator
 
 

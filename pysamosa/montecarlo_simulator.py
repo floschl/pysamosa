@@ -8,9 +8,14 @@ import numpy as np
 import pandas as pd
 
 from pysamosa import retracker
-from pysamosa.common_types import (SENSOR_SETS_DEFAULT_S3, FittingSettings,
-                                   ModelSettings, RetrackerBaseType,
-                                   RetrackerSettings, WaveformSettings)
+from pysamosa.common_types import (
+    SENSOR_SETS_DEFAULT_S3,
+    FittingSettings,
+    ModelSettings,
+    RetrackerBaseType,
+    RetrackerSettings,
+    WaveformSettings,
+)
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.l1b_simulator import L1bSimulator
 

@@ -5,9 +5,11 @@ from itertools import islice, repeat
 import numpy as np
 
 from pysamosa.conf_params import CONST_C
-from pysamosa.data_access import (_read_dataset_vars_from_ds,
-                                  get_model_param_obj_from_l1b_data,
-                                  get_subset_dataset)
+from pysamosa.data_access import (
+    _read_dataset_vars_from_ds,
+    get_model_param_obj_from_l1b_data,
+    get_subset_dataset,
+)
 from pysamosa.retracker import SamosaRetracker
 
 
