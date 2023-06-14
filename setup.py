@@ -2,15 +2,13 @@
 
 """The setup script."""
 
-import sys
-from setuptools import setup, find_packages, Extension
 import re
+import sys
+
+from setuptools import Extension, find_packages, setup
 
 with open("README.md") as readme_file:
     readme = readme_file.read()
-
-# with open("HISTORY.rst") as history_file:
-#     history = history_file.read()
 
 requirements = []
 with open("requirements.txt") as f:
@@ -26,6 +24,8 @@ with open("requirements.txt") as f:
             "bump2version",
             "tox",
             "flake8",
+            "black",
+            "isort",
             "imageio",
             "pytest",
             "wheel",

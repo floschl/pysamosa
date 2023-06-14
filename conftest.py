@@ -1,12 +1,12 @@
-import pytest
-from pathlib import Path
 import re
-import netCDF4
 from enum import Enum
+from pathlib import Path
+
 import matplotlib as mpl
+import netCDF4
+import pytest
 
 from pysamosa.download_aux_data import download_test_data
-
 
 mpl.use("Agg")
 # mpl.use('TkAgg')
@@ -16,13 +16,12 @@ collect_ignore_glob = ["*_montecarlo_sim.py"]
 
 from pysamosa.data_access import (
     _read_dataset_vars_from_ds,
-    data_vars_s3,
-    data_vars_s6,
     data_vars_cs,
     data_vars_dart,
+    data_vars_s3,
+    data_vars_s6,
 )
-
-from pysamosa.settings import S3_DATA_DIR, S6_DATA_DIR, CS_DATA_DIR, FFSAR_DATA_DIR
+from pysamosa.settings import CS_DATA_DIR, FFSAR_DATA_DIR, S3_DATA_DIR, S6_DATA_DIR
 
 
 class FileLevel(Enum):

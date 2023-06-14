@@ -125,7 +125,7 @@ Activate pysamosa conda environment
 
     $ conda activate pysamosa
 
-Install dependencies
+Install dependencies into your conda env/virtualenv
 
     $ pip install -r requirements.txt
 
@@ -208,6 +208,15 @@ In this case:
 - Fork this repository
 - Submit a pull request to be merged back into this repository.
 
+Before submitting changes, please check that your changes pass flake8, black, isort and the
+   tests, including testing other Python versions with tox:
+
+    $ flake8 pysamosa tests scripts
+    $ black . --check --diff
+    $ isort . --check-only --diff
+    $ pytest
+    $ tox
+
 If your pull request is accepted, you will be included in the next official release and will be listed as a
 co-author for the DOI link created by Zenodo.
 
@@ -224,14 +233,14 @@ Software-related
 - Create notebook for a coastal retracking demo
 - Create richer documentation (readthedocs)
 
-## Credits and code reuse
+## Credits
 
 If you use this code, please cite this DOI:
 
 Florian Schlembach; Marcello Passaro. PySAMOSA: An Open-source Software Framework for Retracking SAMOSA-based, Open
 Ocean and Coastal Waveforms of SAR Satellite Altimetry. Zenodo. https://zenodo.org/badge/latestdoi/646028227.
 
-Salvatore Dinardo for his support in implementing the SAMOSA-based and SAMOSA+ [3] retracking algorithm.
+Salvatore Dinardo for his support in implementing the SAMOSA-based and SAMOSA+ [3] retracking algorithms.
 
 This software is licenced under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html). In short, you are allowed to use
 this software in your projects, if you change parts of the code you are required to also publish it. For more
