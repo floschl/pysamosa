@@ -1,13 +1,12 @@
-[//]: # (![pysamosa logo]&#40;./resources/logo.jpg&#41;)
-
-![]() <div align="center"><img src="https://github.com/floschl/pysamosa/blob/main/resources/logo_name.png?raw=true"
-width="500"></div>
+# PySAMOSA
 
 [![Build Status](https://app.travis-ci.com/floschl/pysamosa.svg?branch=main)](https://app.travis-ci.com/floschl/pysamosa)
 ![PyPI](https://img.shields.io/pypi/v/pysamosa)
+[![DOI](https://zenodo.org/badge/646028227.svg)](https://zenodo.org/badge/latestdoi/646028227)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# PySAMOSA
+![]() <div align="center"><img src="https://github.com/floschl/pysamosa/blob/main/resources/logo_name.png?raw=true"
+width="500"></div>
 
 PySAMOSA is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to
 measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation. More details on satellite altimetry can be found in this [PDF](https://www.altimetry.info/file/Radar_Altimetry_Tutorial.pdf).
