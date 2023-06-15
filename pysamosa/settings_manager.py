@@ -1,5 +1,3 @@
-from enum import Enum
-
 from pysamosa.common_types import (
     FittingSettings,
     L1bSourceType,
@@ -8,16 +6,9 @@ from pysamosa.common_types import (
     RetrackerSettings,
     SensorSettings,
     SensorType,
+    SettingsPreset,
     WaveformSettings,
 )
-
-
-class SettingsPreset(Enum):
-    NONE = "none"  # take default preset for RetrackerBaseType
-    SAM_FLO = "samflo"
-    CORALv1 = "coralv1"
-    CORALv2 = "coralv2"
-    SAMPLUS_FLO = "samplusflo"
 
 
 def get_default_base_settings(
@@ -55,60 +46,7 @@ def get_default_base_settings(
 
     wf_sets = WaveformSettings.get_default_src_type(l1b_src_type)
 
-    if retracker_basetype == RetrackerBaseType.SAM:
-        rp_sets.do_dynamic_fg_epoch = False
-        # rp_sets.dynamic_fg_epoch_n_adjacent_meas = 30  # default: 20
-
-        # retrack_sets.second_retracking_step_samplus = True
-        # retrack_sets.n_effective_looks = 0
-        # retrack_sets.normalise_wf_by_fg_region = 5
-        # retrack_sets.leading_edge_weight_factor = 4.0
-        # retrack_sets.interference_masking = True
-        # retrack_sets.interference_masking_grow = 2
-        # retrack_sets.interference_masking_swh_max = 8.0
-        # retrack_sets.interference_masking_second_retracking_step = True
-
-        # fitting_sets.Levmar_Control_1 = 1e-3
-        # fitting_sets.Levmar_Control_2 = 1e-1
-        # fitting_sets.Levmar_Control_3 = 1e-3
-        # fitting_sets.Levmar_Control_4 = 1e-1
-        # fitting_sets.lock_epoch_around_fg_n = True
-    elif retracker_basetype == RetrackerBaseType.SAMPLUS:
-        rp_sets.do_dynamic_fg_epoch = False
-        rp_sets.dynamic_fg_epoch_n_adjacent_meas = 30  # default: 20
-
-        retrack_sets.second_retracking_step_samplus = True
-        # retrack_sets.n_effective_looks = 0
-        # retrack_sets.normalise_wf_by_fg_region = 5
-        # retrack_sets.leading_edge_weight_factor = 1.0
-        # retrack_sets.interference_masking = True
-        # retrack_sets.interference_masking_grow = 0
-        # retrack_sets.interference_masking_swh_max = 8.0
-        # retrack_sets.interference_masking_second_retracking_step = True
-
-        # fitting_sets.Levmar_Control_2 = 1e-3
-        # fitting_sets.Levmar_Control_4 = 1e-4
-        # fitting_sets.lock_epoch_around_fg_n = True
-        fitting_sets.trf_threshold = 1e-5
-        fitting_sets.trf_stepsize = 1e-2
-
-    elif retracker_basetype == RetrackerBaseType.SAMPLUSPLUS:
-        # rp_sets.do_dynamic_fg_epoch = True
-        # rp_sets.dynamic_fg_epoch_n_adjacent_meas = 20  # default: 20
-
-        retrack_sets.second_retracking_step_samplus = False
-        # retrack_sets.n_effective_looks = 0
-        # retrack_sets.normalise_wf_by_fg_region = 5
-        # retrack_sets.leading_edge_weight_factor = 1.0
-        # retrack_sets.interference_masking = True
-        # retrack_sets.interference_masking_grow = 0
-        # retrack_sets.interference_masking_swh_max = 8.0
-        # retrack_sets.interference_masking_second_retracking_step = Truewf_sets is not None
-
-        # fitting_sets.Levmar_Control_2 = 1e-1
-        # fitting_sets.lock_epoch_around_fg_n = True
-
-    # PRESETS
+    # Settings PRESETS
     if (
         settings_preset == SettingsPreset.CORALv1
         or settings_preset == SettingsPreset.CORALv2
@@ -116,6 +54,7 @@ def get_default_base_settings(
         rp_sets.do_dynamic_fg_epoch = True
         rp_sets.dynamic_fg_epoch_n_adjacent_meas = 40
 
+        retrack_sets.settings_preset = SettingsPreset.CORALv1
         retrack_sets.second_retracking_step_samplus = True
         # retrack_sets.n_effective_looks = 0
         retrack_sets.normalise_wf_by_fg_region = 5
@@ -133,8 +72,23 @@ def get_default_base_settings(
         fitting_sets.trf_stepsize = 1e-2
 
         if settings_preset == SettingsPreset.CORALv2:
+            retrack_sets.settings_preset = SettingsPreset.CORALv2
             retrack_sets.interference_masking_mask_before_le = True
             fitting_sets.Fit_Var_2_MinMax_Hs = (0.0, 20)
+
+    elif settings_preset == SettingsPreset.SAMPLUS:
+        retrack_sets.settings_preset = SettingsPreset.SAMPLUS
+
+        rp_sets.do_dynamic_fg_epoch = True
+        rp_sets.dynamic_fg_epoch_n_adjacent_meas = 20
+
+        retrack_sets.second_retracking_step_samplus = True
+
+        fitting_sets.trf_threshold = 1e-5
+        fitting_sets.trf_stepsize = 1e-2
+    elif settings_preset == SettingsPreset.SAMPLUSPLUS:
+        retrack_sets.second_retracking_step_samplus = False
+
 
     # adapt parameters according to internal_oversampling_factor
     if wf_sets.internal_oversampling_factor > 1 or wf_sets.zp_oversampling_factor > 1:

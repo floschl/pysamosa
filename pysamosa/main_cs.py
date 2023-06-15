@@ -1,10 +1,10 @@
 import logging
 from pathlib import Path
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import data_vars_cs
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 if __name__ == "__main__":
     nc_src_base_path = Path(
@@ -14,8 +14,8 @@ if __name__ == "__main__":
     run_name = "samplus_cs_test"
 
     l1b_src_type = L1bSourceType.EUM_CS
-    rbt = RetrackerBaseType.SAMPLUS
-    pres = SettingsPreset.NONE
+    rbt = RetrackerBaseType.SAM
+    pres = SettingsPreset.CORALv1
     (
         rp_sets,
         retrack_sets,

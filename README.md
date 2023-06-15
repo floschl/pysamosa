@@ -183,6 +183,14 @@ segments of the S3A, S6, CS2 missions (and a generic input nc file).
 plot the test output, which is particularly useful for the retracking tests in files `tests/test_retrack_multi.
 py` and `tests/test_retrack_multi.py`.</span>
 
+
+5. **Difference between CORALv1 and CORALv2**
+- v2 has two additional extensions that were required for S6-MF
+- retrack_sets.interference_masking_mask_before_le = True
+Interference signals before the leading edge are also masked out by the adaptive inteference mitigation scheme (AIM, CORAL feature)
+- fitting_sets.Fit_Var_2_MinMax_Hs = (0.0, 20)
+lower SWH boundary for fitting procedure is set to 0.0, as defined in [2]
+
 ## Validation
 
 ### Run tests

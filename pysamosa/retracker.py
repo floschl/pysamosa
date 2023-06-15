@@ -12,6 +12,7 @@ from pysamosa.common_types import (
     RetrackerBaseType,
     RetrackerSettings,
     SensorSettings,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.leading_edge_detector import detect_leading_edge
@@ -241,7 +242,7 @@ class SamosaRetracker:
         # Dinardo2020 3.2.3
         if (
             (
-                self.retracker_basetype == RetrackerBaseType.SAMPLUS
+                self.retrack_sets.settings_preset == SettingsPreset.SAMPLUS
                 or self.retracker_basetype == RetrackerBaseType.SAMPLUSPLUS
             )
             and "thermal_noise" in l1b_data_single

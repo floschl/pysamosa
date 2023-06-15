@@ -4,10 +4,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import data_vars_s6
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 if __name__ == "__main__":
     nc_dest_path = Path("/lfs/DGFI24/bigdata/s6jtex_raw2rmc/retracked/")

@@ -10,6 +10,7 @@ from pysamosa.common_types import (
     RetrackerBaseType,
     SensorSettings,
     SensorType,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.data_access import (
@@ -19,7 +20,7 @@ from pysamosa.data_access import (
     get_subset_dataset,
 )
 from pysamosa.model import ModelParameter, ModelSettings, SamosaModel
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 from pysamosa.utils import gen_first_true
 
 default_width_in = 5.79  # in inches

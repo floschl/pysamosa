@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 
-from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import (
     data_vars_cs,
     data_vars_dart,
@@ -13,7 +13,7 @@ from pysamosa.data_access import (
 )
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings import S6_DATA_DIR
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 from pysamosa.utils import plot_l2_results_vs_ref
 
 
@@ -160,7 +160,6 @@ def test_retrack_cs(cs_eum_l1b, cs_eum_l2):
         RetrackerBaseType.SAM,
         SettingsPreset.NONE,
     )
-    # l1b_src_type, retracker_basetype, preset = L1bSourceType.EUM_CS, RetrackerBaseType.SAMPLUS, SettingsPreset.NONE
 
     l1b, l2 = cs_eum_l1b, cs_eum_l2
     data_vars_l1b = data_vars_cs["l1b"]

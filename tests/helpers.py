@@ -28,7 +28,7 @@ def plot_retrack_result(
     res_fit,
     model_params,
     *,
-    l1b_srctype=L1bSourceType,
+    l1b_srctype = L1bSourceType,
     sensor_sets: SensorSettings = None,
     wf_sets: WaveformSettings = None,
     model_sets: ModelSettings = None,

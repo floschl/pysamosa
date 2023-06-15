@@ -4,10 +4,10 @@ import re
 from pathlib import Path
 from sys import platform
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import data_vars_s3
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 is_linux = "linux" in platform
 is_slurm = "SLURM_JOB_ID" in os.environ
@@ -78,7 +78,7 @@ dest_path_base = dest_path_base / "pysamosa_results" / name_dest_path
 
 l1bsrc_type, rbt, preset = (
     L1bSourceType.GPOD,
-    RetrackerBaseType.SAMPLUS,
+    RetrackerBaseType.SAM,
     SettingsPreset.CORALv1,
 )
 
@@ -89,7 +89,7 @@ if rbt == RetrackerBaseType.SAM:
         if l1bsrc_type is L1bSourceType.EUM_S3
         else "s3a_sr_1_sra_bs_gpod_sam_wfs"
     )
-elif rbt == RetrackerBaseType.SAMPLUS or rbt == RetrackerBaseType.SAMPLUSPLUS:
+elif preset == SettingsPreset.SAMPLUS:
     l1b_base_path = "s3a_sr_1_sra_bs_gpod_samplus_wfs"
 # rr_l1b_src_dir = (Path('/nfs/') if is_linux else Path('U:/')) / 'DGFI145/C/seastate_cci/round-robin/satellite/' / l1b_base_path
 rr_l1b_src_dir = (
@@ -151,7 +151,7 @@ def get_l1b_src_files(*, nc_dest_path, skip_if_exists=True):
 
 if __name__ == "__main__":
     if (
-        rbt == RetrackerBaseType.SAMPLUS or rbt == RetrackerBaseType.SAMPLUSPLUS
+        preset == SettingsPreset.SAMPLUS
     ) and l1bsrc_type == L1bSourceType.EUM_S3:
         raise RuntimeError(
             "RetrackerBaseType SAM+/SAM++ and L1bSourceType.EUMETSAT is not compatible. "

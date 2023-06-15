@@ -1,10 +1,10 @@
 import logging
 from pathlib import Path
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import data_vars_s6
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 if __name__ == "__main__":
     nc_src_base_path = Path(
@@ -22,7 +22,6 @@ if __name__ == "__main__":
         if "f04" in str(l1b_files[0]).lower()
         else L1bSourceType.EUM_S6_F06
     )
-    # rbt = RetrackerBaseType.SAMPLUS
     rbt = RetrackerBaseType.SAM
     pres = SettingsPreset.CORALv2
     # pres = SettingsPreset.NONE

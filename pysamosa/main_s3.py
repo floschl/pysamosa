@@ -1,10 +1,10 @@
 import logging
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import data_vars_s3
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings import TEST_DATA_DIR
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 if __name__ == "__main__":
     nc_src_base_path = TEST_DATA_DIR / "s3" / "l1b"
@@ -15,7 +15,6 @@ if __name__ == "__main__":
     l1b_files = [f for f in sorted(nc_src_base_path.rglob("*.nc"))]
 
     l1b_src_type = L1bSourceType.EUM_S3
-    # rbt = RetrackerBaseType.SAMPLUS
     rbt = RetrackerBaseType.SAM
     # pres = SettingsPreset.CORALv1
     pres = SettingsPreset.NONE

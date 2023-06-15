@@ -26,10 +26,11 @@ class L1bSourceType(Enum):
     EUM_S6_F06_FFSAR = "eum_s6_ffsar_f06"
 
 
-class RetrackerBaseType(Enum):
-    SAM = "sam"
+class SettingsPreset(Enum):
+    NONE = "none"  # take default preset for standard SAMOSA
+    CORALv1 = "coralv1"
+    CORALv2 = "coralv2"
     SAMPLUS = "samplus"
-    SAMPLUSPLUS = "samplusplus"
 
 
 class SensorSettings(BaseModel):
@@ -120,7 +121,6 @@ class WaveformSettings(BaseModel):
 
 
 class RetrackerProcessorSettings(BaseModel):
-    retracker_basetype: RetrackerBaseType
     n_offset: int = 0
     n_inds: int = 5  # 0 = all
     n_procs: int = None  # None = all available
@@ -141,7 +141,7 @@ class RetrackerProcessorSettings(BaseModel):
 
 
 class RetrackerSettings(BaseModel):
-    retracker_basetype: RetrackerBaseType
+    settings_preset: SettingsPreset
     # flag to disable the usage of multilook (0 -> Enable ML; 1 -> Disable
     # Multilook)
     Disable_ML_Flag: bool = False
@@ -240,7 +240,6 @@ class ModelParameter(BaseModel):
 
 
 class ModelSettings(BaseModel):
-    retracker_basetype: RetrackerBaseType
     # flag to disable the computation of first order term in the SAMOSA model
     # (0 -> Enable First Order term; 1 -> Disable First order term)
     Disable_SAM_F1_Flag: bool = False
@@ -293,7 +292,6 @@ class FittingParameters(BaseModel):
 
 
 class FittingSettings(BaseModel):
-    retracker_basetype: RetrackerBaseType
     # Initial guess for the 2nd fitted variable (Hs)
     Fit_Var_2_Init_Hs: float = 2.0
     # Initial guess for the 3rd fitted variable (Pu)

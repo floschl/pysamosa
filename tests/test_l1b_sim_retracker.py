@@ -7,22 +7,18 @@ from pysamosa.common_types import (
     ModelSettings,
     RetrackerBaseType,
     SensorSettings,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.l1b_simulator import L1bSimulator
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 from tests.helpers import plot_retrack_result
 
 l1b_src_type, retracker_basetype, settings_preset = (
-    # L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.NONE,
     L1bSourceType.EUM_S3,
     RetrackerBaseType.SAM,
     SettingsPreset.CORALv1,
-    # L1bSourceType.EUM_S3, RetrackerBaseType.SAMPLUS, SettingsPreset.NONE,
-    # L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.SAM_FLO,
-    # L1bSourceType.EUM_S3, RetrackerBaseType.SAMPLUS, SettingsPreset.SAMPLUS_FLO,
-    # L1bSourceType.EUM_S3, RetrackerBaseType.SAMPLUSPLUS, SettingsPreset.NONE,
 )
 rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(
     retracker_basetype=retracker_basetype,

@@ -8,6 +8,7 @@ from pysamosa.common_types import (
     ModelSettings,
     RetrackerBaseType,
     SensorSettings,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.conf_params import CONST_A, CONST_B, CONST_C, CONST_F
@@ -45,10 +46,12 @@ class SamosaModel:
         model_sets: ModelSettings,
         sensor_sets: SensorSettings,
         wf_sets: WaveformSettings,
+        preset: SettingsPreset,
     ):
         self.sensor_sets = sensor_sets
         self.model_sets = model_sets
         self.wf_sets = wf_sets
+        self.settings_preset = preset
 
         self.B_r_Hz_oversampled = (
             self.sensor_sets.B_r_Hz
@@ -152,7 +155,7 @@ class SamosaModel:
 
         # SL5. Define a value for alph_P
         if (
-            self.model_sets.retracker_basetype == RetrackerBaseType.SAMPLUS
+            self.settings_preset == SettingsPreset.SAMPLUS
             and 0.0 <= model_params.dist2coast < 10.0
         ):
             alpha_p = 0.55

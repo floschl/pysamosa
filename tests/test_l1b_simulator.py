@@ -20,7 +20,6 @@ from pysamosa.l1b_simulator import L1bSimulator
 def test_gen_l1b_data_single(swh):
     n_realisations = 3
     rbt = RetrackerBaseType.SAM
-    # rbt = RetrackerBaseType.SAMPLUS
     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3)
     sensor_sets = SensorSettings.get_default_sets(st=SensorType.S3)
 
@@ -54,7 +53,6 @@ def test_gen_l1b_data_single(swh):
 def test_gen_l1b_data_add_interference(swh):
     n_realisations = 3
     rbt = RetrackerBaseType.SAM
-    # rbt = RetrackerBaseType.SAMPLUS
     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3)
     sensor_sets = SensorSettings.get_default_sets(st=SensorType.S3)
 

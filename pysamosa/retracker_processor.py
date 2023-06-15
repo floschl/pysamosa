@@ -15,6 +15,7 @@ from pysamosa.common_types import (
     RetrackerProcessorSettings,
     RetrackerSettings,
     SensorSettings,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.conf_params import CONST_C
@@ -94,7 +95,7 @@ class RetrackerProcessor:
         )
 
         self.retrack_sets = (
-            RetrackerSettings(retracker_basetype=self.rt)
+            RetrackerSettings(settings_preset=SettingsPreset.NONE)
             if retrack_sets is None
             else retrack_sets
         )

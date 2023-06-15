@@ -7,10 +7,10 @@ import numpy as np
 import pandas as pd
 
 from pysamosa import simple_logger
-from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType
+from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType, SettingsPreset
 from pysamosa.data_access import data_vars_dart
 from pysamosa.retracker_processor import RetrackerProcessor
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 simple_logger.set_root_logger(log_level=logging.INFO)
 

@@ -14,6 +14,7 @@ from pysamosa.common_types import (
     ModelSettings,
     ProcMode,
     RetrackerBaseType,
+    SettingsPreset,
 )
 from pysamosa.data_access import (
     data_vars_dart,
@@ -23,7 +24,7 @@ from pysamosa.data_access import (
     get_subset_dataset,
 )
 from pysamosa.retracker_helpers import get_dynamic_first_guess_epochs
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 from tests.helpers import plot_retrack_result
 from tests.settings_dumper import SettingsDumper
 
@@ -49,16 +50,16 @@ conf = [
     ##
     # CS
     # (L1bSourceType.EUM_CS, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_CS, RetrackerBaseType.SAMPLUS, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_CS, RetrackerBaseType.SAM, SettingsPreset.SAMPLUS),
     # S6
     # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_F06, RetrackerBaseType.SAM, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.SAMPLUS),
+    # (L1bSourceType.EUM_S6_F06, RetrackerBaseType.SAM, SettingsPreset.CORALv2),
     # S6 FFSAR
     # (L1bSourceType.EUM_S6_FFSAR, RetrackerBaseType.SAM, SettingsPreset.NONE),
     # (L1bSourceType.EUM_S6_FFSAR, RetrackerBaseType.SAM, SettingsPreset.CORALv2),
-    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_F06, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAMPLUS, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_F06, RetrackerBaseType.SAM, SettingsPreset.CORALv2),
 ]
 l1b_src_type, retracker_basetype, settings_preset = conf[0]
 

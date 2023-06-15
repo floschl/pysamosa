@@ -7,6 +7,7 @@ from pysamosa.common_types import (
     L1bSourceType,
     ModelSettings,
     RetrackerBaseType,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.montecarlo_simulator import (
@@ -17,15 +18,13 @@ from pysamosa.montecarlo_simulator import (
     plot_cost_func_vs_swh,
     plot_swh_epoch_scatter,
 )
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.settings_manager import get_default_base_settings
 
 retracker_basetype, settings_preset = (
     # RetrackerBaseType.SAM, SettingsPreset.NONE,
     RetrackerBaseType.SAM,
     SettingsPreset.CORALv1,
     # RetrackerBaseType.SAMPLUS, SettingsPreset.NONE,
-    # RetrackerBaseType.SAM, SettingsPreset.SAM_FLO,
-    # RetrackerBaseType.SAMPLUS, SettingsPreset.SAMPLUS_FLO,
     # RetrackerBaseType.SAMPLUSPLUS, SettingsPreset.NONE,
 )
 rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(

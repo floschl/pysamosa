@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType
-from pysamosa.settings_manager import SettingsPreset, get_default_base_settings
+from pysamosa.common_types import L1bSourceType, SettingsPreset
+from pysamosa.settings_manager import get_default_base_settings
 
 test_inds_gpod = [
     # coast
@@ -21,25 +21,10 @@ test_inds_gpod = [
 ]
 
 
-# rp_sets, retrack_sets, fitting_sets = get_default_base_settings(RetrackerBaseType.SAMPLUS, SettingsPreset.NONE)
 rp_sets, retrack_sets, _, _, _ = get_default_base_settings(
-    retracker_basetype=RetrackerBaseType.SAMPLUS,
     settings_preset=SettingsPreset.SAM_FLO,
     l1b_src_type=L1bSourceType.EUM_S3,
 )
-
-# rp_sets.do_dynamic_fg_epoch = True
-rp_sets.dynamic_fg_epoch_n_adjacent_meas = 30  # default: 20
-
-# retrack_sets.n_effective_looks = 0
-# retrack_sets.normalise_wf_by_fg_region = 5
-# retrack_sets.interference_masking = True
-# retrack_sets.interference_masking_grow = 0
-# retrack_sets.interference_masking_swh_max = 8.0
-# retrack_sets.second_retracking_step_samplus = True
-
-# fitting_sets.Levmar_Control_2 = 1e-1
-# fitting_sets.lock_epoch_around_fg_n = True
 
 
 def plot_leading_edge_analysis(le_inds, l1b_data_single, ind_gpod, fg_epoch):
