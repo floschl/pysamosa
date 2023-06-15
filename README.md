@@ -160,8 +160,9 @@ The `RetrackerProcessor` inputs require the `RetrackerProcessorSettings`, `Retra
    and using 6 cores).
 ```python
     l1b_src_type = L1bSourceType.EUM_S3
-    rbt = RetrackerBaseType.SAM
-    pres = SettingsPreset.NONE
+    rbt, pres = RetrackerBaseType.SAM, SettingsPreset.NONE  #use this for the standard SAMOSA-based retracker [2]
+    # rbt, pres = RetrackerBaseType.SAM, SettingsPreset.CORALv2  #use this for CORALv2 [5]
+    # rbt, pres = RetrackerBaseType.SAMPLUS, SettingsPreset.NONE  #use this for SAMOSA+ [3]
     rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
 
     rp_sets.nc_dest_dir = nc_dest_path / run_name
@@ -170,7 +171,6 @@ The `RetrackerProcessor` inputs require the `RetrackerProcessorSettings`, `Retra
     rp_sets.n_procs = 6
     rp_sets.skip_if_exists = False
 ```
-Another configuration to run SAM+ could be set by `rbt = RetrackerBaseType.SAMPLUS`.
 
 4. **Evaluation environment**
 There are several unit tests located in `./pysamosa/tests/` that aim to analyse the retracked output in more detail.
