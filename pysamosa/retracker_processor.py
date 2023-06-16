@@ -70,11 +70,7 @@ class RetrackerProcessor:
         simple_logger.set_root_logger(log_level=log_level)
 
         self.l1b_data_vars = l1b_data_vars
-        self.rp_sets = (
-            RetrackerProcessorSettings()
-            if rp_sets is None
-            else rp_sets
-        )
+        self.rp_sets = RetrackerProcessorSettings() if rp_sets is None else rp_sets
         self.l1b_src_files, self.l2_dest_files = get_nc_src_dest_file_list(
             l1b_source, self.rp_sets.nc_dest_dir
         )
@@ -97,11 +93,7 @@ class RetrackerProcessor:
             if retrack_sets is None
             else retrack_sets
         )
-        self.fitting_sets = (
-            FittingSettings()
-            if fitting_sets is None
-            else fitting_sets
-        )
+        self.fitting_sets = FittingSettings() if fitting_sets is None else fitting_sets
         self.sensor_sets = sensor_sets if sensor_sets is not None else SensorSettings()
         self.wf_sets = (
             wf_sets
@@ -144,8 +136,10 @@ class RetrackerProcessor:
                         "data": np.ones(n_inds),
                         "dims": "time",
                         "attrs": {
-                            "units": "m",
-                            "long_name": "(conservative) quality flag for the swh variable",
+                            "units": "bool",
+                            "long_name": "standard quality flag for the swh variable, "
+                            '"misfit_selective" > 4 (if AIM of CORAL is activated,'
+                            "otherwise it is simply the misfit)",
                             "flag_values": "[0 1]",
                             "flag_meaning": "good bad",
                         },
@@ -154,8 +148,9 @@ class RetrackerProcessor:
                         "data": np.ones(n_inds),
                         "dims": "time",
                         "attrs": {
-                            "units": "m",
-                            "long_name": "(alternative) quality flag for the swh variable",
+                            "units": "bool",
+                            "long_name": "(alternative) quality flag for the swh variable, "
+                            '"misfit_le" > 4 (the misfit over the detected leading edge)',
                             "flag_values": "[0 1]",
                             "flag_meaning": "good bad",
                         },
@@ -164,8 +159,9 @@ class RetrackerProcessor:
                         "data": np.ones(n_inds),
                         "dims": "time",
                         "attrs": {
-                            "units": "m",
-                            "long_name": "second (alternative) quality flag for the swh variable",
+                            "units": "bool",
+                            "long_name": "second (alternative) quality flag for the swh variable, "
+                            '"misfit" > 4 (the default misfit over all range gates)',
                             "flag_values": "[0 1]",
                             "flag_meaning": "good bad",
                         },
@@ -184,6 +180,40 @@ class RetrackerProcessor:
                         "attrs": {
                             "units": "m",
                             "long_name": "retracked range at 20 Hz (no geo-corrections applied)",
+                        },
+                    },
+                    "range_qual": {
+                        "data": np.ones(n_inds),
+                        "dims": "time",
+                        "attrs": {
+                            "units": "bool",
+                            "long_name": "standard quality flag for the range variable, "
+                            '"misfit_selective" > 4 (if AIM of CORAL is activated,'
+                            "otherwise it is simply the misfit)",
+                            "flag_values": "[0 1]",
+                            "flag_meaning": "good bad",
+                        },
+                    },
+                    "range_alt_qual": {
+                        "data": np.ones(n_inds),
+                        "dims": "time",
+                        "attrs": {
+                            "units": "bool",
+                            "long_name": "(alternative) quality flag for the range variable, "
+                            '"misfit_le" > 4 (the misfit over the detected leading edge)',
+                            "flag_values": "[0 1]",
+                            "flag_meaning": "good bad",
+                        },
+                    },
+                    "range_alt2_qual": {
+                        "data": np.ones(n_inds),
+                        "dims": "time",
+                        "attrs": {
+                            "units": "bool",
+                            "long_name": "second (alternative) quality flag for the range variable, "
+                            '"misfit" > 4 (the default misfit over all range gates)',
+                            "flag_values": "[0 1]",
+                            "flag_meaning": "good bad",
                         },
                     },
                     "altitude": {
@@ -288,13 +318,20 @@ class RetrackerProcessor:
             self.output_l2.swh[rel_ind] = res_fit["swh"]
             self.output_l2.swh_qual[rel_ind] = res_fit["misfit_selective"] > 4
             self.output_l2.swh_alt_qual[rel_ind] = res_fit["misfit_le"] > 4
-            # as defined in Dinardo2020, 3.4 (True=bad)
             self.output_l2.swh_alt2_qual[rel_ind] = res_fit["misfit"] > 4
 
             self.output_l2.epoch[rel_ind] = res_fit["epoch_ns"]
             self.output_l2.range[rel_ind] = self.l1b_data["tracker_range_m"][
                 rel_ind
             ] + (float(res_fit["epoch_ns"])) * 1e-9 * (CONST_C / 2)
+            self.output_l2.range_qual[rel_ind] = self.output_l2.swh_qual[rel_ind]
+            self.output_l2.range_alt_qual[rel_ind] = self.output_l2.swh_alt_qual[
+                rel_ind
+            ]
+            self.output_l2.range_alt2_qual[rel_ind] = self.output_l2.swh_alt2_qual[
+                rel_ind
+            ]
+
             self.output_l2.Pu[rel_ind] = res_fit["Pu"]
             self.output_l2.misfit[rel_ind] = res_fit["misfit"]
             self.output_l2.misfit_le[rel_ind] = res_fit["misfit_le"]

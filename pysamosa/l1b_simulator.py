@@ -52,12 +52,15 @@ class L1bSimulator:
         self.swh = swh
         self.dtau = 1 / (self.sensor_sets.B_r_Hz * self.wf_sets.zp_oversampling_factor)
         epoch_refgate = self.l1b_data_single["epoch_ref_gate"]
-        retrack_point_gates = 38 if settings_preset == SettingsPreset.NONE else  310
+        retrack_point_gates = 38 if settings_preset == SettingsPreset.NONE else 310
         self.epoch_ns = ((retrack_point_gates - epoch_refgate) * self.dtau) * 1e9
         self.Pu = Pu
 
         self.sam_model = SamosaModel(
-            model_sets=self.model_sets, sensor_sets=self.sensor_sets, wf_sets=wf_sets, settings_preset=settings_preset,
+            model_sets=self.model_sets,
+            sensor_sets=self.sensor_sets,
+            wf_sets=wf_sets,
+            settings_preset=settings_preset,
         )
 
         # noise

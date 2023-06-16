@@ -77,7 +77,12 @@ def gen_multilooked_vary_swh():
     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S6_F04)
     model_sets = ModelSettings()
     sensor_sets = SensorSettings.get_default_sets(st=SensorType.S6_F06)
-    sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=sensor_sets, settings_preset=settings_preset)
+    sm = SamosaModel(
+        model_sets=model_sets,
+        wf_sets=wf_sets,
+        sensor_sets=sensor_sets,
+        settings_preset=settings_preset,
+    )
 
     swh = [0.25, 0.75, 1.0, 2.0, 5, 7, 9]
     Pu = 1.0

@@ -28,7 +28,11 @@ def test_gen_l1b_data_single(swh):
     )
 
     l1b_sim = L1bSimulator(
-        model_sets=model_sets, swh=swh, Pu=1.0, sensor_sets=sensor_sets, wf_sets=wf_sets,
+        model_sets=model_sets,
+        swh=swh,
+        Pu=1.0,
+        sensor_sets=sensor_sets,
+        wf_sets=wf_sets,
         settings_preset=SettingsPreset.NONE,
     )
     l1b_sim_it = iter(l1b_sim)

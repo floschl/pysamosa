@@ -149,9 +149,7 @@ def get_l1b_src_files(*, nc_dest_path, skip_if_exists=True):
 
 
 if __name__ == "__main__":
-    if (
-        preset == SettingsPreset.SAMPLUS
-    ) and l1bsrc_type == L1bSourceType.EUM_S3:
+    if (preset == SettingsPreset.SAMPLUS) and l1bsrc_type == L1bSourceType.EUM_S3:
         raise RuntimeError(
             "SettingsPreset SAM+/SAM++ and L1bSourceType.EUMETSAT is not compatible. "
         )
@@ -164,9 +162,7 @@ if __name__ == "__main__":
         fitting_sets,
         wf_sets,
         sensor_sets,
-    ) = get_default_base_settings(
-        settings_preset=preset, l1b_src_type=l1bsrc_type
-    )
+    ) = get_default_base_settings(settings_preset=preset, l1b_src_type=l1bsrc_type)
 
     rp_sets.nc_dest_dir = nc_dest_path
     rp_sets.n_offset = n_offset

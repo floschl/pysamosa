@@ -274,10 +274,6 @@ class SamosaModel:
             Theta2 = np.pi / 2 + dTheta * self.model_sets.Ideal_Last_Look_Index_ML
             self.Beam_Ang_Stack_TS = np.arange(Theta1, Theta2, dTheta)
         else:
-            beam_ang_stack_full = model_params.beam_ang_stack_rad[
-                ~np.isnan(model_params.beam_ang_stack_rad)
-            ]
-
             self.Beam_Ang_Stack_TS = model_params.beam_ang_stack_rad[
                 ~np.isnan(model_params.beam_ang_stack_rad)
             ]

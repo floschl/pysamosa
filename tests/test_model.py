@@ -21,7 +21,10 @@ def test_setting_model_parameter_obj():
 def test_waveform_single_look():
     models_sets = ModelSettings.get_default_sets(st=SensorType.S3)
     sm = SamosaModel(
-        sensor_sets=SensorSettings(), wf_sets=WaveformSettings(), model_sets=models_sets, settings_preset=SettingsPreset.NONE,
+        sensor_sets=SensorSettings(),
+        wf_sets=WaveformSettings(),
+        model_sets=models_sets,
+        settings_preset=SettingsPreset.NONE,
     )
 
     # swh = np.arange(11) + 0.5
@@ -54,7 +57,10 @@ def test_multilooked_oversample():
         )
         model_sets = ModelSettings()
         sm = SamosaModel(
-            model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
+            model_sets=model_sets,
+            wf_sets=wf_sets,
+            sensor_sets=SensorSettings(),
+            settings_preset=SettingsPreset.NONE,
         )
 
         swh = 3.0
@@ -107,7 +113,10 @@ def test_different_model_len():
         wf_sets.np = model_len
         model_sets = ModelSettings()
         sm = SamosaModel(
-            model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
+            model_sets=model_sets,
+            wf_sets=wf_sets,
+            sensor_sets=SensorSettings(),
+            settings_preset=SettingsPreset.NONE,
         )
 
         swh = 3.0
@@ -234,7 +243,10 @@ def test_multilooked_vary_swh():
     )
     model_sets = ModelSettings()
     sm = SamosaModel(
-        model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
+        model_sets=model_sets,
+        wf_sets=wf_sets,
+        sensor_sets=SensorSettings(),
+        settings_preset=SettingsPreset.NONE,
     )
 
     swh = [0.25, 0.75, 1.0, 2.0, 5, 7, 9, 11]
@@ -265,7 +277,10 @@ def test_multilooked_vary_Pu():
     )
     model_sets = ModelSettings()
     sm = SamosaModel(
-        model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
+        model_sets=model_sets,
+        wf_sets=wf_sets,
+        sensor_sets=SensorSettings(),
+        settings_preset=SettingsPreset.NONE,
     )
 
     swh = 2.0

@@ -82,7 +82,6 @@ def get_default_base_settings(
     elif settings_preset == SettingsPreset.SAMPLUSPLUS:
         retrack_sets.second_retracking_step_samplus = False
 
-
     # adapt parameters according to internal_oversampling_factor
     if wf_sets.internal_oversampling_factor > 1 or wf_sets.zp_oversampling_factor > 1:
         mult_factor = (

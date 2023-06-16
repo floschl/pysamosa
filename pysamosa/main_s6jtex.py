@@ -47,9 +47,7 @@ if __name__ == "__main__":
         fitting_sets,
         wf_sets,
         sensor_sets,
-    ) = get_default_base_settings(
-        settings_preset=pres, l1b_src_type=l1b_src_type
-    )
+    ) = get_default_base_settings(settings_preset=pres, l1b_src_type=l1b_src_type)
 
     rp_sets.nc_dest_dir = nc_dest_path / run_name
     rp_sets.n_offset = 0

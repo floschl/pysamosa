@@ -13,7 +13,6 @@ from pysamosa.common_types import (
     FittingSettings,
     ModelSettings,
     RetrackerSettings,
-    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.data_access import get_model_param_obj_from_l1b_data

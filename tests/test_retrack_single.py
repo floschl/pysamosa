@@ -9,12 +9,7 @@ import pytest
 import xarray as xr
 
 from pysamosa import retracker, simple_logger
-from pysamosa.common_types import (
-    L1bSourceType,
-    ModelSettings,
-    ProcMode,
-    SettingsPreset,
-)
+from pysamosa.common_types import L1bSourceType, ModelSettings, ProcMode, SettingsPreset
 from pysamosa.data_access import (
     data_vars_dart,
     data_vars_retracker,
