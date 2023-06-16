@@ -57,7 +57,6 @@ def get_default_base_settings(
         retrack_sets.interference_masking_swh_max = 8.0
         retrack_sets.interference_masking_mask_before_le = False
         retrack_sets.interference_masking_second_retracking_step = True
-        # retrack_sets.interference_retrack_after_cleansing = True
 
         # fitting_sets.Levmar_Control_2 = 1e-2
         fitting_sets.limit_epoch_around_fg_n = 10

@@ -304,8 +304,6 @@ class SamosaRetracker:
             sensor_sets=_self.sensor_sets,
             wf_sets=_self.wf_sets,
             settings_preset=retrack_sets.settings_preset,
-            # reset the internal_oversampling_factor and generates a
-            # non-oversampled model
         )
 
         # FIT5. Determine the theoretical model waveform to be used for the
