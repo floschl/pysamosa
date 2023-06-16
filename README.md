@@ -238,18 +238,20 @@ Software-related
 - Create notebook for a coastal retracking demo
 - Create richer documentation (readthedocs)
 
-## Credits
+## Citation
 
-If you use this code, please cite this DOI:
+If you use this software or the code, please cite this DOI:
 
 Florian Schlembach; Marcello Passaro. PySAMOSA: An Open-source Software Framework for Retracking SAMOSA-based, Open
 Ocean and Coastal Waveforms of SAR Satellite Altimetry. Zenodo. https://zenodo.org/badge/latestdoi/646028227.
 
-Salvatore Dinardo for his support in implementing the SAMOSA-based and SAMOSA+ [3] retracking algorithms.
+## Acknowledgement
 
-This software is licenced under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html). In short, you are allowed to use
-this software in your projects, if you change parts of the code you are required to also publish it. For more
-frequently asked questions about GPL, please see [here](https://www.gnu.org/licenses/gpl-faq.html).
+Many thanks to
+- Salvatore Dinardo for his support in the implementation of the SAMOSA-based and SAMOSA+ [3] retracking algorithms in general, for the generation and provision of the $\alpha_p$ LUT tables
+- EUMETSAT for support in the alignment of the S6-MF retracking algorithm with the baseline processor.
+- Jérôme Benveniste for providing of the SAMOSA Detailed Processing Model (v2.5.2)
+- ESA L2 GPP Project: FF-SAR SAMOSA LUT generation was funded under ESA contract 4000118128/16/NL/AI.
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
 [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage) project template.
