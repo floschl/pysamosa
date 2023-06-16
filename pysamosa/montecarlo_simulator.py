@@ -12,8 +12,8 @@ from pysamosa.common_types import (
     SENSOR_SETS_DEFAULT_S3,
     FittingSettings,
     ModelSettings,
-    RetrackerBaseType,
     RetrackerSettings,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
@@ -54,14 +54,12 @@ def montesim_call_wrapper(self, kwargs, swh):
 class MonteCarloSimulator:
     def __init__(
         self,
-        rbt: RetrackerBaseType,
         retrack_sets: RetrackerSettings,
         fitting_sets: FittingSettings,
         model_sets: ModelSettings,
         wf_sets_retracker: WaveformSettings,
         wf_sets_model: WaveformSettings = None,
     ):
-        self.rbt = rbt
         self.retrack_sets = retrack_sets
         self.fitting_sets = fitting_sets
         self.model_sets = model_sets
@@ -71,7 +69,6 @@ class MonteCarloSimulator:
         )
 
         self.sr = retracker.SamosaRetracker(
-            retracker_basetype=RetrackerBaseType.SAM,
             retrack_sets=retrack_sets,
             fitting_sets=fitting_sets,
             wf_sets=wf_sets_retracker,
@@ -95,6 +92,7 @@ class MonteCarloSimulator:
         l1b_sim = L1bSimulator(
             model_sets=self.model_sets,
             wf_sets=self.wf_sets_model,
+            settings_preset=self.retrack_sets.settings_preset,
             swh=swh,
             Pu=1.0,
             add_thermal_speckle_noise=add_thermal_speckle_noise,

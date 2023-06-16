@@ -6,7 +6,6 @@ import pytest
 from pysamosa.common_types import (
     L1bSourceType,
     ModelSettings,
-    RetrackerBaseType,
     SettingsPreset,
     WaveformSettings,
 )
@@ -20,22 +19,19 @@ from pysamosa.montecarlo_simulator import (
 )
 from pysamosa.settings_manager import get_default_base_settings
 
-retracker_basetype, settings_preset = (
-    # RetrackerBaseType.SAM, SettingsPreset.NONE,
-    RetrackerBaseType.SAM,
+settings_preset = (
+    # SettingsPreset.NONE,
     SettingsPreset.CORALv1,
-    # RetrackerBaseType.SAMPLUS, SettingsPreset.NONE,
-    # RetrackerBaseType.SAMPLUSPLUS, SettingsPreset.NONE,
+    # SettingsPreset.NONE,
+    # SettingsPreset.NONE,
 )
 rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(
-    retracker_basetype=retracker_basetype,
     settings_preset=settings_preset,
     l1b_src_type=L1bSourceType.EUM_S3,
 )
 
 model_sets = ModelSettings.get_default_sets(
     st=sensor_sets.sensor_type,
-    retracker_basetype=retracker_basetype,
     wf_sets=wf_sets,
 )
 
@@ -45,7 +41,6 @@ wf_sets_model = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3)
 @pytest.fixture
 def monte_sim():
     return MonteCarloSimulator(
-        rbt=retracker_basetype,
         retrack_sets=retrack_sets,
         fitting_sets=fitting_sets,
         model_sets=model_sets,
@@ -146,7 +141,7 @@ def test_sim_swh_rmse_different_le_weight_factor(monte_sim):
                 )
 
     fig.suptitle(
-        f"{retracker_basetype.value.upper()}, Preset={settings_preset.value.upper()}, N={n_realisations}, state_interference={str(add_interference)}",
+        f"Settings-Preset={settings_preset.value.upper()}, N={n_realisations}, state_interference={str(add_interference)}",
         fontsize=6,
     )
     fig.show()
@@ -176,7 +171,6 @@ def test_sim_swh_rmse_oversampling():
             L1bSourceType.EUM_S3, internal_oversampling_factor=1.0
         )
         monte_sim = MonteCarloSimulator(
-            rbt=retracker_basetype,
             retrack_sets=retrack_sets,
             fitting_sets=fitting_sets,
             model_sets=model_sets,
@@ -276,8 +270,7 @@ def test_sim_swh_rmse_oversampling():
     _ax.set_ylabel("SWH correction [m]", fontsize=fontsize_xylabel)
 
     fig.suptitle(
-        f"{retracker_basetype.value.upper()}, "
-        f"Preset={settings_preset.value.upper()}, "
+        f"Settings-Preset={settings_preset.value.upper()}, "
         f"N={n_realisations}, "
         f"state_thermal_speckle_noise={str(add_thermal_speckle_noise)}, "
         f"state_interference={str(add_interference)}",

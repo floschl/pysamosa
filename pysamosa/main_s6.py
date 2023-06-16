@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
+from pysamosa.common_types import L1bSourceType, SettingsPreset
 from pysamosa.data_access import data_vars_s6
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings
@@ -22,7 +22,6 @@ if __name__ == "__main__":
         if "f04" in str(l1b_files[0]).lower()
         else L1bSourceType.EUM_S6_F06
     )
-    rbt = RetrackerBaseType.SAM
     pres = SettingsPreset.CORALv2
     # pres = SettingsPreset.NONE
     (
@@ -32,7 +31,7 @@ if __name__ == "__main__":
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type
+        settings_preset=pres, l1b_src_type=l1b_src_type
     )
 
     rp_sets.nc_dest_dir = nc_dest_path / run_name
@@ -43,7 +42,6 @@ if __name__ == "__main__":
 
     additional_nc_attrs = {
         "L1B source type": l1b_src_type.value.upper(),
-        "Retracker basetype": rbt.value.upper(),
         "Retracker preset": pres.value.upper(),
     }
 

@@ -69,11 +69,9 @@ class RetrackerProcessor:
     ):
         simple_logger.set_root_logger(log_level=log_level)
 
-        self.rt = rp_sets.retracker_basetype
-
         self.l1b_data_vars = l1b_data_vars
         self.rp_sets = (
-            RetrackerProcessorSettings(retracker_basetype=self.rt)
+            RetrackerProcessorSettings()
             if rp_sets is None
             else rp_sets
         )
@@ -100,7 +98,7 @@ class RetrackerProcessor:
             else retrack_sets
         )
         self.fitting_sets = (
-            FittingSettings(retracker_basetype=self.rt)
+            FittingSettings()
             if fitting_sets is None
             else fitting_sets
         )
@@ -113,7 +111,6 @@ class RetrackerProcessor:
         self.nc_attrs_kw = nc_attrs_kw if nc_attrs_kw is not None else {}
 
         self.retracker = SamosaRetracker(
-            retracker_basetype=self.rt,
             retrack_sets=self.retrack_sets,
             fitting_sets=self.fitting_sets,
             sensor_sets=self.sensor_sets,

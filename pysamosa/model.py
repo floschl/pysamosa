@@ -6,7 +6,6 @@ import numpy as np
 from pysamosa.common_types import (
     ModelParameter,
     ModelSettings,
-    RetrackerBaseType,
     SensorSettings,
     SettingsPreset,
     WaveformSettings,
@@ -46,12 +45,12 @@ class SamosaModel:
         model_sets: ModelSettings,
         sensor_sets: SensorSettings,
         wf_sets: WaveformSettings,
-        preset: SettingsPreset,
+        settings_preset: SettingsPreset,
     ):
         self.sensor_sets = sensor_sets
         self.model_sets = model_sets
         self.wf_sets = wf_sets
-        self.settings_preset = preset
+        self.settings_preset = settings_preset
 
         self.B_r_Hz_oversampled = (
             self.sensor_sets.B_r_Hz
@@ -200,7 +199,7 @@ class SamosaModel:
         YK[K > 0] = Ly * np.sqrt(K[K > 0])
 
         if (
-            self.model_sets.retracker_basetype == RetrackerBaseType.SAMPLUSPLUS
+            self.settings_preset == SettingsPreset.SAMPLUSPLUS
             and custom_gamma0 is not None
         ):
             gamma0 = custom_gamma0
@@ -279,19 +278,9 @@ class SamosaModel:
                 ~np.isnan(model_params.beam_ang_stack_rad)
             ]
 
-            # reduce beam_ang_stack_full
-            n_looks_to_sum = self.model_sets.n_effective_looks
-            # n_looks_to_sum = 0
-            if n_looks_to_sum == 0:
-                self.Beam_Ang_Stack_TS = model_params.beam_ang_stack_rad[
-                    ~np.isnan(model_params.beam_ang_stack_rad)
-                ]
-            else:
-                self.Beam_Ang_Stack_TS = beam_ang_stack_full[
-                    beam_ang_stack_full.shape[0] // 2
-                    - n_looks_to_sum // 2 : beam_ang_stack_full.shape[0] // 2
-                    + n_looks_to_sum // 2
-                ]
+            self.Beam_Ang_Stack_TS = model_params.beam_ang_stack_rad[
+                ~np.isnan(model_params.beam_ang_stack_rad)
+            ]
 
         # ML3. Calculate the vector of Doppler frequency of the Doppler beams
         # used for multi-looking
@@ -313,7 +302,7 @@ class SamosaModel:
 
         # Calculate GAMMA0
         custom_gamma0 = None
-        if self.model_sets.retracker_basetype == RetrackerBaseType.SAMPLUSPLUS:
+        if self.settings_preset == SettingsPreset.SAMPLUSPLUS:
             ripa = RipAnalyser(
                 model_params.rip,
                 sensor_sets=self.sensor_sets,

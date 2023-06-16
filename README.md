@@ -52,7 +52,7 @@ This is the sample to retrack a single L1b file from the S6-MF mission
 from pathlib import Path
 import numpy as np
 
-from pysamosa.common_types import RetrackerBaseType, L1bSourceType
+from pysamosa.common_types import L1bSourceType
 from pysamosa.data_access import data_vars_s3, data_vars_s6
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings, SettingsPreset
@@ -66,9 +66,8 @@ l1b_src_type = L1bSourceType.EUM_S6_F06
 data_vars = data_vars_s6
 
 # configure coastal CORAL retracker
-rbt = RetrackerBaseType.SAM
 pres = SettingsPreset.CORALv2
-rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
+rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(settings_preset=pres, l1b_src_type=l1b_src_type)
 
 rp_sets.nc_dest_dir = l1b_files[0].parent / 'processed'
 rp_sets.n_offset = 0
@@ -78,7 +77,6 @@ rp_sets.skip_if_exists = False
 
 additional_nc_attrs = {
     'L1B source type': l1b_src_type.value.upper(),
-    'Retracker basetype': rbt.value.upper(),
     'Retracker preset': pres.value.upper(),
 }
 
@@ -155,15 +153,15 @@ A list of L1b files (or a single file) is read for retracking, which are fully r
 3. **Settings**
 The `RetrackerProcessor` inputs require the `RetrackerProcessorSettings`, `RetrackerSettings`, `FittingSettings`,
    `WaveformSettings`, and `SensorSettings` objects to be inserted during initialisation. The default settings of these settings objects can be retrieved with the `get_default_base_settings` function based on the three
-   settings `L1bSourceType`, `RetrackerBaseType`, and `SettingsPreset`.
+   settings `L1bSourceType` and `SettingsPreset`.
    For instance, the following code snippet is taken from the `main_s3.py` file and retracks Sentinel-3 data with the default SAMOSA-based open ocean retracker with no SettingsPreset (100 waveforms from measurement index 25800,
    and using 6 cores).
 ```python
     l1b_src_type = L1bSourceType.EUM_S3
-    rbt, pres = RetrackerBaseType.SAM, SettingsPreset.NONE  #use this for the standard SAMOSA-based retracker [2]
-    # rbt, pres = RetrackerBaseType.SAM, SettingsPreset.CORALv2  #use this for CORALv2 [5]
-    # rbt, pres = RetrackerBaseType.SAMPLUS, SettingsPreset.NONE  #use this for SAMOSA+ [3]
-    rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type)
+    pres = SettingsPreset.NONE  #use this for the standard SAMOSA-based retracker [2]
+    # pres = SettingsPreset.CORALv2  #use this for CORALv2 [5]
+    # pres = SettingsPreset.NONE  #use this for SAMOSA+ [3]
+    rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(settings_preset=pres, l1b_src_type=l1b_src_type)
 
     rp_sets.nc_dest_dir = nc_dest_path / run_name
     rp_sets.n_offset = 25800

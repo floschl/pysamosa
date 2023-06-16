@@ -3,9 +3,9 @@ import numpy as np
 
 from pysamosa.common_types import (
     L1bSourceType,
-    RetrackerBaseType,
     SensorSettings,
     SensorType,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.model import ModelParameter, ModelSettings, SamosaModel
@@ -19,11 +19,9 @@ def test_setting_model_parameter_obj():
 
 
 def test_waveform_single_look():
-    models_sets = ModelSettings.get_default_sets(
-        st=SensorType.S3, retracker_basetype=RetrackerBaseType.SAM
-    )
+    models_sets = ModelSettings.get_default_sets(st=SensorType.S3)
     sm = SamosaModel(
-        sensor_sets=SensorSettings(), wf_sets=WaveformSettings(), model_sets=models_sets
+        sensor_sets=SensorSettings(), wf_sets=WaveformSettings(), model_sets=models_sets, settings_preset=SettingsPreset.NONE,
     )
 
     # swh = np.arange(11) + 0.5
@@ -54,9 +52,9 @@ def test_multilooked_oversample():
         wf_sets = WaveformSettings.get_default_src_type(
             L1bSourceType.EUM_S3, internal_oversampling_factor=oversampling_factor
         )
-        model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
+        model_sets = ModelSettings()
         sm = SamosaModel(
-            model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings()
+            model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
         )
 
         swh = 3.0
@@ -107,9 +105,9 @@ def test_different_model_len():
             L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor
         )
         wf_sets.np = model_len
-        model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
+        model_sets = ModelSettings()
         sm = SamosaModel(
-            model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings()
+            model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
         )
 
         swh = 3.0
@@ -158,11 +156,12 @@ def test_oversampled_model():
 
     # oversampling=1 and oversample by internal_oversampling_Factor
     sm_of1 = SamosaModel(
-        model_sets=ModelSettings(retracker_basetype=RetrackerBaseType.SAM),
+        model_sets=ModelSettings(),
         wf_sets=WaveformSettings.get_default_src_type(
             L1bSourceType.EUM_S3, internal_oversampling_factor=1
         ),
         sensor_sets=SensorSettings(),
+        settings_preset=SettingsPreset.NONE,
     )
     model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate)
     wf_of1 = sm_of1.get_waveform_multilook(
@@ -173,13 +172,14 @@ def test_oversampled_model():
 
     # oversampling=1 and oversample by internal_oversampling_Factor
     sm_of4 = SamosaModel(
-        model_sets=ModelSettings(retracker_basetype=RetrackerBaseType.SAM),
+        model_sets=ModelSettings(),
         wf_sets=WaveformSettings.get_default_src_type(
             L1bSourceType.EUM_S3,
             internal_oversampling_factor=internal_oversampling_factor,
             # np=509,
         ),
         sensor_sets=SensorSettings(),
+        settings_preset=SettingsPreset.NONE,
     )
     # model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate * internal_oversampling_factor)
     model_params = ModelParameter(epoch_ref_gate=epoch_ref_gate)
@@ -232,9 +232,9 @@ def test_multilooked_vary_swh():
     wf_sets = WaveformSettings.get_default_src_type(
         L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor
     )
-    model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
+    model_sets = ModelSettings()
     sm = SamosaModel(
-        model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings()
+        model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
     )
 
     swh = [0.25, 0.75, 1.0, 2.0, 5, 7, 9, 11]
@@ -263,9 +263,9 @@ def test_multilooked_vary_Pu():
     wf_sets = WaveformSettings.get_default_src_type(
         L1bSourceType.EUM_S3, zp_oversampling_factor=oversampling_factor
     )
-    model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
+    model_sets = ModelSettings()
     sm = SamosaModel(
-        model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings()
+        model_sets=model_sets, wf_sets=wf_sets, sensor_sets=SensorSettings(), settings_preset=SettingsPreset.NONE,
     )
 
     swh = 2.0

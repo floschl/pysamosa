@@ -4,9 +4,9 @@ import pytest
 from pysamosa.common_types import (
     L1bSourceType,
     ModelSettings,
-    RetrackerBaseType,
     SensorSettings,
     SensorType,
+    SettingsPreset,
     WaveformSettings,
 )
 from pysamosa.l1b_simulator import L1bSimulator
@@ -19,19 +19,17 @@ from pysamosa.l1b_simulator import L1bSimulator
 )
 def test_gen_l1b_data_single(swh):
     n_realisations = 3
-    rbt = RetrackerBaseType.SAM
     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3)
     sensor_sets = SensorSettings.get_default_sets(st=SensorType.S3)
 
     model_sets = ModelSettings.get_default_sets(
         st=sensor_sets.sensor_type,
-        retracker_basetype=rbt,
-        n_effective_looks=0,
         wf_sets=wf_sets,
     )
 
     l1b_sim = L1bSimulator(
-        model_sets=model_sets, swh=swh, Pu=1.0, sensor_sets=sensor_sets, wf_sets=wf_sets
+        model_sets=model_sets, swh=swh, Pu=1.0, sensor_sets=sensor_sets, wf_sets=wf_sets,
+        settings_preset=SettingsPreset.NONE,
     )
     l1b_sim_it = iter(l1b_sim)
 
@@ -52,14 +50,11 @@ def test_gen_l1b_data_single(swh):
 )
 def test_gen_l1b_data_add_interference(swh):
     n_realisations = 3
-    rbt = RetrackerBaseType.SAM
     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3)
     sensor_sets = SensorSettings.get_default_sets(st=SensorType.S3)
 
     model_sets = ModelSettings.get_default_sets(
         st=sensor_sets.sensor_type,
-        retracker_basetype=rbt,
-        n_effective_looks=0,
         wf_sets=wf_sets,
     )
 
@@ -70,6 +65,7 @@ def test_gen_l1b_data_add_interference(swh):
         sensor_sets=SensorSettings(),
         add_interference=True,
         wf_sets=WaveformSettings.get_default_src_type(L1bSourceType.EUM_S3),
+        settings_preset=SettingsPreset.NONE,
     )
     l1b_sim_it = iter(l1b_sim)
 

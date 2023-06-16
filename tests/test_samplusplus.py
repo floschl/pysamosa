@@ -21,14 +21,10 @@ samplusplus_test_inds = [
 #     sensor_sets = SENSOR_SETS_DEFAULT_S3
 #     simple_logger.set_root_logger()
 #
-#     rt = RetrackerBaseType.SAMPLUSPLUS
 #     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.GPOD)
 #     sr = SamosaRetracker(
-#         retracker_basetype=rt,
-#         retrack_sets=RetrackerSettings(retracker_basetype=rt),
-#         fitting_sets=FittingSettings(
-#             retracker_basetype=rt,
-#         ),
+#         retrack_sets=RetrackerSettings(settings_preset=SettingsPreset.SAMPLUSPLUS),
+#         fitting_sets=FittingSettings(),
 #         sensor_sets=sensor_sets,
 #         wf_sets=wf_sets
 #     )

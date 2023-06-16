@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 from sys import platform
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
+from pysamosa.common_types import L1bSourceType, SettingsPreset
 from pysamosa.data_access import data_vars_s3
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings
@@ -76,14 +76,13 @@ name_dest_path = "coral_paper"
 dest_path_base = Path.home() / "dss" if is_slurm else Path("/nfs/DGFI8/H/work_flo/")
 dest_path_base = dest_path_base / "pysamosa_results" / name_dest_path
 
-l1bsrc_type, rbt, preset = (
+l1bsrc_type, preset = (
     L1bSourceType.GPOD,
-    RetrackerBaseType.SAM,
     SettingsPreset.CORALv1,
 )
 
 # round robin files config
-if rbt == RetrackerBaseType.SAM:
+if preset == SettingsPreset.NONE:
     l1b_base_path = (
         "s3a_sr_1_sra_bs"
         if l1bsrc_type is L1bSourceType.EUM_S3
@@ -154,10 +153,10 @@ if __name__ == "__main__":
         preset == SettingsPreset.SAMPLUS
     ) and l1bsrc_type == L1bSourceType.EUM_S3:
         raise RuntimeError(
-            "RetrackerBaseType SAM+/SAM++ and L1bSourceType.EUMETSAT is not compatible. "
+            "SettingsPreset SAM+/SAM++ and L1bSourceType.EUMETSAT is not compatible. "
         )
 
-    nc_dest_path = dest_path_base / (l1bsrc_type.value + "_" + rbt.value)
+    nc_dest_path = dest_path_base / (l1bsrc_type.value + "_" + preset.value)
 
     (
         rp_sets,
@@ -166,7 +165,7 @@ if __name__ == "__main__":
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=rbt, settings_preset=preset, l1b_src_type=l1bsrc_type
+        settings_preset=preset, l1b_src_type=l1bsrc_type
     )
 
     rp_sets.nc_dest_dir = nc_dest_path
@@ -183,7 +182,6 @@ if __name__ == "__main__":
 
     additional_nc_attrs = {
         "L1B source type": l1bsrc_type.value.upper(),
-        "Retracker basetype": rbt.value.upper(),
         "Retracker preset": preset.value.upper(),
     }
 

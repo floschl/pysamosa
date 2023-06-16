@@ -2,14 +2,13 @@ from pysamosa.common_types import (
     FittingSettings,
     L1bSourceType,
     ModelSettings,
-    RetrackerBaseType,
     SensorType,
     WaveformSettings,
 )
 
 
 def test_fitting_sets():
-    fit_sets = FittingSettings(retracker_basetype=RetrackerBaseType.SAM)
+    fit_sets = FittingSettings()
     assert fit_sets.Fit_Var_2_Init_Hs == 2.0
 
 
@@ -71,12 +70,8 @@ def test_waveform_sets():
 
 
 def test_model_sets():
-    ms = ModelSettings.get_default_sets(
-        retracker_basetype=RetrackerBaseType.SAM, st=SensorType.S3
-    )
+    ms = ModelSettings.get_default_sets(st=SensorType.S3)
     assert ms.alpha_p_mean == 0.5
 
-    ms = ModelSettings.get_default_sets(
-        retracker_basetype=RetrackerBaseType.SAM, st=SensorType.S6_F04
-    )
+    ms = ModelSettings.get_default_sets(st=SensorType.S6_F04)
     assert ms.alpha_p_mean == 0.55

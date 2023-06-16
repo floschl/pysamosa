@@ -9,7 +9,6 @@ from pysamosa.common_types import (
     FittingSettings,
     ModelParameter,
     ModelSettings,
-    RetrackerBaseType,
     RetrackerSettings,
     SensorSettings,
     SettingsPreset,
@@ -90,7 +89,6 @@ def oversample_wf(wf, int_oversampling_fac):
 class SamosaRetracker:
     def __init__(
         self,
-        retracker_basetype: RetrackerBaseType,
         retrack_sets: RetrackerSettings,
         fitting_sets: FittingSettings,
         sensor_sets: SensorSettings,
@@ -103,8 +101,6 @@ class SamosaRetracker:
 
         self.model_sets = ModelSettings.get_default_sets(
             st=sensor_sets.sensor_type,
-            retracker_basetype=retracker_basetype,
-            n_effective_looks=self.retrack_sets.n_effective_looks,
             wf_sets=self.wf_sets,
         )
 
@@ -124,15 +120,6 @@ class SamosaRetracker:
         WQ_Flag = True
 
         return AO_Flag and AM_Flag and WQ_Flag
-
-    @property
-    def retracker_basetype(self):
-        return self.retrack_sets.retracker_basetype
-
-    @retracker_basetype.setter
-    def retracker_basetype(self, rt_type):
-        self.retrack_sets.retracker_basetype = rt_type
-        self.model_sets.retracker_basetype = rt_type
 
     def get_wf_max(wf, retrack_sets, fg_epoch=0):
         if retrack_sets.normalise_wf_by_fg_region:
@@ -174,25 +161,6 @@ class SamosaRetracker:
         int_oversampling_fac = self.wf_sets.internal_oversampling_factor
         if int_oversampling_fac > 1 and not disable_oversampling:
             Wf_in = oversample_wf(Wf_in, self.wf_sets.internal_oversampling_factor)
-
-        if self.retrack_sets.n_effective_looks != 0 and "stack" in l1b_data_single:
-            n_total_looks = l1b_data_single["stack"].shape[1]
-            first_look = n_total_looks // 2 - self.retrack_sets.n_effective_looks // 2
-            inds_to_sum = np.arange(
-                first_look, first_look + self.retrack_sets.n_effective_looks
-            )
-
-            Wf_in = np.nansum(l1b_data_single["stack"][:, inds_to_sum], axis=1)
-
-            if int_oversampling_fac > 1 and not disable_oversampling:
-                Wf_in = oversample_wf(Wf_in, self.wf_sets.internal_oversampling_factor)
-
-        elif (
-            self.retrack_sets.n_effective_looks != 0 and "stack" not in l1b_data_single
-        ):
-            raise RuntimeError(
-                "No stack data exists although n_effective_looks param is configured!"
-            )
 
         if np.isnan(Wf_in).any():
             raise RuntimeError("Wf_in contains NaN values.")
@@ -243,7 +211,7 @@ class SamosaRetracker:
         if (
             (
                 self.retrack_sets.settings_preset == SettingsPreset.SAMPLUS
-                or self.retracker_basetype == RetrackerBaseType.SAMPLUSPLUS
+                or self.retrack_sets.settings_preset == SettingsPreset.SAMPLUSPLUS
             )
             and "thermal_noise" in l1b_data_single
             and not np.isnan(l1b_data_single["thermal_noise"])
@@ -335,6 +303,7 @@ class SamosaRetracker:
             model_sets=_self.model_sets,
             sensor_sets=_self.sensor_sets,
             wf_sets=_self.wf_sets,
+            settings_preset=retrack_sets.settings_preset,
             # reset the internal_oversampling_factor and generates a
             # non-oversampled model
         )

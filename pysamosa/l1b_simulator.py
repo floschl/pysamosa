@@ -2,7 +2,7 @@ import numpy as np
 from numpy.random import default_rng
 
 from pysamosa import simple_logger
-from pysamosa.common_types import ModelSettings, SensorSettings
+from pysamosa.common_types import ModelSettings, SensorSettings, SettingsPreset
 from pysamosa.conf_params import CONST_C
 from pysamosa.data_access import get_model_param_obj_from_l1b_data
 from pysamosa.model import SamosaModel
@@ -33,10 +33,10 @@ class L1bSimulator:
         Pu=1.0,
         sensor_sets=None,
         wf_sets,
+        settings_preset,
         add_thermal_speckle_noise=True,
         add_interference=False
     ):
-        self.retracker_basetype = model_sets.retracker_basetype
         self.l1b_data_single = l1b_data_single_template
 
         self.model_sets = model_sets
@@ -45,20 +45,19 @@ class L1bSimulator:
         )
         self.sensor_sets = sensor_sets if sensor_sets is not None else SensorSettings()
         self.wf_sets = wf_sets
+        self.settings_preset = settings_preset
         self.wf_len = self.wf_sets.np
         self.oversampling_factor = self.wf_sets.zp_oversampling_factor
 
         self.swh = swh
         self.dtau = 1 / (self.sensor_sets.B_r_Hz * self.wf_sets.zp_oversampling_factor)
         epoch_refgate = self.l1b_data_single["epoch_ref_gate"]
-        retrack_point_gates = (
-            38 if self.retracker_basetype == RetrackerBaseType.SAM else 310
-        )
+        retrack_point_gates = 38 if settings_preset == SettingsPreset.NONE else  310
         self.epoch_ns = ((retrack_point_gates - epoch_refgate) * self.dtau) * 1e9
         self.Pu = Pu
 
         self.sam_model = SamosaModel(
-            model_sets=self.model_sets, sensor_sets=self.sensor_sets, wf_sets=wf_sets
+            model_sets=self.model_sets, sensor_sets=self.sensor_sets, wf_sets=wf_sets, settings_preset=settings_preset,
         )
 
         # noise

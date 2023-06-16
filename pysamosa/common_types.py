@@ -31,6 +31,7 @@ class SettingsPreset(Enum):
     CORALv1 = "coralv1"
     CORALv2 = "coralv2"
     SAMPLUS = "samplus"
+    SAMPLUSPLUS = "samplusplus"
 
 
 class SensorSettings(BaseModel):
@@ -57,7 +58,7 @@ class SensorSettings(BaseModel):
     sh_y: float = 1.0  # antenna shape factor across track [-]
 
     def get_default_sets(st: SensorType):
-        sensor_sets = SensorSettings()
+        sensor_sets = SensorSettings(sensor_type=st)
 
         if st is SensorType.S3:
             pass
@@ -167,7 +168,6 @@ class RetrackerSettings(BaseModel):
     # -> retracked ; TN_Flag=0 constant/estimated)
 
     second_retracking_step_samplus: bool = False
-    n_effective_looks: int = 0
     # 0:disabled, >0:number of samples around dynamic_fg_epoch
     normalise_wf_by_fg_region: int = 0
     # increases the weights for the detected leading edge
@@ -190,7 +190,7 @@ class RetrackerSettings(BaseModel):
     fit_zero_doppler: bool = False
 
     def get_default_sets(st: SensorType, **kwargs):
-        retrack_sets = RetrackerSettings(**kwargs)
+        retrack_sets = RetrackerSettings(settings_preset=SettingsPreset.NONE, **kwargs)
 
         if st is SensorType.S3:
             pass
@@ -259,7 +259,6 @@ class ModelSettings(BaseModel):
     # as in Dinardo2020, not as in DPM 2.5.2: 1 / (0.886 * np.sqrt(2 * np.pi))
     # # ~0.45, PTR Gaussian approximation coefficient value
     alpha_p_mean: float = 0.5
-    n_effective_looks: int = 0
     # fits the zero-doppler beam (reasonable for FF-SAR-processed waveforms)
     fit_zero_doppler: bool = False
 

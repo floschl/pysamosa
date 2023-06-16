@@ -13,7 +13,6 @@ from pysamosa.common_types import (
     L1bSourceType,
     ModelSettings,
     ProcMode,
-    RetrackerBaseType,
     SettingsPreset,
 )
 from pysamosa.data_access import (
@@ -45,33 +44,30 @@ rel_inds, file_id = (
 )
 
 conf = [
-    (L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S3, RetrackerBaseType.SAM, SettingsPreset.CORALv1),
+    (L1bSourceType.EUM_S3, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S3, SettingsPreset.CORALv1),
     ##
     # CS
-    # (L1bSourceType.EUM_CS, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_CS, RetrackerBaseType.SAM, SettingsPreset.SAMPLUS),
+    # (L1bSourceType.EUM_CS, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_CS, SettingsPreset.SAMPLUS),
     # S6
-    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_F06, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_F04, RetrackerBaseType.SAM, SettingsPreset.SAMPLUS),
-    # (L1bSourceType.EUM_S6_F06, RetrackerBaseType.SAM, SettingsPreset.CORALv2),
+    # (L1bSourceType.EUM_S6_F04, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_F04, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_F06, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_F04, SettingsPreset.SAMPLUS),
+    # (L1bSourceType.EUM_S6_F06, SettingsPreset.CORALv2),
     # S6 FFSAR
-    # (L1bSourceType.EUM_S6_FFSAR, RetrackerBaseType.SAM, SettingsPreset.NONE),
-    # (L1bSourceType.EUM_S6_FFSAR, RetrackerBaseType.SAM, SettingsPreset.CORALv2),
+    # (L1bSourceType.EUM_S6_FFSAR, SettingsPreset.NONE),
+    # (L1bSourceType.EUM_S6_FFSAR, SettingsPreset.CORALv2),
 ]
-l1b_src_type, retracker_basetype, settings_preset = conf[0]
+l1b_src_type, settings_preset = conf[0]
 
 rp_sets, retrack_sets, fitting_sets, wf_sets, sensor_sets = get_default_base_settings(
-    retracker_basetype=retracker_basetype,
     settings_preset=settings_preset,
     l1b_src_type=l1b_src_type,
 )
 model_sets = ModelSettings.get_default_sets(
     st=sensor_sets.sensor_type,
-    retracker_basetype=rp_sets.retracker_basetype,
-    n_effective_looks=retrack_sets.n_effective_looks,
     wf_sets=wf_sets,
 )
 
@@ -115,11 +111,11 @@ def set_dumper():
     tempdir = Path(tempfile.gettempdir())
     dest_mat_file = (
         tempdir
-        / f"retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{retracker_basetype.value}_{settings_preset.value}.mat"
+        / f"retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{settings_preset.value}.mat"
     )
     dest_gif_file = (
         tempdir
-        / f"retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{retracker_basetype.value}_{settings_preset.value}.gif"
+        / f"retrack_log_{file_id}_inds{rel_inds[0]}-{rel_inds[-1]}_{l1b_src_type.value}_{settings_preset.value}.gif"
     )
     settings_dump = SettingsDumper(
         wf_sets=wf_sets,
@@ -224,7 +220,6 @@ class TestRetrackingSingle:
         simple_logger.set_root_logger(log_level=logging.DEBUG)
 
         sr = retracker.SamosaRetracker(
-            retracker_basetype=retracker_basetype,
             retrack_sets=retrack_sets,
             fitting_sets=fitting_sets,
             sensor_sets=sensor_sets,
@@ -253,7 +248,7 @@ class TestRetrackingSingle:
         fig.suptitle(
             "\n".join(
                 wrap(
-                    f"{fn}, {retracker_basetype.value}-{settings_preset.value} ({l1b_src_type.value}), record#: {n_ind_l2}",
+                    f"{fn}, {settings_preset.value} ({l1b_src_type.value}), record#: {n_ind_l2}",
                     width=70,
                 )
             ),

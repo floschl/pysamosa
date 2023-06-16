@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from pysamosa.common_types import L1bSourceType, RetrackerBaseType, SettingsPreset
+from pysamosa.common_types import L1bSourceType, SettingsPreset
 from pysamosa.data_access import data_vars_s6
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings
@@ -19,7 +19,6 @@ if __name__ == "__main__":
 
     l1b_src_type, rbt, pres = (
         L1bSourceType.EUM_S6_F04,
-        RetrackerBaseType.SAM,
         SettingsPreset.CORALv2,
     )
     (
@@ -29,7 +28,7 @@ if __name__ == "__main__":
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type
+        settings_preset=pres, l1b_src_type=l1b_src_type
     )
 
     for run_name, nc_src_base_path in run_name_basepath:
@@ -68,7 +67,6 @@ if __name__ == "__main__":
 
         additional_nc_attrs = {
             "L1B source type": l1b_src_type.value.upper(),
-            "Retracker basetype": rbt.value.upper(),
             "Retracker preset": pres.value.upper(),
         }
 

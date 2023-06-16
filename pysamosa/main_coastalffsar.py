@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from pysamosa import simple_logger
-from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType, SettingsPreset
+from pysamosa.common_types import L1bSourceType, ProcMode, SettingsPreset
 from pysamosa.data_access import data_vars_dart
 from pysamosa.retracker_processor import RetrackerProcessor
 from pysamosa.settings_manager import get_default_base_settings
@@ -127,7 +127,7 @@ if __name__ == "__main__":
                 else L1bSourceType.EUM_S6_F06
             )
 
-        rbt, pres = RetrackerBaseType.SAM, SettingsPreset.CORALv2
+        pres = SettingsPreset.CORALv2
         (
             rp_sets,
             retrack_sets,
@@ -135,7 +135,7 @@ if __name__ == "__main__":
             wf_sets,
             sensor_sets,
         ) = get_default_base_settings(
-            retracker_basetype=rbt, settings_preset=pres, l1b_src_type=l1b_src_type
+            settings_preset=pres, l1b_src_type=l1b_src_type
         )
 
         rp_sets.nc_dest_dir = l2_destpath / procname
@@ -148,7 +148,6 @@ if __name__ == "__main__":
 
         additional_nc_attrs = {
             "L1B source type": l1b_src_type.value.upper(),
-            "Retracker basetype": rbt.value.upper(),
             "Retracker preset": pres.value.upper(),
         }
 

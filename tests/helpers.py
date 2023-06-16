@@ -68,7 +68,7 @@ def plot_retrack_result(
     else:
         wf_meas = res_fit["wf"] / np.max(res_fit["wf"])
 
-    sm = SamosaModel(sensor_sets=sensor_sets, model_sets=model_sets, wf_sets=wf_sets)
+    sm = SamosaModel(sensor_sets=sensor_sets, model_sets=model_sets, wf_sets=wf_sets, settings_preset=retrack_sets.settings_preset)
 
     Pu_W_l2 = l2_data["Pu_W"] if "Pu_W" in l2_data else np.nan
     Pu_W_fit = res_fit["Pu_denorm"]

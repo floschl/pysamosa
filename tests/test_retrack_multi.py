@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 
-from pysamosa.common_types import L1bSourceType, ProcMode, RetrackerBaseType, SettingsPreset
+from pysamosa.common_types import L1bSourceType, ProcMode, SettingsPreset
 from pysamosa.data_access import (
     data_vars_cs,
     data_vars_dart,
@@ -32,11 +32,10 @@ def test_retrack_s3(s3_eum_l1b, s3_eum_l2):
     file_id = "s3_0"
     n_offset = 25480
 
-    l1b_src_type, retracker_basetype, preset = (
+    l1b_src_type, preset = (
         L1bSourceType.EUM_S3,
-        RetrackerBaseType.SAM,
         SettingsPreset.NONE
-        # L1bSourceType.EUM, RetrackerBaseType.SAM, SettingsPreset.CORALv1
+        # L1bSourceType.EUM, SettingsPreset.CORALv1
     )
 
     # generate default settings
@@ -47,7 +46,6 @@ def test_retrack_s3(s3_eum_l1b, s3_eum_l2):
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=retracker_basetype,
         settings_preset=preset,
         l1b_src_type=l1b_src_type,
     )
@@ -78,7 +76,7 @@ def test_retrack_s3(s3_eum_l1b, s3_eum_l2):
         rp.output_l2,
         l2_ref,
         cog_corr=0.55590,
-        fig_title=f"{rp_sets.retracker_basetype}-{preset} ({l1b_src_type.value})",
+        fig_title=f"{preset} ({l1b_src_type.value})",
     )
 
     assert rmse_swh < max_rmse_swh_m
@@ -102,7 +100,7 @@ def test_retrack_s6(s6_eum_l1b, s6_eum_l2):
         if "f04" in str(l1b_file).lower()
         else L1bSourceType.EUM_S6_F06
     )
-    retracker_basetype, preset = RetrackerBaseType.SAM, SettingsPreset.NONE
+    preset = SettingsPreset.NONE
 
     # generate default settings
     (
@@ -112,7 +110,6 @@ def test_retrack_s6(s6_eum_l1b, s6_eum_l2):
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=retracker_basetype,
         settings_preset=preset,
         l1b_src_type=l1b_src_type,
     )
@@ -145,7 +142,7 @@ def test_retrack_s6(s6_eum_l1b, s6_eum_l2):
     fig, rmse_swh, rmse_ssh = plot_l2_results_vs_ref(
         rp.output_l2,
         l2_ref,
-        fig_title=f"{rp_sets.retracker_basetype}-{preset} ({l1b_src_type.value})",
+        fig_title=f"{preset} ({l1b_src_type.value})",
     )
 
     fig.show()
@@ -155,9 +152,8 @@ def test_retrack_s6(s6_eum_l1b, s6_eum_l2):
 
 
 def test_retrack_cs(cs_eum_l1b, cs_eum_l2):
-    l1b_src_type, retracker_basetype, preset = (
+    l1b_src_type, preset = (
         L1bSourceType.EUM_CS,
-        RetrackerBaseType.SAM,
         SettingsPreset.NONE,
     )
 
@@ -176,7 +172,6 @@ def test_retrack_cs(cs_eum_l1b, cs_eum_l2):
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=retracker_basetype,
         settings_preset=preset,
         l1b_src_type=l1b_src_type,
     )
@@ -206,7 +201,7 @@ def test_retrack_cs(cs_eum_l1b, cs_eum_l2):
     fig, rmse_swh, rmse_ssh = plot_l2_results_vs_ref(
         rp.output_l2,
         l2_ref,
-        fig_title=f"{rp_sets.retracker_basetype}-{preset} ({l1b_src_type.value})",
+        fig_title=f"{preset} ({l1b_src_type.value})",
     )
 
     fig.show()
@@ -245,8 +240,8 @@ def test_retrack_ffsar(dataset_generic_l1b, dataset_generic_l2):
     )
     l2 = dataset_generic_l2(ncfile_l2, data_vars_l2)
 
-    retracker_basetype, preset = RetrackerBaseType.SAM, SettingsPreset.CORALv2
-    # retracker_basetype, preset = RetrackerBaseType.SAM, SettingsPreset.NONE
+    preset = SettingsPreset.CORALv2
+    # preset = SettingsPreset.NONE
 
     # generate default settings
     if is_ffsar:
@@ -269,7 +264,6 @@ def test_retrack_ffsar(dataset_generic_l1b, dataset_generic_l2):
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=retracker_basetype,
         settings_preset=preset,
         l1b_src_type=l1b_src_type,
     )
@@ -312,7 +306,7 @@ def test_retrack_ffsar(dataset_generic_l1b, dataset_generic_l2):
     fig, rmse_swh, rmse_ssh = plot_l2_results_vs_ref(
         rp.output_l2,
         l2_ref,
-        fig_title=f"{rp_sets.retracker_basetype}-{preset} ({l1b_src_type.value})",
+        fig_title=f"{preset} ({l1b_src_type.value})",
     )
 
     fig.show()

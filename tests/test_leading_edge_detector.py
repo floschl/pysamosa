@@ -22,7 +22,7 @@ test_inds_gpod = [
 
 
 rp_sets, retrack_sets, _, _, _ = get_default_base_settings(
-    settings_preset=SettingsPreset.SAM_FLO,
+    settings_preset=SettingsPreset.NONE,
     l1b_src_type=L1bSourceType.EUM_S3,
 )
 

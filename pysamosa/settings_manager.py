@@ -1,7 +1,6 @@
 from pysamosa.common_types import (
     FittingSettings,
     L1bSourceType,
-    RetrackerBaseType,
     RetrackerProcessorSettings,
     RetrackerSettings,
     SensorSettings,
@@ -13,7 +12,6 @@ from pysamosa.common_types import (
 
 def get_default_base_settings(
     *,
-    retracker_basetype: RetrackerBaseType,
     settings_preset: SettingsPreset = SettingsPreset.NONE,
     l1b_src_type: L1bSourceType
 ):
@@ -36,13 +34,9 @@ def get_default_base_settings(
 
     sensor_sets = SensorSettings.get_default_sets(sensor_type)
 
-    rp_sets = RetrackerProcessorSettings(retracker_basetype=retracker_basetype)
-    retrack_sets = RetrackerSettings.get_default_sets(
-        st=sensor_type, retracker_basetype=retracker_basetype
-    )
-    fitting_sets = FittingSettings.get_default_sets(
-        st=sensor_type, retracker_basetype=retracker_basetype
-    )
+    rp_sets = RetrackerProcessorSettings()
+    retrack_sets = RetrackerSettings.get_default_sets(st=sensor_type)
+    fitting_sets = FittingSettings.get_default_sets(st=sensor_type)
 
     wf_sets = WaveformSettings.get_default_src_type(l1b_src_type)
 
@@ -56,7 +50,6 @@ def get_default_base_settings(
 
         retrack_sets.settings_preset = SettingsPreset.CORALv1
         retrack_sets.second_retracking_step_samplus = True
-        # retrack_sets.n_effective_looks = 0
         retrack_sets.normalise_wf_by_fg_region = 5
         # retrack_sets.leading_edge_weight_factor = 4.0
         retrack_sets.interference_masking = True

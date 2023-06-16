@@ -7,7 +7,6 @@ import numpy as np
 from pysamosa import retracker
 from pysamosa.common_types import (
     L1bSourceType,
-    RetrackerBaseType,
     SensorSettings,
     SensorType,
     SettingsPreset,
@@ -74,10 +73,11 @@ def gen_multilooked_vary_swh():
 
     cols_it = iter(list(okabeito_colorblind_colors.values()))
 
+    settings_preset = SettingsPreset.NONE
     wf_sets = WaveformSettings.get_default_src_type(L1bSourceType.EUM_S6_F04)
-    model_sets = ModelSettings(retracker_basetype=RetrackerBaseType.SAM)
+    model_sets = ModelSettings()
     sensor_sets = SensorSettings.get_default_sets(st=SensorType.S6_F06)
-    sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=sensor_sets)
+    sm = SamosaModel(model_sets=model_sets, wf_sets=wf_sets, sensor_sets=sensor_sets, settings_preset=settings_preset)
 
     swh = [0.25, 0.75, 1.0, 2.0, 5, 7, 9]
     Pu = 1.0
@@ -190,9 +190,8 @@ def plot_single_retrackings():
     datavars_l1b = data_vars_s6["l1b"]
     # datavars_l2 = data_vars_eumetsat_s6['l2']
 
-    l1b_src_type, retracker_basetype, settings_preset = (
+    l1b_src_type, settings_preset = (
         L1bSourceType.EUM_S6_F06,
-        RetrackerBaseType.SAM,
         SettingsPreset.NONE,
     )
 
@@ -203,7 +202,6 @@ def plot_single_retrackings():
         wf_sets,
         sensor_sets,
     ) = get_default_base_settings(
-        retracker_basetype=retracker_basetype,
         settings_preset=settings_preset,
         l1b_src_type=l1b_src_type,
     )
@@ -226,7 +224,6 @@ def plot_single_retrackings():
         model_params = get_model_param_obj_from_l1b_data(l1b_data, ind=0)
 
         sr = retracker.SamosaRetracker(
-            retracker_basetype=retracker_basetype,
             retrack_sets=retrack_sets,
             fitting_sets=fitting_sets,
             sensor_sets=sensor_sets,
