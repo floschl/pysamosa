@@ -47,7 +47,7 @@ setup(
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
@@ -57,7 +57,7 @@ setup(
     ],
     description="PySAMOSA is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation.",
     install_requires=requirements,
-    license="GNU General Public License v3",
+    license="GNU Lesser General Public License v3 or later (LGPLv3+)",
     long_description=readme,
     long_description_content_type="text/markdown",
     include_package_data=True,
