@@ -247,11 +247,9 @@ Ocean and Coastal Waveforms of SAR Satellite Altimetry. Zenodo. https://zenodo.o
 
 ## Acknowledgement
 
-Many thanks to
-- Salvatore Dinardo for his support in the implementation of the SAMOSA-based and SAMOSA+ [3] retracking algorithms in general, for the generation and provision of the $\alpha_p$ LUT tables
-- EUMETSAT for support in the alignment of the S6-MF retracking algorithm with the baseline processor.
-- Jérôme Benveniste for providing of the SAMOSA Detailed Processing Model (v2.5.2)
-- ESA L2 GPP Project: FF-SAR SAMOSA LUT generation was funded under ESA contract 4000118128/16/NL/AI.
+The authors are grateful to
+
+Salvatore Dinardo for his support in implementing the SAMOSA-based and SAMOSA+ [3] retracking algorithms.
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
 [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage) project template.
