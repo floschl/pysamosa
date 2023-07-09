@@ -533,8 +533,6 @@ class RetrackerProcessor:
             )
 
     def write_settings_log_file(self):
-        json_params = {"indent": 4, "separators": (",", ": ")}
-
         all_sets = ExportSettings(
             rp_sets=self.rp_sets,
             retrack_sets=self.retrack_sets,
@@ -547,4 +545,4 @@ class RetrackerProcessor:
         dest_filepath_json.parent.mkdir(parents=True, exist_ok=True)
 
         with open(dest_filepath_json, "w") as f:
-            f.write(all_sets.json(**json_params))
+            f.write(all_sets.model_dump_json(indent=4))
