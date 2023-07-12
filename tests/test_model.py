@@ -16,6 +16,7 @@ def test_setting_model_parameter_obj():
     mp = ModelParameter(ascending=True)
     print(mp)
     assert mp
+    assert mp.alt_m == 815000
 
 
 def test_waveform_single_look():

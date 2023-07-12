@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
-from pydantic import BaseModel, root_validator, validator
+from pydantic import BaseModel, model_validator
 
 
 class SensorType(Enum):
@@ -85,9 +85,10 @@ SENSOR_SETS_DEFAULT_S3 = SensorSettings.get_default_sets(SensorType.S3)
 
 
 class WaveformSettings(BaseModel):
-    zp_oversampling_factor: int = None
+    zp_oversampling_factor: int = 1
     internal_oversampling_factor: int = 1
-    np: Optional[int]
+    # np: Optional[int]
+    np: int = None
 
     def get_default_src_type(st: L1bSourceType, **kwargs):
         if st is L1bSourceType.GPOD:
@@ -107,18 +108,11 @@ class WaveformSettings(BaseModel):
                 **{**{"zp_oversampling_factor": 2, "np": 256, **kwargs}}
             )
 
-    @validator("zp_oversampling_factor", pre=True, always=True)
-    def set_default_zp_oversampling_factor(cls, v, *, values, **kwargs):
-        return v or 1
-
-    @validator("np", pre=True, always=True)
-    def set_default_np(cls, v, *, values, **kwargs):
-        np = 128 if v is None else v
-        return (
-            np
-            * values["zp_oversampling_factor"]
-            * values["internal_oversampling_factor"]
-        )
+    @model_validator(mode="after")
+    def set_def_np(self):
+        np = self.np if self.np is not None else 128
+        self.np = np * self.zp_oversampling_factor * self.internal_oversampling_factor
+        return self
 
 
 class RetrackerProcessorSettings(BaseModel):
@@ -224,16 +218,16 @@ class ModelParameter(BaseModel):
     pri_hz: Optional[float] = None
     stack_mask_start_stop: Optional[np.ndarray] = None
 
-    @root_validator(pre=True)
-    def warning_defaults(cls, values):
-        fields_not_set = [f for f in cls.__fields__ if f not in values]
+    @model_validator(mode="before")
+    def warning_defaults(cls, data):
+        fields_not_set = [f for f in cls.model_fields if f not in data]
         if fields_not_set:
             logging.debug(
                 "WARNING: the following params were not set, now taking defaults: {}".format(
                     ",".join(fields_not_set)
                 )
             )
-        return values
+        return data
 
     class Config:
         arbitrary_types_allowed = True
