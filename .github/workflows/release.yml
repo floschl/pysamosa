@@ -48,6 +48,7 @@ jobs:
 
   upload_pypi:
     name: Upload to PyPI and GitHub releases
+    if: github.repository == 'floschl/pysamosa'
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     environment: pypi
@@ -68,15 +69,18 @@ jobs:
 #        with:
           # To test: repository_url: https://test.pypi.org/legacy/
 
-      - name: Publish to Github Releases
-        if: github.repository == 'floschl/pysamosa' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
+  upload_gh_releases:
+    permissions: write-all
+    name: Publish to Github Releases
+    runs-on: ubuntu-latest
+    if: github.repository == 'floschl/pysamosa'
+    id: create_release
+    uses: actions/create-release@v1
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own toke
+    with:
+      draft: false
+      prerelease: false
+      release_name: ${{ steps.version.outputs.version }}
+      tag_name: ${{ github.ref }}
 #          body_path: CHANGELOG.md
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
