@@ -1,6 +1,7 @@
 # PySAMOSA
 
-[![Build Status](https://app.travis-ci.com/floschl/pysamosa.svg?branch=main)](https://app.travis-ci.com/floschl/pysamosa)
+![CI](https://github.com/floschl/pysamosa/actions/workflows/ci.yml/badge.svg)
+![Release](https://github.com/floschl/pysamosa/actions/workflows/release.yml/badge.svg)
 ![PyPI](https://img.shields.io/pypi/v/pysamosa)
 [![DOI](https://zenodo.org/badge/646028227.svg)](https://zenodo.org/badge/latestdoi/646028227)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
@@ -110,17 +111,6 @@ Clone the repo
 Enter cloned directory
 
     $ cd pysamosa
-
-Create your isolated Python environment, e.g. anything from Python 3.8
-either via conda
-
-    $ conda create -n pysamosa python=3.8 pip
-
-or via pyenv/pipenv/venv.
-
-Activate pysamosa conda environment
-
-    $ conda activate pysamosa
 
 Install dependencies into your conda env/virtualenv
 

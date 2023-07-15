@@ -1,4 +1,4 @@
-name: CI
+name: CI (tests)
 on:
   push:
     branches:
@@ -12,8 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-#        python-version: ["3.8", "3.11"]
-        python-version: ["3.8"]
+        python-version: ["3.8", "3.11"]
     steps:
       - name: Install Geos (Linux)
         run: sudo apt -y install libgeos-dev
