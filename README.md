@@ -9,8 +9,10 @@
 ![]() <div align="center"><img src="https://github.com/floschl/pysamosa/blob/main/resources/logo_name.png?raw=true"
 width="500"></div>
 
-PySAMOSA is a software framework for processing open ocean and coastal waveforms from SAR satellite altimetry to
-measure sea surface heights, wave heights, and wind speed for the oceans and inland water bodies. Satellite altimetry is a space-borne remote sensing technique used for Earth observation. More details on satellite altimetry can be found in this [PDF](https://www.altimetry.info/file/Radar_Altimetry_Tutorial.pdf).
+PySAMOSA is a Python-based software for processing open ocean and coastal waveforms from SAR satellite
+altimetry to measure sea surface heights, wave heights, and wind speed for the oceans and inland waters.
+Satellite altimetry is a space-borne remote sensing technique used for Earth observation. More details on satellite
+altimetry can be found [here](https://www.altimetry.info/file/Radar_Altimetry_Tutorial.pdf).
 
 The process of extracting of the three geophysical parameters from the reflected echoes/waveforms is called retracking. The measured (noisy) waveforms are fitted against the open ocean power return echo waveform model SAMOSA2 [1,2].
 
@@ -30,8 +32,8 @@ For retracking coastal waveforms the following retrackers are implemented:
 - SAMOSA+ [3]
 - CORAL [4,5]
 
-In addition, FF-SAR-processed S6-MF can be retracked using the zero-Doppler beam of the SAMOSA2 model and a specially
-adapted $\alpha_p$ LUT table, created by the ESA L2 GPP project [7]. The application of the FF-SAR-processed data
+In addition, FF-SAR-processed S6-MF data can be retracked using the zero-Doppler beam of the SAMOSA2 model and a
+specially adapted $\alpha_p$ LUT table, created by the ESA L2 GPP project [7]. The application of the FF-SAR-processed data
 has been validated in [5].
 
 Not validated (experimental) features:
@@ -222,7 +224,8 @@ Possible developments of this project are:
 Retracking-related
 - Align CS-2 retracking with the CS-2 baseline processing chain, validate against
 [SAMpy](https://github.com/cls-obsnadir-dev/SAMPy) developed as part of the [ESA Cryo-TEMPO project](https://earth.esa.int/eogateway/documents/20142/37627/Cryo-TEMPO-ATBD-Coastal-Oceans.pdf)
-- Implement numerical retracking planned for Q3/2023 in the EUMETSAT's baseline processing chain [6]
+- Implement evolutions of the EUMETSAT's baseline processing chain [6], e.g. the numerical retracking planned
+  for Q3/2023
 
 Software-related
 - Create notebook for a coastal retracking demo
