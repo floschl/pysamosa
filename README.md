@@ -133,7 +133,8 @@ Optional: Compile on an HPC cluster (not normally required)
 The following list provides a brief description of the recommended use of the software.
 1. **Getting-started with Jupyter Notebook**
 The `notebooks/retracking_example.ipynb` contains a sample script how to retrack a sample EUMETSAT baseline L1b file.
-The retracked SWH and SWH data are compared with the EUMETSAT baseline L2 data.
+The retracked SWH and SWH data are compared with the EUMETSAT baseline L2 data. The `notebooks/demo_script.py` provides
+the code example from above to quickly launch a small retracking example.
 
 2. **More entry points**
 The files `main_s3.py`, `main_s6.py`, `main_cs.py`, (`main_*.py`) etc. serve as entry points for batch processing of
