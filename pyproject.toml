@@ -4,11 +4,3 @@ build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
-
-#[tool.cibuildwheel]
-## Normal options, etc.
-#manylinux-x86_64-image = "manylinux2014"
-#
-#[[tool.cibuildwheel.overrides]]
-#select = "cp3{7,8,9}-*"
-#manylinux-x86_64-image = "manylinux2010"

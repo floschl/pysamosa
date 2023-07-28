@@ -9,7 +9,7 @@
 #SBATCH --nodes=4
 #SBATCH --ntasks-per-node=1
 #SBATCH --mail-type=end
-#SBATCH --mail-user=florian.schlembach@tum.de
+#SBATCH --mail-user=mail@address.com
 #SBATCH --export=NONE
 #SBATCH --time=15:00:00
 

@@ -7,7 +7,7 @@
 #SBATCH --array=0-7
 #SBATCH --partition=serial_std
 #SBATCH --mem=15G
-#SBATCH --mail-user=florian.schlembach@tum.de
+#SBATCH --mail-user=mail@address.com
 #SBATCH --mail-type=end
 #SBATCH --export=NONE
 #SBATCH --time=02:00:00
