@@ -49,6 +49,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr pysamosa/.testdata/
 	rm -fr pysamosa/.data/
 	rm -fr .testrun/
+	rm -fr .testdata/
 
 lint/flake8: ## check style with flake8
 	flake8 pysamosa tests scripts
